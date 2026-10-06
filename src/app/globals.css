@@ -101,7 +101,9 @@ body {
 .frame-wood {
   --f: 3px;
   border: calc(var(--f) * 5) solid transparent;
-  border-image: url("/ui/frame-wood.svg") 5 / calc(var(--f) * 5) / 0 stretch;
+  /* No var()/calc() inside border-image: iOS Safari drops the whole frame.
+     The image width defaults to the border width above. */
+  border-image: url("/ui/frame-wood.svg") 5 stretch;
   background: var(--paper) padding-box;
   filter: drop-shadow(0 calc(var(--f) * 2) 0 rgb(14 6 24 / 0.5));
 }
@@ -109,7 +111,7 @@ body {
 .frame-paper {
   --f: 4px;
   border: calc(var(--f) * 3) solid transparent;
-  border-image: url("/ui/frame-paper.svg") 3 / calc(var(--f) * 3) / 0 stretch;
+  border-image: url("/ui/frame-paper.svg") 3 stretch;
   background-color: var(--paper);
   background-clip: padding-box;
   filter: drop-shadow(0 10px 0 rgb(14 6 24 / 0.45)) drop-shadow(0 0 40px rgb(255 200 150 / 0.25));

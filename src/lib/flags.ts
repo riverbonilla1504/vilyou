@@ -22,7 +22,7 @@ function getFlags(): Flags {
     } catch {
       // Storage blocked: nothing to reset.
     }
-    window.location.replace(window.location.pathname);
+    window.setTimeout(() => window.location.replace(window.location.pathname), 0);
     flags = SERVER;
     return flags;
   }
@@ -47,7 +47,11 @@ function getFlags(): Flags {
     forceLockUntil: params.has("bloqueo") ? Date.now() + 10_000 : null,
   };
 
-  if (window.location.search) window.history.replaceState(null, "", window.location.pathname);
+  // Tidy the URL after this render: Next's router listens to history changes
+  // and must not be updated while a component is rendering.
+  if (window.location.search) {
+    window.setTimeout(() => window.history.replaceState(window.history.state, "", window.location.pathname), 0);
+  }
   return flags;
 }
 
