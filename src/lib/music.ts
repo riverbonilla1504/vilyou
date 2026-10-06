@@ -26,6 +26,8 @@ let queue: Cancion[] = [];
 const history: Cancion[] = [];
 let pauseTimer: number | undefined;
 let skipTimer: number | undefined;
+let snippetTimer: number | undefined;
+let primed = false;
 let waitingForTap = false;
 /** The next "pause" event is ours (end of a fade), not hers. */
 let quietPausing = false;
@@ -192,6 +194,7 @@ function load(track: Cancion, autoplay: boolean, remember = true) {
   const a = setup();
   if (!a) return;
   window.clearTimeout(skipTimer);
+  window.clearTimeout(snippetTimer);
   const prev = musicStore.get().track;
   if (remember && prev && prev.id !== track.id) history.push(prev);
   a.src = track.src;
@@ -233,6 +236,60 @@ export function startPlaylist() {
   if (musicStore.get().track) return;
   musicStore.set((s) => ({ ...s, playing: true }));
   load(nextSong(), true);
+}
+
+/**
+ * Call inside any tap while she waits: lets the browser play sound later
+ * without a tap (iOS only allows that once an element has played from a tap).
+ */
+export function primeAudio() {
+  if (primed || musicStore.get().track) return;
+  const a = setup();
+  if (!a) return;
+  primed = true;
+  if (ctx && ctx.state !== "running") void ctx.resume().catch(() => {});
+  if (gain) gain.gain.value = 0;
+  else a.volume = 0;
+  a.src = dedicada.src;
+  a.play()
+    .then(() => {
+      if (!musicStore.get().playing) {
+        quietPausing = true;
+        a.pause();
+      }
+    })
+    .catch(() => {
+      primed = false;
+    });
+}
+
+/** A few seconds of a song with a soft fade (for the end of the countdown). */
+export function playSnippet(song: Cancion, from: number, seconds: number) {
+  if (musicStore.get().playing || !soundStore.get()) return;
+  const a = setup();
+  if (!a) return;
+  window.clearTimeout(snippetTimer);
+  if (gain) gain.gain.value = 0;
+  else a.volume = 0;
+  a.src = `${song.src}#t=${from}`;
+  if (ctx && ctx.state !== "running") void ctx.resume().catch(() => {});
+  a.play()
+    .then(() => {
+      fadeTo(VOLUME, 1.2);
+      snippetTimer = window.setTimeout(() => {
+        if (musicStore.get().playing) return;
+        fadeTo(0, 2.5);
+        snippetTimer = window.setTimeout(() => {
+          if (musicStore.get().playing || a.paused) return;
+          quietPausing = true;
+          a.pause();
+          musicStore.set((s) => ({ ...s, audible: false }));
+        }, 2600);
+      }, Math.max(1, seconds - 2.5) * 1000);
+    })
+    .catch(() => {
+      // Blocked (she never tapped): the moment still happens, just silent.
+    });
 }
 
 /** Plays one song now (from the turntable or a record she tapped). */

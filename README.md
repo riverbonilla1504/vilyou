@@ -32,6 +32,8 @@ un universo 3D lleno de secretos y **77 cositas** por descubrir.
 
 Lo más importante está arriba. Todo se cambia en la carpeta `src/content/` (ver [cómo editar](#cómo-editar-los-textos-y-las-fotos)).
 
+Las ideas nuevas (lo de adentro y las sorpresas del inicio que se agregan de a una) están en [IDEAS.md](IDEAS.md).
+
 **Antes de medianoche (lo que ella va a leer):**
 
 - [ ] **La carta** (`src/content/carta.ts`): los 3 párrafos todavía son de ejemplo ("Este es el primer párrafo de la carta…").
@@ -138,7 +140,9 @@ Las canciones se coleccionan como las cositas (todo se cambia en `src/content/mu
 
 | Dónde | Qué tocar | Qué pasa |
 |---|---|---|
-| Cuenta regresiva | Mía | Salta, maúlla y dice frases; a los 7 toques ronronea |
+| Cuenta regresiva | Mía | Salta, maúlla y dice frases; a los 7 toques ronronea. **Se va despertando**: dormida (más de 2 h), desperezándose (menos de 2 h), sentada mirando el sobre (menos de 20 min) y brincando de emoción (último minuto). Sus frases cambian en cada etapa |
+| Cuenta regresiva | El candado del sobre | **Late** y brilla cada vez más rápido y fuerte a medida que se acerca la medianoche |
+| Cuenta regresiva | Los últimos 10 segundos | La pantalla se oscurece, el número se pone gigante con un tic por segundo y al llegar a 0 explotan tulipanes y corazones morados, sale "¡Feliz 8 meses, mi amor!" y suena un pedacito de *Chachacha* (si ella tocó algo antes, porque el iPhone no deja sonar sin un toque) |
 | Cuenta regresiva | El sobre | Se sacude: "¡Todavía no! Se abre a medianoche 🔒", etc. |
 | Cuenta regresiva | El contador | Rebota y da pistas de qué más tocar |
 | Cuenta regresiva y carta | **La luna** | La primera vez: se convierte en un **disco que gira**, suena *Chachacha* y a los 4 segundos River dice "Te la dedico. Te amoooo…" con **corazones morados**. Desde ahí: **tocar** el disco pausa / sigue (con fade suave, el disco frena / arranca) y **deslizarlo** de lado pasa a otra canción (con sonido de scratch) |
@@ -309,6 +313,7 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 
 | Archivo | Qué cambia |
 |---|---|
+| `cuentaRegresiva.ts` | Las frases de Mía en cada etapa, cuándo cambia de etapa, el texto de los últimos 10 segundos y qué pedacito de *Chachacha* suena |
 | `config.ts` | Nombres, iniciales, **dedicatoria del inicio**, fecha de desbloqueo, fecha en que se conocieron, **código y pista del candado**, palabra del Wordle, la **dedicatoria de nuestra canción** |
 | `carta.ts` | **La carta**: para, fecha, saludo, párrafos (agrega los que quieras), despedida, firma, posdata y el regalo adjunto |
 | `historia.ts` | Los 5 **capítulos** (título, subtítulo, párrafos, foto), los **7 secretos** y el **mensaje final** |
@@ -337,6 +342,7 @@ Agrega esto al final del link (en tu celular, no en el de ella):
 | `?vista=river` | Salta la cuenta regresiva y deja ver todo (se queda guardado en ese celular) |
 | `?vista=ella` | Quita el modo de prueba y vuelve a mostrar la cuenta regresiva |
 | `?bloqueo=1` | Muestra la cuenta regresiva terminando en 10 segundos (para ver el momento de "¡Ya es hora!") |
+| `?bloqueo=90` | Igual, pero terminando en los segundos que pongas. Sirve para ver a Mía: `?bloqueo=7300` dormida, `?bloqueo=3000` desperezándose, `?bloqueo=600` sentada mirando el sobre |
 | `?reiniciar=1` | Borra todo lo descubierto y el progreso en ese celular |
 
 El progreso (lo descubierto, si abrió el candado, si leyó la carta) se guarda **en cada celular** por separado.

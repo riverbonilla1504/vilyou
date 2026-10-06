@@ -1,23 +1,41 @@
 "use client";
 
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { config } from "@/content/config";
+import { cuentaRegresiva } from "@/content/cuentaRegresiva";
 import { pad, splitDuration, useNow } from "@/lib/clock";
+import { primeAudio } from "@/lib/music";
 import { meow, pop, purr } from "@/lib/sound";
+import { FinalCountdown } from "./FinalCountdown";
 import { HeartPadlock } from "./Keypad";
 import { PixelScene } from "./PixelScene";
 import { PixelSprite } from "./pixel/PixelSprite";
 import { TapBursts } from "./TapBursts";
 
-const miaLines = [
-  "¡Miau! (Mía también espera)",
-  "Mía dice que falta poquito",
-  "Mía te manda un cabezazo de amor",
-  "Prrr… sigue consintiéndome",
-  "Mía vigila el sobre por ti",
-  "Miau miau (traducción: te quiero)",
-];
+type MiaPhase = "dormida" | "despertando" | "despierta" | "emocionada";
+
+/** Mía wakes up little by little as midnight gets closer. */
+function miaPhase(left: number, ready: boolean): MiaPhase {
+  const { mia } = cuentaRegresiva;
+  if (ready || left <= 60_000) return "emocionada";
+  if (left <= mia.despiertaMinutos * 60_000) return "despierta";
+  if (left <= mia.despertandoMinutos * 60_000) return "despertando";
+  return "dormida";
+}
+
+const miaLabel: Record<MiaPhase, string> = {
+  dormida: "Mía durmiendo",
+  despertando: "Mía desperezándose",
+  despierta: "Mía mirando el sobre",
+  emocionada: "Mía emocionada",
+};
+
+/** 0 when there are 3+ hours left, 1 at midnight (in steps, so the beat changes rarely). */
+function closeness(left: number) {
+  const c = 1 - Math.min(1, Math.max(0, left / (3 * 3_600_000)));
+  return Math.round(c * 10) / 10;
+}
 
 const envelopeLines = [
   "¡Todavía no! Se abre a medianoche 🔒",
@@ -44,6 +62,37 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
   const mia = useAnimationControls();
   const envelope = useAnimationControls();
   const clock = useAnimationControls();
+  const now = useNow();
+  const left = now ? unlockAt - now : Infinity;
+  const phase = miaPhase(left, ready);
+  const near = ready ? 0 : closeness(left);
+
+  // Any tap while she waits lets the song play by itself at midnight.
+  useEffect(() => {
+    const events = ["pointerup", "touchend", "click"] as const;
+    const go = () => {
+      primeAudio();
+      events.forEach((e) => window.removeEventListener(e, go, true));
+    };
+    events.forEach((e) => window.addEventListener(e, go, true));
+    return () => events.forEach((e) => window.removeEventListener(e, go, true));
+  }, []);
+
+  // While waking up she stretches now and then; at the end she can't sit still.
+  useEffect(() => {
+    if (phase !== "despertando" && phase !== "emocionada") return;
+    const id = window.setInterval(
+      () => {
+        if (phase === "despertando") {
+          void mia.start({ scaleX: [1, 1.28, 1.28, 1], scaleY: [1, 0.82, 0.82, 1], transition: { duration: 1.6 } });
+        } else {
+          void mia.start({ y: [0, -16, 0], transition: { duration: 0.45 } });
+        }
+      },
+      phase === "despertando" ? 7000 : 1400,
+    );
+    return () => window.clearInterval(id);
+  }, [phase, mia]);
 
   const say = (who: "mia" | "sobre", lines: string[]) => {
     const c = count.current;
@@ -106,21 +155,45 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
           animate={mia}
           onClick={() => {
             meow();
-            const n = say("mia", miaLines);
+            const n = say("mia", cuentaRegresiva.mia[phase]);
             void mia.start({ y: [0, -22, 0], rotate: [0, -8, 6, 0], transition: { duration: 0.5 } });
             if (n % 7 === 0) window.setTimeout(purr, 350);
           }}
-          className="relative"
-          aria-label="Mía durmiendo"
+          className="relative origin-bottom"
+          aria-label={miaLabel[phase]}
         >
-          <PixelSprite name="catSleep" scale={5} />
-          <span className="zzz pointer-events-none absolute -right-2 -top-6 font-press text-xs text-cream">z</span>
-          <span
-            className="zzz pointer-events-none absolute -right-6 -top-11 font-press text-sm text-cream"
-            style={{ animationDelay: "0.8s" }}
-          >
-            z
-          </span>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={phase === "dormida" || phase === "despertando" ? "acostada" : "sentada"}
+              className="block"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.35 }}
+            >
+              {phase === "dormida" || phase === "despertando" ? (
+                <PixelSprite name="catSleep" scale={5} />
+              ) : (
+                <PixelSprite name="catSit" scale={4} />
+              )}
+            </motion.span>
+          </AnimatePresence>
+          {phase === "dormida" ? (
+            <>
+              <span className="zzz pointer-events-none absolute -right-2 -top-6 font-press text-xs text-cream">z</span>
+              <span
+                className="zzz pointer-events-none absolute -right-6 -top-11 font-press text-sm text-cream"
+                style={{ animationDelay: "0.8s" }}
+              >
+                z
+              </span>
+            </>
+          ) : null}
+          {phase === "emocionada" ? (
+            <span className="anim-late pointer-events-none absolute -right-3 -top-5">
+              <PixelSprite name="heartSmall" scale={2} palette={{ R: "#c38bff", W: "#f0e2ff" }} />
+            </span>
+          ) : null}
           <span className="tap-hint absolute -bottom-6 left-1/2 -translate-x-1/2">
             <PixelSprite name="heartSmall" scale={2} />
           </span>
@@ -138,10 +211,19 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
           aria-label="El sobre con candado"
         >
           <PixelSprite name="envelope" scale={6} />
-          <HeartPadlock
-            state={ready ? "opening" : "locked"}
-            className="absolute -bottom-10 left-1/2 -translate-x-1/2 scale-75"
-          />
+          {/* the padlock beats faster and glows more as midnight gets closer */}
+          <span
+            className={`absolute -bottom-10 left-1/2 -translate-x-1/2 ${ready ? "" : "padlock-breathe"}`}
+            style={
+              {
+                "--beat": `${(2.6 - 2 * near).toFixed(2)}s`,
+                "--amp": (1.03 + 0.1 * near).toFixed(3),
+                "--glow": `${Math.round(4 + 16 * near)}px`,
+              } as React.CSSProperties
+            }
+          >
+            <HeartPadlock state={ready ? "opening" : "locked"} className="scale-75" />
+          </span>
         </motion.button>
       </div>
 
@@ -203,6 +285,8 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
           ? `Llevas ${hearts} corazones en el cielo ♥`
           : "Psst… aquí todo se puede tocar: Mía, la luna, las nubes, el sobre…"}
       </motion.div>
+
+      <FinalCountdown unlockAt={unlockAt} />
     </div>
   );
 }

@@ -189,3 +189,8 @@ export function scratch() {
   src.connect(filter).connect(gain).connect(c.destination);
   src.start(t);
 }
+
+/** One second of the final countdown (higher at the very end). */
+export function tick(last = false) {
+  tone(last ? 1320 : 880, { length: last ? 0.22 : 0.07, type: "square", volume: 0.035 });
+}

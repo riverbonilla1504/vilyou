@@ -1,0 +1,64 @@
+# Ideas para VILyou ♥
+
+Dos listas:
+
+- **Lista A, adentro:** cosas grandes que se hacen juntas.
+- **Lista B, el inicio:** sorpresas que se agregan **de a una**. Cada vez que Valeria descubra la nueva, se agrega la siguiente.
+
+Marca `[x]` cuando una esté hecha y publicada.
+
+---
+
+## Lista A: adentro (se hacen juntas)
+
+- [ ] **Cartas selladas para el futuro**
+  - Sobres con candado de fecha. El primero se abre el **7 de noviembre** (1 año de conocerse) y después hay uno **el 7 de cada mes**.
+  - Antes de su fecha se ven cerrados con una cuenta regresiva pequeña.
+  - Los textos los escribes tú en `src/content/`.
+- [ ] **Cupones de amor (7)**
+  - Un cofre estilo Stardew con 7 cupones que ella canjea, por ejemplo: un abrazo de 7 minutos, una cita sorpresa, un helado de Oreo, tú eliges la peli…
+  - Al canjear uno queda marcado como usado, con fecha.
+- [ ] **Logro final con tu voz**
+  - Cuando complete **todo** (las 77 cositas y las 39 canciones), sale una pantalla de logro: "¡Felicidades!", con fanfarria, confeti de tulipanes y corazones morados.
+  - Ahí suena **tu nota de voz**. Solo hay que poner el archivo en `public/audio/` y queda listo.
+- [ ] **El cielo según la hora real**
+  - Mañana con sol pixel, tarde azul, atardecer naranja y noche con la luna o el disco.
+  - **Temática del 7:** cuando la hora, el minuto o el día tengan un 7 (7:07, 19:17, día 7…), el cielo se pone morado con estrellitas en forma de 7 y un aviso cute.
+- [ ] **Estación de fotos**
+  - Ella se toma una selfie con la cámara del celular y le sale en una polaroid pixel con stickers (Pinky, Mía, tulipanes, el 7, corazones) que puede mover.
+  - La foto se descarga a su celular.
+- [ ] **Mapa pixel de nuestros lugares**
+  - Un mapita estilo Stardew con pines.
+  - **24 de las 26 fotos tienen ubicación**, y salen unos **9 lugares distintos**.
+  - Al tocar un pin salen las fotos de ese lugar y una frase. El nombre y la frase de cada lugar los pones tú.
+
+**También aprobadas, para después:**
+
+- [ ] **Fortuna del día:** una frase tuya nueva cada día que entra (escribes unas 30 y van rotando).
+- [ ] **Planeta "Nuestras primeras veces":** primer beso, primera salida, primera foto juntos…, con fecha y foto.
+- [ ] **Mía jugable:** darle croquetas o lanzarle un ovillo; Mía se pone gordita de felicidad.
+- [ ] **Atrapa los tulipanes:** caen tulipanes y lirios y ella los atrapa con una canasta.
+- [ ] **Favoritas de Vale:** marcar con ♥ canciones del tocadiscos y que se arme su lista.
+- [ ] **Detallitos:**
+  - Mensajes especiales en fechas: el 7 de cada mes, su cumpleaños, Halloween.
+  - Escribir "TEAMO" en el candado y que salgas sonrojado.
+  - Estela de corazoncitos morados al tocar.
+
+---
+
+## Lista B: el inicio (de a una)
+
+Orden sugerido. Al publicar una, espera a que ella la descubra antes de pedir la siguiente.
+
+1. [ ] **Constelación V ♥ R:** algunas estrellas del cielo brillan distinto; tocándolas en orden se unen con líneas y forman sus iniciales.
+2. [ ] **El tulipán gigante:** si toca las 7 flores del suelo seguidas, llueven tulipanes y crece un tulipán gigante en el centro.
+3. [ ] **Letras que salen del disco:** frases de *Chachacha* y *Reina Pepiada* aparecen flotando en el momento exacto de la canción.
+4. [x] **Mía reacciona al tiempo:** se despierta, se estira y al final se sienta mirando el sobre a medida que se acerca la hora.
+5. [x] **El sobre respira:** cuanto más cerca está la hora, más late el candado.
+6. [x] **Los últimos 10 segundos:** la pantalla se oscurece, el contador se pone grande y al llegar a 0 explotan tulipanes y corazones morados, y suena un pedacito de *Chachacha*.
+
+> ✅ **La 4, la 5 y la 6 ya están hechas** (sin publicar todavía). Se suben juntas cuando River diga.
+>
+> ⚠️ **Las 4, 5 y 6 dependen de una cuenta regresiva.** La de la página termina hoy a medianoche. Hay dos caminos:
+> - Hacerlas **antes de las 12 de esta noche**.
+> - Usarlas en la **cuenta regresiva de las cartas selladas** (Lista A), para que vuelvan a pasar cada 7.

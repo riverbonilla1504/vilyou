@@ -44,7 +44,10 @@ function getFlags(): Flags {
 
   flags = {
     preview,
-    forceLockUntil: params.has("bloqueo") ? Date.now() + 10_000 : null,
+    // ?bloqueo=1 → 10 seconds; ?bloqueo=90 → 90 seconds (to test the countdown).
+    forceLockUntil: params.has("bloqueo")
+      ? Date.now() + (Number(params.get("bloqueo")) > 1 ? Number(params.get("bloqueo")) : 10) * 1000
+      : null,
   };
 
   // Tidy the URL after this render: Next's router listens to history changes
