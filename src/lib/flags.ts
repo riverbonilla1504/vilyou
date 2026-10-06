@@ -1,0 +1,68 @@
+import { useSyncExternalStore } from "react";
+import { config } from "@/content/config";
+import { createPersistentStore } from "./store";
+
+type Flags = { preview: boolean; forceLockUntil: number | null };
+
+const SERVER: Flags = { preview: false, forceLockUntil: null };
+let flags: Flags | null = null;
+
+/** Reads the testing switches from the URL once (?vista=river, ?bloqueo=1, ?reiniciar=1). */
+function getFlags(): Flags {
+  if (typeof window === "undefined") return SERVER;
+  if (flags) return flags;
+
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has("reiniciar")) {
+    try {
+      for (const key of Object.keys(window.localStorage)) {
+        if (key.startsWith("vilyou:")) window.localStorage.removeItem(key);
+      }
+    } catch {
+      // Storage blocked: nothing to reset.
+    }
+    window.location.replace(window.location.pathname);
+    flags = SERVER;
+    return flags;
+  }
+
+  let preview = false;
+  try {
+    preview = window.localStorage.getItem("vilyou:preview") === "1";
+    const vista = params.get("vista");
+    if (vista === config.claveVistaPrevia) {
+      preview = true;
+      window.localStorage.setItem("vilyou:preview", "1");
+    } else if (vista === "ella") {
+      preview = false;
+      window.localStorage.removeItem("vilyou:preview");
+    }
+  } catch {
+    // Ignore storage errors.
+  }
+
+  flags = {
+    preview,
+    forceLockUntil: params.has("bloqueo") ? Date.now() + 10_000 : null,
+  };
+
+  if (window.location.search) window.history.replaceState(null, "", window.location.pathname);
+  return flags;
+}
+
+const noop = () => () => {};
+
+export function useFlags() {
+  return useSyncExternalStore(noop, getFlags, () => SERVER);
+}
+
+/** Where she is in the experience. */
+export const progressStore = createPersistentStore("vilyou:progreso", {
+  candado: false,
+  cartaLeida: false,
+  universo: false,
+});
+
+/** The days (YYYY-MM-DD) she has visited. */
+export const visitsStore = createPersistentStore<string[]>("vilyou:visitas", []);
