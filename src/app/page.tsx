@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BloomTransition } from "@/components/BloomTransition";
 import { CharacterDialogue } from "@/components/CharacterDialogue";
+import { TurntableFab, TurntablePanel } from "@/components/Turntable";
 import { DiscoveryToast } from "@/components/DiscoveryToast";
 import { LockScreen } from "@/components/LockScreen";
 import { PixelScene } from "@/components/PixelScene";
@@ -15,7 +16,8 @@ import { config, localTime } from "@/content/config";
 import { useIsPast } from "@/lib/clock";
 import { discover } from "@/lib/discoveries";
 import { progressStore, useFlags, visitsStore } from "@/lib/flags";
-import { discoStore, startPlaylist } from "@/lib/music";
+import { discoStore, queueNext, startPlaylist } from "@/lib/music";
+import { announceNewSongs, useSongs } from "@/lib/songs";
 import { soundStore } from "@/lib/sound";
 
 export default function Home() {
@@ -39,7 +41,8 @@ export default function Home() {
     return (
       <MotionConfig reducedMotion="user">
         <LockScreen unlockAt={unlockAt} ready={past} onEnter={() => setEntered(true)} />
-        <CharacterDialogue />
+        <TurntableFab />
+        <Music />
       </MotionConfig>
     );
   }
@@ -47,8 +50,27 @@ export default function Home() {
   return (
     <MotionConfig reducedMotion="user">
       <Experience />
-      <CharacterDialogue />
+      <Music />
     </MotionConfig>
+  );
+}
+
+/** The dialogues, the turntable and the "¡Canción nueva!" notices, on every screen. */
+function Music() {
+  const { ids } = useSongs();
+  const key = [...ids].join(",");
+
+  useEffect(() => {
+    for (const song of announceNewSongs(ids)) queueNext(song);
+    // `key` stands for `ids`, which is a fresh Set on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  return (
+    <>
+      <CharacterDialogue />
+      <TurntablePanel />
+    </>
   );
 }
 
@@ -104,6 +126,7 @@ function Experience() {
               <span className="tap-finger">👆</span>
               Toca todo: la luna, las nubes, las flores… todo tiene algo
             </motion.p>
+            <TurntableFab />
             <div className="w-full">
               <RetroLetter onEnterUniverse={() => setBlooming(true)} />
             </div>

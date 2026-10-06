@@ -43,15 +43,10 @@ export const config = {
     ganaste: "Lo adivinaste… y es verdad, con todo mi corazón.",
   },
 
-  /**
-   * Nuestra canción. Pega el link de Spotify de la canción
-   * (Compartir → Copiar enlace), por ejemplo:
-   * "https://open.spotify.com/track/xxxxxxxxxxxxxxxx"
-   */
+  /** Nuestra canción (el archivo y el título están en musica.ts). */
   cancion: {
     titulo: "Reina Pepiada",
     artista: "Alvaro Diaz",
-    spotify: "https://open.spotify.com/track/3yJ8buQlPzQtHyCicOGDJ0",
     dedicatoria: "Cada vez que la escucho, pienso en ti. Ponla bajito y abrázame aunque sea de lejos.",
   },
 };

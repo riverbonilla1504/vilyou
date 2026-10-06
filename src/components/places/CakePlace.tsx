@@ -9,6 +9,7 @@ import { blowSound, fanfare, pop } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { HeartConfetti } from "../HeartConfetti";
 import { PixelSprite } from "../pixel/PixelSprite";
+import { HiddenNote } from "@/components/HiddenNote";
 
 type Step = "wish" | "blow" | "done";
 
@@ -88,6 +89,7 @@ export function CakePlace() {
 
   return (
     <div className="cake-room absolute inset-0 overflow-y-auto overscroll-contain">
+      <HiddenNote spot="pastel" className="left-[5%] top-[40%]" />
       <div className="flex min-h-full flex-col items-center justify-center px-4 pb-10 pt-20 text-center">
         <motion.h3
           className="on-scene text-[32px] leading-tight text-cream sm:text-4xl"

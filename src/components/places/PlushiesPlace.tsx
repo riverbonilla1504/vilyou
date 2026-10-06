@@ -7,6 +7,7 @@ import { discover, isDiscovered } from "@/lib/discoveries";
 import { bleat, meow, pop, purr } from "@/lib/sound";
 import { PixelSprite } from "../pixel/PixelSprite";
 import type { SpriteName } from "../pixel/sprites";
+import { HiddenNote } from "@/components/HiddenNote";
 
 type Who = keyof typeof peluches;
 
@@ -40,6 +41,7 @@ export function PlushiesPlace() {
 
   return (
     <div className="plush-room absolute inset-0 overflow-y-auto overscroll-contain">
+      <HiddenNote spot="peluches" className="right-[6%] top-[16%]" />
       <div className="mx-auto flex min-h-full max-w-[560px] flex-col justify-center px-4 pb-10 pt-20">
         <p className="on-scene text-center text-base text-cream/85">Toca a cada uno ♥</p>
         <div className="shelf mt-10 grid grid-cols-2 gap-x-4 gap-y-16">

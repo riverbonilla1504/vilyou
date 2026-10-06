@@ -10,7 +10,7 @@ export const toastStore = createStore<{ id: string; key: number }[]>([]);
 
 let toastKey = 0;
 
-function pushToast(id: string) {
+export function pushToast(id: string) {
   toastStore.set((q) => [...q, { id, key: ++toastKey }]);
 }
 

@@ -1,41 +1,32 @@
-import { dedicada, playlist, type Cancion } from "@/content/musica";
+import { dedicada, type Cancion } from "@/content/musica";
+import { discoStore, musicStore } from "./music-state";
+import { unlockedSongs } from "./songs";
 import { soundStore } from "./sound";
-import { createPersistentStore, createStore } from "./store";
+
+export { discoStore, musicStore, swipedStore, turntableStore, type MusicState } from "./music-state";
 
 /**
  * The record player behind the moon.
  *
  * The first tap on the moon plays the dedicated song; when it ends (and on
- * every later visit) the playlist plays shuffled, forever. Volume goes through
- * a WebAudio gain node because iOS ignores `audio.volume`, and that is the only
- * way to fade in and out smoothly on her iPhone.
+ * every later visit) the songs she has collected play shuffled, forever.
+ * Volume goes through a WebAudio gain node because iOS ignores `audio.volume`,
+ * and that is the only way to fade in and out smoothly on her iPhone.
  */
-
-/** Once true, the moon is a record for good. */
-export const discoStore = createPersistentStore<boolean>("vilyou:disco", false);
-
-export type MusicState = {
-  /** Wants to be playing (false while paused by her). */
-  playing: boolean;
-  /** Sound is actually coming out (false while waiting for the first tap). */
-  audible: boolean;
-  track: Cancion | null;
-};
-
-export const musicStore = createStore<MusicState>({ playing: false, audible: false, track: null });
 
 const VOLUME = 0.85;
 const FADE_IN = 1.6;
 const FADE_OUT = 0.9;
+const FADE_SKIP = 0.35;
 
 let el: HTMLAudioElement | null = null;
 let ctx: AudioContext | null = null;
 let gain: GainNode | null = null;
 let queue: Cancion[] = [];
+const history: Cancion[] = [];
 let pauseTimer: number | undefined;
+let skipTimer: number | undefined;
 let waitingForTap = false;
-/** Paused because something else (the Spotify place) needs the stage. */
-let held = 0;
 /** The next "pause" event is ours (end of a fade), not hers. */
 let quietPausing = false;
 
@@ -48,14 +39,23 @@ function shuffled<T>(list: T[]) {
   return a;
 }
 
-function nextFromPlaylist(): Cancion {
+/** Next song from the shuffled bag of songs she has. */
+function nextSong(): Cancion {
+  const have = unlockedSongs();
+  const last = musicStore.get().track;
+  if (!have.length) return dedicada;
+  queue = queue.filter((c) => have.some((h) => h.id === c.id));
   if (!queue.length) {
-    const last = musicStore.get().track;
-    queue = shuffled(playlist);
+    queue = shuffled(have);
     // Never repeat the song that just ended when the bag refills.
-    if (queue.length > 1 && last && queue[0].src === last.src) queue.push(queue.shift()!);
+    if (queue.length > 1 && last && queue[0].id === last.id) queue.push(queue.shift()!);
   }
   return queue.shift()!;
+}
+
+/** A song she just unlocked plays right after the current one. */
+export function queueNext(song: Cancion) {
+  queue = [song, ...queue.filter((c) => c.id !== song.id)];
 }
 
 function setup() {
@@ -88,7 +88,7 @@ function setup() {
     }
   }
 
-  el.addEventListener("ended", () => load(nextFromPlaylist(), true));
+  el.addEventListener("ended", () => load(nextSong(), true));
   el.addEventListener("playing", () => musicStore.set((s) => ({ ...s, audible: true })));
   // Paused from outside (lock screen, Control Center, a phone call).
   el.addEventListener("pause", () => {
@@ -125,14 +125,12 @@ function fadeTo(target: number, seconds: number) {
 
 function mediaSession(track: Cancion) {
   if (!("mediaSession" in navigator)) return;
-  const cut = track.titulo.indexOf(" - ");
-  const artist = cut > 0 ? track.titulo.slice(0, cut) : "";
-  const title = cut > 0 ? track.titulo.slice(cut + 3) : track.titulo;
   try {
-    navigator.mediaSession.metadata = new MediaMetadata({ title, artist, album: "VILyou" });
+    navigator.mediaSession.metadata = new MediaMetadata({ title: track.titulo, artist: track.artista, album: "VILyou" });
     navigator.mediaSession.setActionHandler("play", () => resume());
     navigator.mediaSession.setActionHandler("pause", () => pause());
-    navigator.mediaSession.setActionHandler("nexttrack", () => load(nextFromPlaylist(), true));
+    navigator.mediaSession.setActionHandler("nexttrack", () => next());
+    navigator.mediaSession.setActionHandler("previoustrack", () => previous());
   } catch {
     // Older browsers.
   }
@@ -159,7 +157,7 @@ function start() {
   if (!a) return;
   window.clearTimeout(pauseTimer);
   pauseTimer = undefined;
-  if (!soundStore.get() || held > 0) return;
+  if (!soundStore.get()) return;
 
   // Both calls must happen right here, inside the tap, for iOS to allow them.
   const resumed = ctx && ctx.state !== "running" ? ctx.resume().catch(() => {}) : Promise.resolve();
@@ -190,9 +188,12 @@ export function isWaitingForTap() {
   return waitingForTap;
 }
 
-function load(track: Cancion, autoplay: boolean) {
+function load(track: Cancion, autoplay: boolean, remember = true) {
   const a = setup();
   if (!a) return;
+  window.clearTimeout(skipTimer);
+  const prev = musicStore.get().track;
+  if (remember && prev && prev.id !== track.id) history.push(prev);
   a.src = track.src;
   // Keep "audible" across track changes so the record does not stutter between songs.
   musicStore.set((s) => ({ ...s, track, audible: s.track ? s.audible : false }));
@@ -204,6 +205,22 @@ function load(track: Cancion, autoplay: boolean) {
   }
 }
 
+/** Switches songs with a quick fade, so skipping never clicks. */
+function switchTo(track: Cancion, remember = true) {
+  musicStore.set((s) => ({ ...s, playing: true }));
+  const a = setup();
+  if (!a) return;
+  if (a.paused || !musicStore.get().audible) {
+    load(track, true, remember);
+    return;
+  }
+  // Keep the tap's permission alive on iOS: the actual play() happens in load(),
+  // so only fade here when audio is already flowing.
+  fadeTo(0, FADE_SKIP);
+  window.clearTimeout(skipTimer);
+  skipTimer = window.setTimeout(() => load(track, true, remember), FADE_SKIP * 1000);
+}
+
 /** First tap on the moon: the moon becomes a record and the song starts. */
 export function playDedicated() {
   discoStore.set(true);
@@ -211,11 +228,41 @@ export function playDedicated() {
   load(dedicada, true);
 }
 
-/** On every visit after the dedication: the shuffled playlist, from the start. */
+/** On every visit after the dedication: her songs, shuffled, from the start. */
 export function startPlaylist() {
   if (musicStore.get().track) return;
   musicStore.set((s) => ({ ...s, playing: true }));
-  load(nextFromPlaylist(), true);
+  load(nextSong(), true);
+}
+
+/** Plays one song now (from the turntable or a record she tapped). */
+export function playSong(song: Cancion) {
+  const m = musicStore.get();
+  if (m.track?.id === song.id) {
+    if (!m.playing || !m.audible) resume();
+    return;
+  }
+  switchTo(song);
+}
+
+export function next() {
+  switchTo(nextSong());
+}
+
+/** Back to the start of the song, or to the previous one if it just began. */
+export function previous() {
+  const a = setup();
+  if (!a) return;
+  if (a.currentTime > 4 || !history.length) {
+    a.currentTime = 0;
+    if (!musicStore.get().playing) resume();
+    return;
+  }
+  const prev = history.pop()!;
+  const current = musicStore.get().track;
+  if (current) queue.unshift(current);
+  // The song we leave goes back to the front of the queue, not to the history.
+  switchTo(prev, false);
 }
 
 export function pause() {
@@ -226,23 +273,24 @@ export function pause() {
 
 export function resume() {
   musicStore.set((s) => ({ ...s, playing: true }));
-  if (!musicStore.get().track) load(nextFromPlaylist(), true);
+  if (!musicStore.get().track) load(nextSong(), true);
   else start();
 }
 
 export function toggle() {
-  if (musicStore.get().playing) pause();
+  if (musicStore.get().playing && musicStore.get().audible) pause();
   else resume();
 }
 
-/** Fades the music out while something else plays (e.g. Spotify); returns the undo. */
-export function hold() {
-  held++;
-  if (el && musicStore.get().playing) fadeOutAndStop();
-  return () => {
-    held = Math.max(0, held - 1);
-    if (held === 0 && musicStore.get().playing) start();
-  };
+/** Where the song is, for the turntable's progress bar. */
+export function progress() {
+  if (!el || !el.duration || !isFinite(el.duration)) return { current: 0, duration: 0 };
+  return { current: el.currentTime, duration: el.duration };
+}
+
+export function seek(fraction: number) {
+  if (!el || !el.duration || !isFinite(el.duration)) return;
+  el.currentTime = Math.max(0, Math.min(0.999, fraction)) * el.duration;
 }
 
 // The speaker button in the HUD mutes the music too.
@@ -256,5 +304,5 @@ if (typeof window !== "undefined") {
 
 // Dev-only handle for testing from the console.
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
-  (window as unknown as { __music?: unknown }).__music = { store: musicStore, audio: () => el, ctx: () => ctx };
+  (window as unknown as { __music?: unknown }).__music = { store: musicStore, audio: () => el, ctx: () => ctx, next };
 }

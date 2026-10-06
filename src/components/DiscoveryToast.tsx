@@ -3,7 +3,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { porId, TOTAL } from "@/content/descubrimientos";
+import { textosMusica } from "@/content/musica";
 import { discoveredStore, dismissToast, toastStore } from "@/lib/discoveries";
+import { cancionPorId, isHiddenSong, seenIndex, TOTAL_CANCIONES } from "@/lib/songs";
 import { PixelSprite } from "./pixel/PixelSprite";
 
 /** "¡Nuevo descubrimiento!" notifications, one at a time. */
@@ -18,8 +20,20 @@ export function DiscoveryToast() {
     return () => window.clearTimeout(t);
   }, [current]);
 
-  const item = current ? porId[current.id] : null;
-  const position = current ? Math.max(1, found.indexOf(current.id) + 1) : 0;
+  const songId = current?.id.startsWith("song:") ? current.id.slice(5) : null;
+  const song = songId ? cancionPorId[songId] : null;
+  const item = song
+    ? {
+        sprite: "vinyl" as const,
+        titulo: `${song.titulo} · ${song.artista}`,
+        etiqueta: `${isHiddenSong(song.id) ? textosMusica.notaEncontrada : textosMusica.nuevaCancion} · ${seenIndex(song.id)}/${TOTAL_CANCIONES}`,
+      }
+    : current && porId[current.id]
+      ? {
+          ...porId[current.id],
+          etiqueta: `¡Nuevo descubrimiento! · ${Math.max(1, found.indexOf(current.id) + 1)}/${TOTAL}`,
+        }
+      : null;
 
   return (
     <div className="toast-zone pointer-events-none fixed inset-x-0 z-[70] flex justify-center px-3">
@@ -44,7 +58,7 @@ export function DiscoveryToast() {
               <PixelSprite name={item.sprite} scale={2} className="max-h-[32px] max-w-[36px]" />
             </motion.span>
             <span className="min-w-0">
-              <span className="block text-xs text-rose-dark">¡Nuevo descubrimiento! · {position}/{TOTAL}</span>
+              <span className="block text-xs text-rose-dark">{item.etiqueta}</span>
               <span className="block truncate text-base leading-tight">{item.titulo}</span>
             </span>
           </motion.button>

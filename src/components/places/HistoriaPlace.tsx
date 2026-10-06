@@ -10,6 +10,7 @@ import { DialogueBox, type DialogueContent } from "../DialogueBox";
 import { Hotbar } from "../Hotbar";
 import { PixelScene, type ThemeId } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
+import { HiddenNote } from "@/components/HiddenNote";
 
 const ALL: EggId[] = [1, 2, 3, 4, 5, 6, 7];
 
@@ -103,6 +104,7 @@ export function HistoriaPlace() {
             <h2 className="mt-8 text-4xl text-cream md:text-5xl">{pie.titulo}</h2>
             <p className="mt-3 text-xl text-cream/80">{pie.texto}</p>
             <p className="mt-10 text-sm text-cream/50">{pie.firma}</p>
+            <HiddenNote spot="historia" className="relative mt-6" />
           </footer>
         </div>
       </div>

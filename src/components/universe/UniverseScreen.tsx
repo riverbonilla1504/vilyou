@@ -13,6 +13,7 @@ import { DialogueBox, type DialogueContent } from "../DialogueBox";
 import { PixelScene } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
 import { RetroLetter } from "../RetroLetter";
+import { TurntableButton } from "../Turntable";
 import { AlbumPlace } from "../places/AlbumPlace";
 import { CakePlace } from "../places/CakePlace";
 import { GamesPlace } from "../places/GamesPlace";
@@ -88,14 +89,17 @@ export function UniverseScreen() {
 
       {/* HUD */}
       <div className="universe-top pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-3">
-        <button
-          type="button"
-          onClick={() => setHelp((h) => !h)}
-          className="slot pointer-events-auto grid h-11 w-11 place-items-center text-ink"
-          aria-label="Ayuda"
-        >
-          <HelpCircle className="h-5 w-5" />
-        </button>
+        <div className="flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => setHelp((h) => !h)}
+            className="slot pointer-events-auto grid h-11 w-11 place-items-center text-ink"
+            aria-label="Ayuda"
+          >
+            <HelpCircle className="h-5 w-5" />
+          </button>
+          <TurntableButton className="pointer-events-auto h-11 w-11" />
+        </div>
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: -10 }}
@@ -188,8 +192,7 @@ export function UniverseScreen() {
               exit={{ scale: 0.8, opacity: 0 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={fotosUniverso[photo].src} alt={fotosUniverso[photo].texto} className="w-full" />
-              <figcaption className="mt-3 text-center text-lg text-ink">{fotosUniverso[photo].texto}</figcaption>
+              <img src={fotosUniverso[photo].src} alt="Nuestra foto" className="w-full" />
               <button type="button" className="absolute -right-3 -top-3 grid h-9 w-9 place-items-center rounded-full bg-cream text-ink" aria-label="Cerrar">
                 <X className="h-5 w-5" />
               </button>
@@ -202,8 +205,8 @@ export function UniverseScreen() {
       <AnimatePresence>
         {open === "carta" ? (
           <PlaceSheet key="carta" title={titles.carta} onClose={close} bare>
-            <PixelScene themeId="carta" interactive />
-            <div className="place-scroll place-pad pointer-events-none absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-16">
+            <PixelScene themeId="carta" />
+            <div className="place-scroll place-pad absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-16">
               <RetroLetter reread />
             </div>
           </PlaceSheet>

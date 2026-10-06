@@ -165,3 +165,27 @@ export function bleat() {
   osc.stop(t + 0.6);
   lfo.stop(t + 0.6);
 }
+
+/** A record scratch, for skipping songs. */
+export function scratch() {
+  const c = audio();
+  if (!c) return;
+  const t = c.currentTime;
+  const buffer = c.createBuffer(1, c.sampleRate * 0.28, c.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  const src = c.createBufferSource();
+  src.buffer = buffer;
+  const filter = c.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.Q.value = 6;
+  filter.frequency.setValueAtTime(500, t);
+  filter.frequency.exponentialRampToValueAtTime(2600, t + 0.12);
+  filter.frequency.exponentialRampToValueAtTime(700, t + 0.26);
+  const gain = c.createGain();
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.09, t + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.27);
+  src.connect(filter).connect(gain).connect(c.destination);
+  src.start(t);
+}

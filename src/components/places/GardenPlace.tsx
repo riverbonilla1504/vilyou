@@ -9,6 +9,7 @@ import { discover } from "@/lib/discoveries";
 import { pop } from "@/lib/sound";
 import { useTypewriter } from "@/lib/useTypewriter";
 import { spriteCanvas } from "../pixel/canvas";
+import { HiddenNote } from "@/components/HiddenNote";
 
 function rng(seed: number) {
   return () => {
@@ -303,6 +304,7 @@ export function GardenPlace() {
 
   return (
     <div className="garden absolute inset-0 flex flex-col">
+      <HiddenNote spot="jardin" className="right-[5%] top-[44%]" />
       <div className="garden-text relative z-10 px-5 text-ink">
         <p className="sr-only">{text}</p>
         <div aria-hidden="true" className="min-h-[7.5em] whitespace-pre-line text-[17px] leading-snug sm:text-lg">

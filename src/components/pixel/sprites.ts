@@ -697,6 +697,34 @@ const vinyl: Sprite = {
   palette: { K: "#0b0812", D: "#1a1326", G: "#2c2140", L: "#a65cf0", l: "#7d3bc6", P: "#ff8fc0", W: "#f3e6ff", S: "#6a5890" },
 };
 
+/** The tonearm that rests on the record. */
+const tonearm: Sprite = {
+  grid: [
+    "..........KKK.",
+    ".........KSSSK",
+    ".........KSWSK",
+    ".........KSSSK",
+    "..........KAK.",
+    "..........KAK.",
+    "..........KAK.",
+    ".........KAK..",
+    ".........KAK..",
+    "........KAK...",
+    "........KAK...",
+    ".......KAK....",
+    ".......KAK....",
+    "......KAK.....",
+    "......KAK.....",
+    ".....KAK......",
+    ".....KAK......",
+    "....KAK.......",
+    "...KHHHK......",
+    "...KHHHK......",
+    "....KKK.......",
+  ],
+  palette: { K: "#1c1228", S: "#bdb3d0", W: "#ffffff", A: "#e2dbef", H: "#ff8fc0" },
+};
+
 export const sprites = {
   heart,
   heartSmall,
@@ -733,6 +761,7 @@ export const sprites = {
   valeria,
   valeriaBlink,
   vinyl,
+  tonearm,
 } satisfies Record<string, Sprite>;
 
 export type SpriteName = keyof typeof sprites;

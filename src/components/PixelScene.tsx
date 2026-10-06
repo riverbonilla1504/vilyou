@@ -4,12 +4,13 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { useState } from "react";
 import { dialogos } from "@/content/dialogos";
 import { discover } from "@/lib/discoveries";
-import { discoStore, isWaitingForTap, musicStore, resume, toggle } from "@/lib/music";
+import { discoStore } from "@/lib/music";
 import { pop } from "@/lib/sound";
 import { dedicateSong, say } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
 import { RecordDisc } from "./RecordDisc";
+import { HiddenNote } from "./HiddenNote";
 
 export type ThemeId = "carta" | "halloween" | "carnival" | "park" | "sunset" | "love";
 
@@ -298,7 +299,7 @@ export function PixelScene({
   const disco = discoStore.useValue();
   const showDisc = disco && theme.celestial === "moon";
 
-  const heartRain = (e: React.MouseEvent) => {
+  const heartRain = (e: { clientX: number; clientY: number; timeStamp: number }) => {
     const drop = { x: e.clientX, y: e.clientY, key: e.timeStamp };
     setRain((r) => [...r.slice(-3), drop]);
   };
@@ -375,31 +376,29 @@ export function PixelScene({
         )}
       </motion.div>
 
+      {interactive && themeId === "carta" ? <HiddenNote spot="cielo" className="left-[40%] top-[9%]" /> : null}
+
       {/* moon / sun / heart */}
       <div
         className="celestial absolute"
         style={{ left: `${theme.cx}%`, top: `${theme.cy}%` }}
       >
         <div className="celestial-glow" />
-        {interactive ? (
+        {interactive && !showDisc ? (
           <button
             type="button"
             tabIndex={-1}
             className="absolute left-1/2 top-1/2 z-10 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full"
-            aria-label={showDisc ? "Pausar o seguir la música" : "Luna"}
+            aria-label="Luna"
             onClick={(e) => {
               heartRain(e);
               discover("luna-pixel");
-              if (theme.celestial !== "moon") {
-                pop();
-                setMoonKick((k) => k + 1);
-              } else if (!disco) {
+              if (theme.celestial === "moon" && !disco) {
                 // The very first tap: the moon becomes a record and the song starts.
                 dedicateSong();
-              } else if (musicStore.get().playing && (isWaitingForTap() || !musicStore.get().audible)) {
-                resume();
               } else {
-                toggle();
+                pop();
+                setMoonKick((k) => k + 1);
               }
             }}
           />
@@ -408,12 +407,18 @@ export function PixelScene({
           {showDisc ? (
             <motion.div
               key="disc"
-              className="absolute left-0 top-0"
+              className="absolute left-0 top-0 z-10"
               initial={{ scale: 0, rotate: -200, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 140, damping: 13, delay: 0.25 }}
             >
-              <RecordDisc />
+              <RecordDisc
+                interactive={interactive}
+                onTap={(e) => {
+                  heartRain(e);
+                  discover("luna-pixel");
+                }}
+              />
             </motion.div>
           ) : null}
         </AnimatePresence>

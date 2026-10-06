@@ -1,62 +1,69 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { Pause, Play } from "lucide-react";
+import { useState } from "react";
 import { config } from "@/content/config";
+import { nuestra } from "@/content/musica";
 import { discover } from "@/lib/discoveries";
-import { hold } from "@/lib/music";
+import { musicStore, playSong, toggle } from "@/lib/music";
+import { findSong } from "@/lib/songs";
 import { pop } from "@/lib/sound";
 import { useTypewriter } from "@/lib/useTypewriter";
 import { PixelSprite } from "../pixel/PixelSprite";
+import { Deck } from "../Turntable";
 
-function embedUrl(link: string) {
-  const m = link.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist)\/([A-Za-z0-9]+)/);
-  return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0` : null;
-}
+const ourSongSpinning = () => {
+  const m = musicStore.get();
+  return m.track?.id === nuestra.id && m.playing && m.audible;
+};
 
-/** Our song: a spinning record, the Spotify player and a dedication. */
+/** Our song: a record that plays it, and the dedication. */
 export function SongPlace() {
   const { cancion } = config;
-  const embed = embedUrl(cancion.spotify);
+  const music = musicStore.useValue();
   const [reading, setReading] = useState(false);
   const { shown } = useTypewriter(cancion.dedicatoria.length, { active: reading, cps: 34 });
+  const ours = music.track?.id === nuestra.id;
+  const playing = ours && music.playing && music.audible;
 
-  // Our record goes quiet while she is here, so it doesn't play over Spotify.
-  useEffect(() => hold(), []);
+  const play = () => {
+    findSong(nuestra.id);
+    if (ours) toggle();
+    else playSong(nuestra);
+  };
 
   return (
     <div className="mx-auto flex max-w-[480px] flex-col items-center pt-4 text-center">
       <div className="relative">
-        <div className="record" />
-        {[0, 1, 2].map((i) => (
-          <PixelSprite
-            key={i}
-            name="note"
-            scale={3}
-            className="note-float absolute"
-            style={{ left: `${10 + i * 38}%`, top: "-6%", animationDelay: `${i * 0.9}s` }}
-          />
-        ))}
+        <Deck scale={7} spin={ourSongSpinning} onTap={play} />
+        {playing
+          ? [0, 1, 2].map((i) => (
+              <PixelSprite
+                key={i}
+                name="note"
+                scale={3}
+                className="note-float pointer-events-none absolute"
+                style={{ left: `${10 + i * 38}%`, top: "-6%", animationDelay: `${i * 0.9}s` }}
+              />
+            ))
+          : null}
       </div>
 
-      <h3 className="on-scene mt-6 text-2xl text-cream">{cancion.titulo}</h3>
-      <p className="on-scene text-base text-cream/75">{cancion.artista}</p>
+      <h3 className="on-scene mt-5 text-2xl text-cream">{nuestra.titulo}</h3>
+      <p className="on-scene text-base text-cream/75">{nuestra.artista}</p>
 
-      <div className="mt-5 w-full">
-        {embed ? (
-          <iframe
-            title={cancion.titulo}
-            src={embed}
-            className="h-[152px] w-full rounded-xl"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        ) : (
-          <div className="frame-paper px-4 py-3 text-sm text-ink-soft">
-            Aquí aparecerá el reproductor cuando pongas el link de Spotify en <b>src/content/config.ts</b>.
-          </div>
-        )}
-      </div>
+      <motion.button
+        type="button"
+        className="btn-pixel btn-rose mt-4 px-5 py-2 text-lg"
+        whileTap={{ scale: 0.96 }}
+        onClick={play}
+      >
+        <span className="flex items-center gap-2">
+          {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+          {playing ? "Pausar" : "Ponla en el disco ♪"}
+        </span>
+      </motion.button>
 
       <div className="frame-paper paper-texture mt-6 w-full px-5 py-4 text-left text-ink">
         {reading ? (
@@ -79,6 +86,7 @@ export function SongPlace() {
           </motion.button>
         )}
       </div>
+
     </div>
   );
 }

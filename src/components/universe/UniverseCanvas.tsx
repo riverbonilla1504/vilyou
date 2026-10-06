@@ -644,10 +644,6 @@ export function UniverseCanvas(props: Props) {
           g.clip();
           g.drawImage(img, 20 + (320 - img.width * s) / 2, 20 + (300 - img.height * s) / 2, img.width * s, img.height * s);
           g.restore();
-          g.fillStyle = "#6b4a3a";
-          g.font = `28px ${pixelFontFamily()}`;
-          g.textAlign = "center";
-          g.fillText(foto.texto.slice(0, 22), W / 2, 372);
           const ct = track(new THREE.CanvasTexture(c));
           ct.colorSpace = THREE.SRGBColorSpace;
           const sp = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: ct, transparent: true, depthWrite: false })));

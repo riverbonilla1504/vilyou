@@ -16,14 +16,15 @@ un universo 3D lleno de secretos y **77 cositas** por descubrir.
 
 1. [Qué falta por hacer](#qué-falta-por-hacer)
 2. [Cómo es la experiencia, paso a paso](#cómo-es-la-experiencia-paso-a-paso)
-3. [Todo lo que se puede tocar](#todo-lo-que-se-puede-tocar)
-4. [Las 77 cositas](#las-77-cositas)
-5. [Cómo editar los textos y las fotos](#cómo-editar-los-textos-y-las-fotos)
-6. [Trucos para probar](#trucos-para-probar)
-7. [Cómo publicar cambios](#cómo-publicar-cambios)
-8. [El QR](#el-qr)
-9. [Cómo funciona por dentro](#cómo-funciona-por-dentro)
-10. [Qué se probó y qué no](#qué-se-probó-y-qué-no)
+3. [La música](#la-música)
+4. [Todo lo que se puede tocar](#todo-lo-que-se-puede-tocar)
+5. [Las 77 cositas](#las-77-cositas)
+6. [Cómo editar los textos y las fotos](#cómo-editar-los-textos-y-las-fotos)
+7. [Trucos para probar](#trucos-para-probar)
+8. [Cómo publicar cambios](#cómo-publicar-cambios)
+9. [El QR](#el-qr)
+10. [Cómo funciona por dentro](#cómo-funciona-por-dentro)
+11. [Qué se probó y qué no](#qué-se-probó-y-qué-no)
 
 ---
 
@@ -37,7 +38,6 @@ Lo más importante está arriba. Todo se cambia en la carpeta `src/content/` (ve
 - [ ] **Los 5 capítulos de la historia** (`src/content/historia.ts`): todos dicen "Placeholder de historia…".
 - [ ] **Los 7 secretos** (`src/content/historia.ts`, en `secretos`): dicen "Placeholder EE1…", "Placeholder EE2…", etc.
 - [ ] **El mensaje final** (cuando encuentra los 7 secretos de la historia), también en `historia.ts`: "Placeholder final…".
-- [ ] **Pies de foto del universo** (`src/content/universo.ts`): las 19 fotos ya están, pero los textitos debajo ("Tu carita de pato", "Mi lunita"…) los puso Claude.
 - [ ] **Pista del candado** (`src/content/config.ts`): dice "una fecha que conoces muy bien (DD MM AA)". Cámbiala si 150704 significa otra cosa.
 - [ ] **Probar en tu iPhone** con `https://vilyou.vercel.app/?vista=river`, sobre todo:
   - tocar un planeta del universo (la cámara vuela hacia él y se abre el lugar);
@@ -55,14 +55,15 @@ Lo más importante está arriba. Todo se cambia en la carpeta `src/content/` (ve
 **Ya está hecho:**
 
 - [x] Publicada en Vercel y conectada a GitHub (cada push a `main` se publica sola).
-- [x] Canción: **"Reina Pepiada" de Alvaro Diaz** con reproductor de Spotify.
+- [x] Canción: **"Reina Pepiada" de Alvaro Diaz** sonando en su propio tocadiscos (archivo en `public/musica/`).
 - [x] Mía dibujada como es: atigrada café con pecho, hocico y patitas blancas, ojos verdes.
 - [x] Dedicatoria del inicio: "Para el amor de mi vida 💜".
 - [x] QR bonito listo en `extras/qr-vilyou.png`.
 - [x] **Fotos**: 5 en los capítulos de la historia y 19 flotando en el universo (sacadas de `extras/fotos/`, achicadas a `public/fotos/`).
 - [x] **Ustedes dos en pixel art** (retratos estilo Stardew que parpadean; River mueve la boca al hablar).
 - [x] **Diálogos de River** al tocar un tulipán o un lirio, con X para cerrar (`src/content/dialogos.ts`).
-- [x] **La luna se vuelve disco**: suena *Chachacha* de Jósean Log, River se la dedica con corazones morados y después suena la **playlist de Cuco** (37 canciones) en bucle y aleatoria, cada vez que entra.
+- [x] **La luna se vuelve disco**: suena *Chachacha* de Jósean Log, River se la dedica con corazones morados y desde ahí el disco toca **las canciones que ella ha conseguido**, en bucle y aleatorio, cada vez que entra.
+- [x] **Canciones coleccionables (39)** y un **tocadiscos** para verlas, elegirlas y cambiarlas (ver [la música](#la-música)).
 
 ---
 
@@ -102,7 +103,7 @@ La segunda vez que entra ya no ve la carta primero: va directo al universo (la c
 | 🎂 8 meses | Pastel | Pide un deseo y **sopla las 8 velitas** (con el micrófono o tocándolas); luego puede **morder** el pastel |
 | 🎮 Juegos | Wordle y memoria | **"Adivina mi corazón"** (palabra secreta **TEAMO**, 6 intentos) y un **juego de memoria** con Mía, Pinky, Melody, Cody, tulipán, lirio, el 7 y un corazón |
 | 🍇 Peluches | El rincón de los peluches | **Pinky** se aplasta, **Melody** saluda, **Cody** sale corriendo y vuelve, **Mía** maúlla (a los 7 mimos ronronea) |
-| 🎵 Nuestra canción | Música | Vinilo girando, reproductor de **"Reina Pepiada"** y la dedicatoria |
+| 🎵 Nuestra canción | Música | Un tocadiscos con **"Reina Pepiada"** (al tocarlo suena y se desbloquea) y la dedicatoria |
 
 - Abajo: el contador **"Descubrimientos 12/77"**, que abre el **álbum**.
 - La primera vez aparece un mensaje de bienvenida.
@@ -116,6 +117,23 @@ Cada vez que descubre algo aparece arriba un aviso **"¡Nuevo descubrimiento! ·
 
 ---
 
+## La música
+
+Las canciones se coleccionan como las cositas (todo se cambia en `src/content/musica.ts`):
+
+| Canción | Cómo se consigue |
+|---|---|
+| *Chachacha* (Jósean Log) | Tocando la luna. Es la **única que se puede conseguir durante la cuenta regresiva** |
+| *Reina Pepiada* (Álvaro Díaz) | Tocando el disco en el planeta "Nuestra canción" |
+| 7 canciones de Cuco | Notitas escondidas: entre las estrellas del inicio, en el jardín, junto al pastel, con los peluches, en los juegos, al final de la historia y al final del álbum |
+| Las otras 30 | Salen solas: **una por cada 2 cositas** que encuentra |
+
+- Antes de que termine la cuenta regresiva, el tocadiscos muestra todas como **adelanto** ("se desbloquea pronto").
+- Cada canción nueva avisa arriba con **"¡Canción nueva!"** y suena justo después de la que está sonando.
+- El disco del cielo solo toca las que ya tiene, en aleatorio y sin repetir hasta que suenen todas.
+
+---
+
 ## Todo lo que se puede tocar
 
 | Dónde | Qué tocar | Qué pasa |
@@ -123,7 +141,9 @@ Cada vez que descubre algo aparece arriba un aviso **"¡Nuevo descubrimiento! ·
 | Cuenta regresiva | Mía | Salta, maúlla y dice frases; a los 7 toques ronronea |
 | Cuenta regresiva | El sobre | Se sacude: "¡Todavía no! Se abre a medianoche 🔒", etc. |
 | Cuenta regresiva | El contador | Rebota y da pistas de qué más tocar |
-| Cuenta regresiva y carta | **La luna** | La primera vez: se convierte en un **disco que gira**, suena *Chachacha* y a los 4 segundos River dice "Te la dedico. Te amoooo…" con **corazones morados**. Desde ahí, tocar el disco **pausa / sigue** la música (con fade suave y el disco frena / arranca) |
+| Cuenta regresiva y carta | **La luna** | La primera vez: se convierte en un **disco que gira**, suena *Chachacha* y a los 4 segundos River dice "Te la dedico. Te amoooo…" con **corazones morados**. Desde ahí: **tocar** el disco pausa / sigue (con fade suave, el disco frena / arranca) y **deslizarlo** de lado pasa a otra canción (con sonido de scratch) |
+| Cuenta regresiva, carta y universo | **El tocadiscos** (botón con un vinilo arriba a la izquierda) | Lista de las 39 canciones: las conseguidas se pueden tocar; las que faltan salen como "???" con su pista. Controles ⏮ ⏯ ⏭ y barra para adelantar |
+| Inicio, jardín, pastel, peluches, juegos, historia y álbum | **Notitas musicales escondidas** (7) | Cada una desbloquea una canción |
 | Cuenta regresiva y carta | Las nubes | Llueven corazones |
 | Cuenta regresiva y carta | La estrella fugaz (pasa cada ~10 s) | Llueven corazones |
 | Cuenta regresiva y carta | **Las 7 flores del suelo** | Cada una salta, gira y suelta corazones. Los **tulipanes** abren a River diciendo lo de los tulipanes; los **lirios**, "Lirios para mi delirio" |
@@ -289,14 +309,14 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 
 | Archivo | Qué cambia |
 |---|---|
-| `config.ts` | Nombres, iniciales, **dedicatoria del inicio**, fecha de desbloqueo, fecha en que se conocieron, **código y pista del candado**, palabra del Wordle, **canción de Spotify** y su dedicatoria |
+| `config.ts` | Nombres, iniciales, **dedicatoria del inicio**, fecha de desbloqueo, fecha en que se conocieron, **código y pista del candado**, palabra del Wordle, la **dedicatoria de nuestra canción** |
 | `carta.ts` | **La carta**: para, fecha, saludo, párrafos (agrega los que quieras), despedida, firma, posdata y el regalo adjunto |
 | `historia.ts` | Los 5 **capítulos** (título, subtítulo, párrafos, foto), los **7 secretos** y el **mensaje final** |
 | `universo.ts` | Las **21 frases** del universo y las **fotos** que flotan alrededor del corazón |
 | `lugares.ts` | Nombres de los planetas, textos del jardín y del pastel, y lo que dice cada peluche |
 | `descubrimientos.ts` | Título, texto y pista de cada una de las **77 cositas** (no cambies los `id`) |
 | `dialogos.ts` | Lo que dice **tu personaje** al tocar un tulipán, un lirio y la **dedicatoria** de la canción (y cuántos segundos espera) |
-| `musica.ts` | La **canción dedicada** y la **playlist** (títulos y archivos de `public/musica/`) |
+| `musica.ts` | Las **39 canciones** (títulos y artistas), dónde está escondida cada notita, sus pistas, cada cuántas cositas sale una canción y los textos del tocadiscos |
 
 **Consejos:**
 
@@ -305,7 +325,6 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 - **Fotos:** guárdalas en `public/fotos/` (por ejemplo `public/fotos/halloween.jpg`) y en el capítulo escribe `foto: "/fotos/halloween.jpg",`.
   Para el universo: `{ src: "/fotos/nosotros.jpg", texto: "Nuestra primera foto" },` dentro de `fotosUniverso`.
 - **Fecha de desbloqueo:** `desbloqueo: "2026-10-07T00:00:00"` se lee con la hora del celular de ella.
-- **Canción:** en Spotify → Compartir → Copiar enlace, y pégalo en `cancion.spotify`. Si ella no tiene la sesión de Spotify abierta, suena un fragmento de 30 segundos.
 
 ---
 
@@ -392,7 +411,7 @@ src/
   lib/            progreso guardado, reloj, sonidos, máquina de escribir
 public/ui/        marcos de madera y papel (9-slice)
 public/fotos/     las fotos ya achicadas (historia-*, nosotros-*, tu-*, yo-*)
-public/musica/    chachacha.m4a y la playlist de Cuco (~55 MB)
+public/musica/    chachacha.m4a, reina-pepiada.m4a y la playlist de Cuco (~59 MB)
 extras/           el QR y las fotos originales
 ```
 
@@ -410,7 +429,7 @@ textos antes de tiempo leyendo el código; para un regalo está bien, pero no po
 **Probado** (en el navegador, tamaño iPhone 16 y computador): cuenta regresiva y su final, todas las interacciones del
 inicio (Mía, sobre, contador, luna, nubes, flores, corazones al tocar), candado con código correcto e incorrecto,
 carta y regalo, transición de flores, universo (frases, el 7 y secretos al tocarlos), jardín, pastel tocando las velas,
-Wordle, memoria, peluches, canción con el reproductor de Spotify, historia con sus secretos y el álbum. También:
+Wordle, memoria, peluches, nuestra canción en su tocadiscos, historia con sus secretos y el álbum. También:
 diálogo del tulipán con la X, la luna que se vuelve disco, Chachacha + dedicatoria, pausar/seguir, el paso a la
 playlist al terminar la canción y que la playlist suene al volver a entrar. TypeScript,
 lint y build de producción pasan sin errores.

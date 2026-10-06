@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { config } from "@/content/config";
+import { config, localTime } from "@/content/config";
 import { createPersistentStore } from "./store";
 
 type Flags = { preview: boolean; forceLockUntil: number | null };
@@ -66,3 +66,15 @@ export const progressStore = createPersistentStore("vilyou:progreso", {
 
 /** The days (YYYY-MM-DD) she has visited. */
 export const visitsStore = createPersistentStore<string[]>("vilyou:visitas", []);
+
+/** When the countdown ends for this visit (honors ?bloqueo=1). */
+export function unlockTime() {
+  return getFlags().forceLockUntil ?? localTime(config.desbloqueo);
+}
+
+/** True once the gift is open (or always, in River's preview). */
+export function isOpenNow() {
+  const f = getFlags();
+  if (f.forceLockUntil) return Date.now() >= f.forceLockUntil;
+  return f.preview || Date.now() >= localTime(config.desbloqueo);
+}
