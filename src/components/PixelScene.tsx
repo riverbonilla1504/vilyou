@@ -261,6 +261,16 @@ const confetti = (() => {
   }));
 })();
 
+const gardenFlowers: { sprite: "tulip" | "lily"; palette?: Record<string, string>; lift: number }[] = [
+  { sprite: "tulip", lift: 0 },
+  { sprite: "lily", lift: 10 },
+  { sprite: "tulip", palette: { R: "#ffd54f", L: "#fff1a8", D: "#e0a92a" }, lift: 4 },
+  { sprite: "tulip", palette: { R: "#c58cff", L: "#ead4ff", D: "#9a5ee0" }, lift: 14 },
+  { sprite: "lily", palette: { W: "#ffe3ef", L: "#ff9ec7", P: "#ff5d8f" }, lift: 4 },
+  { sprite: "tulip", palette: { R: "#ffd54f", L: "#fff1a8", D: "#e0a92a" }, lift: 10 },
+  { sprite: "tulip", lift: 0 },
+];
+
 const flagColors = ["#ff6b9d", "#ffd54f", "#7fd6ff", "#ce93d8", "#6fe3a4"];
 
 /* ---------------------------------- scene ---------------------------------- */
@@ -280,7 +290,7 @@ export function PixelScene({
   const { scrollYProgress } = useScroll(scrollContainer ? { container: scrollContainer } : undefined);
   const [rain, setRain] = useState<{ x: number; y: number; key: number }[]>([]);
   const [moonKick, setMoonKick] = useState(0);
-  const [tulipKick, setTulipKick] = useState(0);
+  const [hop, setHop] = useState<{ i: number; key: number } | null>(null);
 
   const heartRain = (e: React.MouseEvent) => {
     const drop = { x: e.clientX, y: e.clientY, key: e.timeStamp };
@@ -548,39 +558,50 @@ export function PixelScene({
             ))}
           </g>
 
-          <g
-            className={cn("transition-opacity duration-1000", interactive && "tap cursor-pointer", tulipKick % 2 === 1 && "tulips-happy")}
-            style={show("love", "carta")}
-            onClick={
-              interactive
-                ? (e) => {
-                    pop();
-                    setTulipKick((k) => k + 1);
-                    heartRain(e);
-                    discover("tulipan-pixel");
-                    window.setTimeout(() => setTulipKick((k) => k + 1), 900);
-                  }
-                : undefined
-            }
-          >
-            {[200, 300, 360, 520, 940, 1010, 1120, 1230].map((x, i) => (
-              <g key={x} transform={`translate(${x} ${groundY(x) - 45})`}>
-                <PixelSprite
-                  name="tulip"
-                  scale={3}
-                  palette={
-                    i % 3 === 0
-                      ? { R: "#ffd54f", L: "#fff1a8", D: "#e0a92a" }
-                      : i % 3 === 1
-                        ? { R: "#c58cff", L: "#ead4ff", D: "#9a5ee0" }
-                        : undefined
-                  }
-                />
-              </g>
-            ))}
-          </g>
         </motion.g>
       </svg>
+
+      {/* A row of 7 flowers along the ground: always on screen, each one tappable. */}
+      <motion.div
+        className="absolute inset-x-0 bottom-[11%] flex items-end justify-around px-3 transition-opacity duration-1000 sm:px-[12%]"
+        style={{ ...show("love", "carta"), y: groundOffset }}
+      >
+        {gardenFlowers.map((f, i) => {
+          const visible = themeId === "love" || themeId === "carta";
+          const art = (
+            <motion.span
+              key={hop?.i === i ? hop.key : "still"}
+              className="block"
+              animate={hop?.i === i ? { y: [0, -18, 0], rotate: [0, -10, 8, 0], scale: [1, 1.2, 1] } : undefined}
+              transition={{ duration: 0.55 }}
+            >
+              <PixelSprite name={f.sprite} scale={3} palette={f.palette} />
+            </motion.span>
+          );
+          return interactive && visible ? (
+            <button
+              key={i}
+              type="button"
+              tabIndex={-1}
+              aria-label="Flor"
+              className="garden-flower block p-1"
+              style={{ marginBottom: f.lift }}
+              onClick={(e) => {
+                pop();
+                setHop((h) => ({ i, key: (h?.key ?? 0) + 1 }));
+                heartRain(e);
+                discover("tulipan-pixel");
+              }}
+            >
+              {art}
+            </button>
+          ) : (
+            <span key={i} className="block p-1" style={{ marginBottom: f.lift }}>
+              {art}
+            </span>
+          );
+        })}
+      </motion.div>
 
       {/* fireflies */}
       <div className="absolute inset-0 transition-opacity duration-[1400ms]" style={{ opacity: theme.fireflies }}>

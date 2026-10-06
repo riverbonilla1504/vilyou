@@ -74,7 +74,7 @@ function Experience() {
   return (
     <>
       {screen === "carta" ? (
-        <main className="relative overflow-x-clip">
+        <main className="relative isolate overflow-x-clip">
           <PixelScene themeId="carta" interactive />
           <TapBursts />
           <section className="pointer-events-none relative flex min-h-[100svh] flex-col items-center justify-center px-4 pb-16 pt-20">

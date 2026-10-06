@@ -203,7 +203,7 @@ export function UniverseScreen() {
         {open === "carta" ? (
           <PlaceSheet key="carta" title={titles.carta} onClose={close} bare>
             <PixelScene themeId="carta" interactive />
-            <div className="place-scroll place-pad absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-16">
+            <div className="place-scroll place-pad pointer-events-none absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-16">
               <RetroLetter reread />
             </div>
           </PlaceSheet>

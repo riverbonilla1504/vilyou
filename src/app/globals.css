@@ -449,17 +449,11 @@ body {
 .scene * {
   pointer-events: none;
 }
+/* Only the tappable bits of the sky take touches; the SVG tulips need their shapes too. */
 .scene button,
-.scene .tap {
+.scene .tap,
+.scene .tap * {
   pointer-events: auto;
-}
-.tulips-happy {
-  animation: tulip-hop 0.45s steps(3) 2;
-}
-@keyframes tulip-hop {
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 .scene {

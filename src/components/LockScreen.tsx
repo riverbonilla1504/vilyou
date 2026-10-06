@@ -62,7 +62,7 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
   });
 
   return (
-    <div className="screen relative flex flex-col items-center justify-center overflow-hidden px-4 text-center">
+    <div className="screen relative isolate flex flex-col items-center justify-center overflow-hidden px-4 text-center">
       <PixelScene themeId={ready ? "love" : "carta"} interactive />
       <TapBursts onTap={() => setHearts((h) => h + 1)} />
 
@@ -84,7 +84,7 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
         {ready ? "¡Ya es hora! ♥" : "Algo bonito te espera…"}
       </motion.h1>
 
-      <div className="relative mt-10 flex items-end justify-center gap-8">
+      <div className="pointer-events-none relative mt-10 flex items-end justify-center gap-8 *:pointer-events-auto">
         <AnimatePresence>
           {bubble ? (
             <motion.div
@@ -172,7 +172,7 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
         )}
       </motion.div>
 
-      <div className="mt-5 min-h-[56px]">
+      <div className="pointer-events-none mt-5 min-h-[56px]">
         <AnimatePresence mode="wait">
           {tip ? (
             <motion.p
