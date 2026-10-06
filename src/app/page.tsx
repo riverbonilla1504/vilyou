@@ -7,6 +7,7 @@ import { DiscoveryToast } from "@/components/DiscoveryToast";
 import { LockScreen } from "@/components/LockScreen";
 import { PixelScene } from "@/components/PixelScene";
 import { RetroLetter } from "@/components/RetroLetter";
+import { TapBursts } from "@/components/TapBursts";
 import { PixelSprite } from "@/components/pixel/PixelSprite";
 import { UniverseScreen } from "@/components/universe/UniverseScreen";
 import { config, localTime } from "@/content/config";
@@ -75,6 +76,7 @@ function Experience() {
       {screen === "carta" ? (
         <main className="relative overflow-x-clip">
           <PixelScene themeId="carta" interactive />
+          <TapBursts />
           <section className="pointer-events-none relative flex min-h-[100svh] flex-col items-center justify-center px-4 pb-16 pt-20">
             <motion.p
               className="on-scene mb-6 text-center font-press text-[10px] text-cream/70"
@@ -83,6 +85,15 @@ function Experience() {
               transition={{ delay: 0.6 }}
             >
               {config.inicialElla} ♥ {config.inicialYo} · {config.meses} meses
+            </motion.p>
+            <motion.p
+              className="tap-chip on-scene mb-6 flex items-center gap-2 px-3 py-1.5 text-center text-sm text-cream"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+            >
+              <span className="tap-finger">👆</span>
+              Toca todo: la luna, las nubes, las flores… todo tiene algo
             </motion.p>
             <div className="w-full">
               <RetroLetter onEnterUniverse={() => setBlooming(true)} />

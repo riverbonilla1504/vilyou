@@ -120,22 +120,23 @@ const iceCream: Sprite = {
   palette: { K: "#3a2418", W: "#f6f1e8", B: "#2a2226", O: "#e8a85a", d: "#b8732f" },
 };
 
+/** Mía: brown tabby with a white chest, muzzle and paws, and green eyes. */
 const cat: Sprite = {
   grid: [
     ".KK........KK.",
     ".KOK......KOK.",
     ".KPOK....KOPK.",
     ".KOOOKKKKOOOK.",
-    "KOOOOOOOOOOOOK",
-    "KOOKKOOOOKKOOK",
-    "KOOKWOOOOKWOOK",
-    "KOOOOOPPOOOOOK",
-    "KOLOOKOOKOOLOK",
-    ".KOOOOKKOOOOK.",
-    "..KKOOOOOOKK..",
+    "KOOSOSOOSOSOOK",
+    "KOSKKOSSOKKSOK",
+    "KOOKEOOOOKEOOK",
+    "KSOOWWPPWWOOSK",
+    "KOWWWKWWKWWWOK",
+    ".KOWWWKKWWWOK.",
+    "..KKWWWWWWKK..",
     "....KKKKKK....",
   ],
-  palette: { K: "#3b2216", O: "#f3a55b", P: "#ff8fb0", W: "#ffffff", L: "#ffb39a" },
+  palette: { K: "#2e1f17", O: "#b98450", S: "#5a3a22", W: "#fbf6ee", P: "#f2a0a8", E: "#b8cf5a" },
 };
 
 const sunsetMoon: Sprite = {
@@ -279,15 +280,15 @@ const catSleep: Sprite = {
   grid: [
     "....KK..KK......",
     "...KOOKKOOK.....",
-    "..KOOOOOOOOK....",
+    "..KOSOSOSOOK....",
     ".KOOKKOOKKOOKKK.",
-    ".KOOOOPOOOOOOOOK",
-    "KOOOOOOOOOOOOOOK",
-    "KOOOOOOOOOOOOOK.",
-    ".KKOOOOOOOOOOK..",
+    ".KOWWWPWWWOSOSOK",
+    "KOOWWWWWOSOOSOOK",
+    "KSOOOOOOOOSOOOK.",
+    ".KKWWOOOOOOSWK..",
     "...KKKKKKKKKK...",
   ],
-  palette: { K: "#3b2216", O: "#f3a55b", P: "#ff8fb0" },
+  palette: { K: "#2e1f17", O: "#b98450", S: "#5a3a22", W: "#fbf6ee", P: "#f2a0a8" },
 };
 
 const seven: Sprite = {

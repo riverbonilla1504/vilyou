@@ -11,6 +11,8 @@ export const config = {
   inicialElla: "V",
   yo: "River",
   inicialYo: "R",
+  /** Lo primero que ve, arriba de la cuenta regresiva. */
+  dedicatoria: "Para el amor de mi vida 💜",
   numeroEspecial: 7,
   meses: 8,
 
