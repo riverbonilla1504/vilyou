@@ -653,7 +653,9 @@ export function UniverseCanvas(props: Props) {
           const sp = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: ct, transparent: true, depthWrite: false })));
           sp.scale.set(1.5, 1.75, 1);
           const a = (i / Math.max(1, fotosUniverso.length)) * Math.PI * 2;
-          sp.position.set(Math.cos(a) * 4.6, Math.sin(a * 2) * 1.5 + 1, Math.sin(a) * 4.6);
+          // Widen the ring when there are many photos so the polaroids don't overlap.
+          const ring = Math.max(4.6, (fotosUniverso.length * 1.7) / (Math.PI * 2));
+          sp.position.set(Math.cos(a) * ring, Math.sin(a * 2) * 1.5 + 1, Math.sin(a) * ring);
           sp.userData = { a };
           scene.add(sp);
           photoSprites.push(sp);

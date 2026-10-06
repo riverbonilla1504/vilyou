@@ -52,6 +52,7 @@ export const intro = {
 export const capitulos: Capitulo[] = [
   {
     id: "s1",
+    foto: "/fotos/historia-1.jpg",
     tema: "halloween",
     etiqueta: "El comienzo",
     titulo: "Cuando te conocí",
@@ -64,6 +65,7 @@ export const capitulos: Capitulo[] = [
   },
   {
     id: "s2",
+    foto: "/fotos/historia-2.jpg",
     tema: "carnival",
     titulo: "Carnavales",
     subtitulo: "Risas, colores y tú",
@@ -76,6 +78,7 @@ export const capitulos: Capitulo[] = [
   },
   {
     id: "s3",
+    foto: "/fotos/historia-3.jpg",
     tema: "park",
     titulo: "El mirador",
     subtitulo: "Un parque y montañas para soñarnos",
@@ -87,6 +90,7 @@ export const capitulos: Capitulo[] = [
   },
   {
     id: "s4",
+    foto: "/fotos/historia-4.jpg",
     tema: "sunset",
     titulo: "Atardecer",
     subtitulo: "Cielo naranja y promesas suaves",
@@ -98,6 +102,7 @@ export const capitulos: Capitulo[] = [
   },
   {
     id: "s5",
+    foto: "/fotos/historia-5.jpg",
     tema: "love",
     titulo: "Amor",
     subtitulo: "Mi todo, mi hogar",

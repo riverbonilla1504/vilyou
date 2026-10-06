@@ -37,17 +37,18 @@ Lo más importante está arriba. Todo se cambia en la carpeta `src/content/` (ve
 - [ ] **Los 5 capítulos de la historia** (`src/content/historia.ts`): todos dicen "Placeholder de historia…".
 - [ ] **Los 7 secretos** (`src/content/historia.ts`, en `secretos`): dicen "Placeholder EE1…", "Placeholder EE2…", etc.
 - [ ] **El mensaje final** (cuando encuentra los 7 secretos de la historia), también en `historia.ts`: "Placeholder final…".
-- [ ] **Fotos**: ninguna está puesta. Sin foto se ve un recuadro que dice "Tu foto aquí — Ponla en public/fotos…".
+- [ ] **Pies de foto del universo** (`src/content/universo.ts`): las 19 fotos ya están, pero los textitos debajo ("Tu carita de pato", "Mi lunita"…) los puso Claude.
 - [ ] **Pista del candado** (`src/content/config.ts`): dice "una fecha que conoces muy bien (DD MM AA)". Cámbiala si 150704 significa otra cosa.
 - [ ] **Probar en tu iPhone** con `https://vilyou.vercel.app/?vista=river`, sobre todo:
   - tocar un planeta del universo (la cámara vuela hacia él y se abre el lugar);
-  - soplar las velas del pastel con el micrófono.
+  - soplar las velas del pastel con el micrófono;
+  - tocar la luna: que suene Chachacha, salga la dedicatoria y el disco pause/siga al tocarlo (en iPhone la música arranca con el primer toque; el navegador no deja que suene sola).
 - [ ] Después de cada cambio, **publicar** (ver [cómo publicar](#cómo-publicar-cambios)).
 
 **Opcional:**
 
 - [ ] Revisar las frases del universo, lo que dicen los peluches y los textos de las 77 cositas: ya son lindos y personalizados, pero los escribió Claude y puedes ponerles tu voz.
-- [ ] Agregar fotos que floten en el universo (`src/content/universo.ts`).
+- [ ] Cambiar qué foto va en cada capítulo de la historia (`src/content/historia.ts`, campo `foto`).
 - [ ] Borrar los componentes viejos que ya no se usan: `src/components/DynamicBackground.tsx`, `EasterEggModal.tsx`, `Hud.tsx`, `PhotoPlaceholder.tsx` y la carpeta `src/components/eggs/`.
 - [ ] Autorizar el MCP de Vercel en Claude (`/mcp` → **vercel** → **Authenticate**) si quieres que Claude maneje Vercel directamente.
 
@@ -58,6 +59,10 @@ Lo más importante está arriba. Todo se cambia en la carpeta `src/content/` (ve
 - [x] Mía dibujada como es: atigrada café con pecho, hocico y patitas blancas, ojos verdes.
 - [x] Dedicatoria del inicio: "Para el amor de mi vida 💜".
 - [x] QR bonito listo en `extras/qr-vilyou.png`.
+- [x] **Fotos**: 5 en los capítulos de la historia y 19 flotando en el universo (sacadas de `extras/fotos/`, achicadas a `public/fotos/`).
+- [x] **Ustedes dos en pixel art** (retratos estilo Stardew que parpadean; River mueve la boca al hablar).
+- [x] **Diálogos de River** al tocar un tulipán o un lirio, con X para cerrar (`src/content/dialogos.ts`).
+- [x] **La luna se vuelve disco**: suena *Chachacha* de Jósean Log, River se la dedica con corazones morados y después suena la **playlist de Cuco** (37 canciones) en bucle y aleatoria, cada vez que entra.
 
 ---
 
@@ -118,10 +123,10 @@ Cada vez que descubre algo aparece arriba un aviso **"¡Nuevo descubrimiento! ·
 | Cuenta regresiva | Mía | Salta, maúlla y dice frases; a los 7 toques ronronea |
 | Cuenta regresiva | El sobre | Se sacude: "¡Todavía no! Se abre a medianoche 🔒", etc. |
 | Cuenta regresiva | El contador | Rebota y da pistas de qué más tocar |
-| Cuenta regresiva y carta | **La luna** | Se mueve y llueven corazones |
+| Cuenta regresiva y carta | **La luna** | La primera vez: se convierte en un **disco que gira**, suena *Chachacha* y a los 4 segundos River dice "Te la dedico. Te amoooo…" con **corazones morados**. Desde ahí, tocar el disco **pausa / sigue** la música (con fade suave y el disco frena / arranca) |
 | Cuenta regresiva y carta | Las nubes | Llueven corazones |
 | Cuenta regresiva y carta | La estrella fugaz (pasa cada ~10 s) | Llueven corazones |
-| Cuenta regresiva y carta | **Las 7 flores del suelo** | Cada una salta, gira y suelta corazones |
+| Cuenta regresiva y carta | **Las 7 flores del suelo** | Cada una salta, gira y suelta corazones. Los **tulipanes** abren a River diciendo lo de los tulipanes; los **lirios**, "Lirios para mi delirio" |
 | Cuenta regresiva y carta | Cualquier parte | Salen corazoncitos y chispitas |
 | Carta | Sobre / candado / sello / regalo | Ver [la carta](#2-la-carta) |
 | Universo | Planetas | Abren su lugar |
@@ -290,6 +295,8 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 | `universo.ts` | Las **21 frases** del universo y las **fotos** que flotan alrededor del corazón |
 | `lugares.ts` | Nombres de los planetas, textos del jardín y del pastel, y lo que dice cada peluche |
 | `descubrimientos.ts` | Título, texto y pista de cada una de las **77 cositas** (no cambies los `id`) |
+| `dialogos.ts` | Lo que dice **tu personaje** al tocar un tulipán, un lirio y la **dedicatoria** de la canción (y cuántos segundos espera) |
+| `musica.ts` | La **canción dedicada** y la **playlist** (títulos y archivos de `public/musica/`) |
 
 **Consejos:**
 
@@ -359,7 +366,9 @@ vercel --prod
 ## Cómo funciona por dentro
 
 **Tecnologías:** Next.js 16 (App Router), React 19, Tailwind CSS 4, framer-motion (animaciones), three.js (universo 3D),
-fuentes *Pixelify Sans* y *Press Start 2P*. Sonidos chiptune generados en el navegador (sin archivos de audio).
+fuentes *Pixelify Sans* y *Press Start 2P*. Sonidos chiptune generados en el navegador; la música son archivos `.m4a`
+en `public/musica/` que pasan por WebAudio (`src/lib/music.ts`) para que el fade de entrada y salida funcione en iPhone,
+donde Safari no deja cambiar el volumen de un `<audio>`. Funciona con el switch de silencio y se ve en la pantalla de bloqueo.
 
 **Pantallas** (todo vive en una sola página, `src/app/page.tsx`):
 
@@ -382,7 +391,9 @@ src/
     LockScreen, RetroLetter, Keypad, DialogueBox, Hotbar, TapBursts…
   lib/            progreso guardado, reloj, sonidos, máquina de escribir
 public/ui/        marcos de madera y papel (9-slice)
-extras/           el QR
+public/fotos/     las fotos ya achicadas (historia-*, nosotros-*, tu-*, yo-*)
+public/musica/    chachacha.m4a y la playlist de Cuco (~55 MB)
+extras/           el QR y las fotos originales
 ```
 
 **Detalles para iPhone:** respeta la isla dinámica y la barra de abajo (zonas seguras), pantalla completa con `100dvh`,
@@ -399,9 +410,11 @@ textos antes de tiempo leyendo el código; para un regalo está bien, pero no po
 **Probado** (en el navegador, tamaño iPhone 16 y computador): cuenta regresiva y su final, todas las interacciones del
 inicio (Mía, sobre, contador, luna, nubes, flores, corazones al tocar), candado con código correcto e incorrecto,
 carta y regalo, transición de flores, universo (frases, el 7 y secretos al tocarlos), jardín, pastel tocando las velas,
-Wordle, memoria, peluches, canción con el reproductor de Spotify, historia con sus secretos y el álbum. TypeScript,
+Wordle, memoria, peluches, canción con el reproductor de Spotify, historia con sus secretos y el álbum. También:
+diálogo del tulipán con la X, la luna que se vuelve disco, Chachacha + dedicatoria, pausar/seguir, el paso a la
+playlist al terminar la canción y que la playlist suene al volver a entrar. TypeScript,
 lint y build de producción pasan sin errores.
 
 **Sin probar en un iPhone real:** el vuelo de la cámara al tocar un planeta (se probó abriendo los lugares directo),
 soplar las velas con el micrófono (el navegador de pruebas bloquea el micrófono) y cómo se siente el rendimiento del 3D
-en el teléfono.
+en el teléfono, y la música en Safari de iPhone (que arranque con el primer toque al volver a entrar y que el fade se sienta suave).

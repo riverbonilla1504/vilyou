@@ -3,6 +3,7 @@
 import { MotionConfig, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BloomTransition } from "@/components/BloomTransition";
+import { CharacterDialogue } from "@/components/CharacterDialogue";
 import { DiscoveryToast } from "@/components/DiscoveryToast";
 import { LockScreen } from "@/components/LockScreen";
 import { PixelScene } from "@/components/PixelScene";
@@ -14,6 +15,7 @@ import { config, localTime } from "@/content/config";
 import { useIsPast } from "@/lib/clock";
 import { discover } from "@/lib/discoveries";
 import { progressStore, useFlags, visitsStore } from "@/lib/flags";
+import { discoStore, startPlaylist } from "@/lib/music";
 import { soundStore } from "@/lib/sound";
 
 export default function Home() {
@@ -22,6 +24,11 @@ export default function Home() {
   const past = useIsPast(unlockAt);
   const [entered, setEntered] = useState(false);
   const [sawLock, setSawLock] = useState(false);
+
+  // Once the song was dedicated, the playlist plays from the moment she arrives.
+  useEffect(() => {
+    if (discoStore.get()) startPlaylist();
+  }, []);
 
   if (past === null) return <Splash />;
 
@@ -32,6 +39,7 @@ export default function Home() {
     return (
       <MotionConfig reducedMotion="user">
         <LockScreen unlockAt={unlockAt} ready={past} onEnter={() => setEntered(true)} />
+        <CharacterDialogue />
       </MotionConfig>
     );
   }
@@ -39,6 +47,7 @@ export default function Home() {
   return (
     <MotionConfig reducedMotion="user">
       <Experience />
+      <CharacterDialogue />
     </MotionConfig>
   );
 }

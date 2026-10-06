@@ -2,10 +2,14 @@
 
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
+import { dialogos } from "@/content/dialogos";
 import { discover } from "@/lib/discoveries";
+import { discoStore, isWaitingForTap, musicStore, resume, toggle } from "@/lib/music";
 import { pop } from "@/lib/sound";
+import { dedicateSong, say } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
+import { RecordDisc } from "./RecordDisc";
 
 export type ThemeId = "carta" | "halloween" | "carnival" | "park" | "sunset" | "love";
 
@@ -291,6 +295,8 @@ export function PixelScene({
   const [rain, setRain] = useState<{ x: number; y: number; key: number }[]>([]);
   const [moonKick, setMoonKick] = useState(0);
   const [hop, setHop] = useState<{ i: number; key: number } | null>(null);
+  const disco = discoStore.useValue();
+  const showDisc = disco && theme.celestial === "moon";
 
   const heartRain = (e: React.MouseEvent) => {
     const drop = { x: e.clientX, y: e.clientY, key: e.timeStamp };
@@ -380,26 +386,56 @@ export function PixelScene({
             type="button"
             tabIndex={-1}
             className="absolute left-1/2 top-1/2 z-10 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            aria-label={showDisc ? "Pausar o seguir la música" : "Luna"}
             onClick={(e) => {
-              pop();
-              setMoonKick((k) => k + 1);
               heartRain(e);
               discover("luna-pixel");
+              if (theme.celestial !== "moon") {
+                pop();
+                setMoonKick((k) => k + 1);
+              } else if (!disco) {
+                // The very first tap: the moon becomes a record and the song starts.
+                dedicateSong();
+              } else if (musicStore.get().playing && (isWaitingForTap() || !musicStore.get().audible)) {
+                resume();
+              } else {
+                toggle();
+              }
             }}
           />
         ) : null}
+        <AnimatePresence>
+          {showDisc ? (
+            <motion.div
+              key="disc"
+              className="absolute left-0 top-0"
+              initial={{ scale: 0, rotate: -200, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 140, damping: 13, delay: 0.25 }}
+            >
+              <RecordDisc />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
         <motion.div
           key={moonKick}
           className="absolute inset-0"
           animate={moonKick ? { rotate: [0, -12, 10, -6, 0], scale: [1, 1.15, 1] } : undefined}
           transition={{ duration: 0.7 }}
         >
-        <PixelSprite
-          name="moon"
-          scale={7}
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000"
-          style={{ opacity: theme.celestial === "moon" ? 1 : 0 }}
-        />
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={showDisc ? { scale: 0, rotate: 260, opacity: 0 } : { scale: 1, rotate: 0, opacity: 1 }}
+          transition={{ duration: 0.55, ease: "easeIn" }}
+        >
+          <PixelSprite
+            name="moon"
+            scale={7}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000"
+            style={{ opacity: theme.celestial === "moon" ? 1 : 0 }}
+          />
+        </motion.div>
         <PixelSprite
           name="moon"
           scale={11}
@@ -591,6 +627,7 @@ export function PixelScene({
                 setHop((h) => ({ i, key: (h?.key ?? 0) + 1 }));
                 heartRain(e);
                 discover("tulipan-pixel");
+                say(f.sprite === "lily" ? dialogos.lirio : dialogos.tulipan);
               }}
             >
               {art}

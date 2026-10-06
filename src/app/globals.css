@@ -1331,3 +1331,16 @@ a {
     scale: 1.15;
   }
 }
+
+/* ---------- the record that replaces the moon ---------- */
+.record-pixel {
+  border-radius: 50%;
+  filter: drop-shadow(0 0 14px rgb(180 108 255 / 0.55));
+}
+.record-shine {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 26%, rgb(255 255 255 / 0.28) 0 7%, transparent 8%),
+    linear-gradient(135deg, rgb(255 255 255 / 0.12) 0 30%, transparent 31% 69%, rgb(255 255 255 / 0.06) 70%);
+  mix-blend-mode: screen;
+}

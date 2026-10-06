@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { config } from "@/content/config";
 import { discover } from "@/lib/discoveries";
+import { hold } from "@/lib/music";
 import { pop } from "@/lib/sound";
 import { useTypewriter } from "@/lib/useTypewriter";
 import { PixelSprite } from "../pixel/PixelSprite";
@@ -19,6 +20,9 @@ export function SongPlace() {
   const embed = embedUrl(cancion.spotify);
   const [reading, setReading] = useState(false);
   const { shown } = useTypewriter(cancion.dedicatoria.length, { active: reading, cps: 34 });
+
+  // Our record goes quiet while she is here, so it doesn't play over Spotify.
+  useEffect(() => hold(), []);
 
   return (
     <div className="mx-auto flex max-w-[480px] flex-col items-center pt-4 text-center">
