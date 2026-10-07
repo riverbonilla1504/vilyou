@@ -78,6 +78,7 @@ function Music() {
   // She drew the constellation before it gave a song: give it now.
   useEffect(() => {
     if (constellationDoneStore.get()) achieve("constelacion");
+    if (progressStore.get().cartaLeida) achieve("carta");
   }, []);
 
   useEffect(() => {

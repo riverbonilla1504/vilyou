@@ -6,6 +6,7 @@ import { carta } from "@/content/carta";
 import { config } from "@/content/config";
 import { discover } from "@/lib/discoveries";
 import { progressStore } from "@/lib/flags";
+import { achieve } from "@/lib/songs";
 import { chime, pop, swoosh } from "@/lib/sound";
 import { useTypewriter } from "@/lib/useTypewriter";
 import { HeartPadlock, Keypad } from "./Keypad";
@@ -162,6 +163,7 @@ function LetterPaper({
     if (!done || reread) return;
     discover("carta");
     progressStore.set((p) => ({ ...p, cartaLeida: true }));
+    achieve("carta");
   }, [done, reread]);
 
   return (

@@ -22,7 +22,7 @@ export const estacionFotos = {
   tomar: "Tomar foto 📸",
   guardar: "Guardar",
   otra: "Otra",
-  sinCamara: "No pude abrir la cámara. Revisa que la página tenga permiso para usarla.",
+  sinCamara: "No pude abrir la cámara (revisa el permiso). Igual puedes hacer una postal con stickers ✨",
 };
 
 /** El momento 7: cuando la hora, el minuto o el día tienen un 7. */

@@ -20,7 +20,9 @@ import { avisoCartaNueva, cartasSelladas } from "@/content/cartasSelladas";
 import { localTime } from "@/content/config";
 import { mochila } from "@/content/mochila";
 import { cartasStore, mochilaSeenStore } from "@/lib/mochila";
-import { say } from "@/lib/speech";
+import { dedicateSong, say } from "@/lib/speech";
+import { discoStore } from "@/lib/music";
+import { HiddenNote } from "../HiddenNote";
 import { momentoDelDia, useMinute } from "@/lib/timeOfDay";
 import { AlbumPlace } from "../places/AlbumPlace";
 import { CakePlace } from "../places/CakePlace";
@@ -119,6 +121,7 @@ export function UniverseScreen() {
         onDiscover={(id) => {
           // Seven taps on the moon spell her name in the stars.
           if (id === "luna-universo") {
+            if (!discoStore.get()) dedicateSong();
             moonTaps.current += 1;
             if (moonTaps.current % 7 === 0) setNameStars(true);
           }
@@ -157,6 +160,7 @@ export function UniverseScreen() {
         }}
       />
       <NightMode enabled={!welcome} />
+      <HiddenNote spot="cielo" className="left-[62%] top-[34%]" />
       <HiddenPinky spot="universo" className="bottom-[150px] left-[5%]" />
       <HugOverlay progress={hug} done={hugDone} />
       <BottleLetter open={bottle} onClose={() => setBottle(false)} />

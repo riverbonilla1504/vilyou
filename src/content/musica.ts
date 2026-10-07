@@ -102,7 +102,7 @@ export const premios = {
   mapa: "cuco-28",
   fotos: "cuco-29",
   momento7: "cuco-20",
-  "carta-sellada": "cuco-34",
+  carta: "cuco-34",
   noche: "cuco-31",
   pinky: "cuco-04",
   abrazo: "cuco-08",
@@ -125,7 +125,7 @@ export const pistasPremios: Record<Premio, string> = {
   mapa: "Visita todos los lugares del mapa",
   fotos: "Tómate una foto en la estación de fotos",
   momento7: "Entra en un momento 7",
-  "carta-sellada": "Abre una carta sellada",
+  carta: "Lee toda la carta",
   noche: "Entra entre las 11 p. m. y las 2 a. m.",
   pinky: "Encuentra a Pinky escondida",
   abrazo: "Abraza el corazón del universo 7 segundos",
@@ -135,7 +135,7 @@ export const pistasPremios: Record<Premio, string> = {
 
 /** Pista que se ve en el tocadiscos para cada escondite. */
 export const pistasEscondites: Record<Escondite, string> = {
-  cielo: "Una notita brilla entre las estrellas del inicio",
+  cielo: "Una notita brilla entre las estrellas del universo",
   jardin: "Escondida en el jardín",
   pastel: "Escondida cerca del pastel",
   peluches: "Uno de los peluches la tiene",

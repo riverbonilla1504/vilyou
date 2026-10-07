@@ -69,7 +69,9 @@ export function PhotoBooth() {
 
   const capture = async () => {
     const v = video.current;
-    if (!v || !v.videoWidth) return;
+    const live = !!v && v.videoWidth > 0;
+    // Without a camera she can still make a sticker postcard on a night sky.
+    if (!live && !error) return;
     const W = 900;
     const H = 1200;
     const M = 50;
@@ -83,14 +85,29 @@ export function PhotoBooth() {
     // the photo (mirrored, like the preview), cropped to 3:4
     const iw = W - M * 2;
     const ih = H - M;
-    const s = Math.max(iw / v.videoWidth, ih / v.videoHeight);
-    const sw = iw / s;
-    const sh = ih / s;
-    g.save();
-    g.translate(M + iw, M);
-    g.scale(-1, 1);
-    g.drawImage(v, (v.videoWidth - sw) / 2, (v.videoHeight - sh) / 2, sw, sh, 0, 0, iw, ih);
-    g.restore();
+    if (live && v) {
+      const s = Math.max(iw / v.videoWidth, ih / v.videoHeight);
+      const sw = iw / s;
+      const sh = ih / s;
+      g.save();
+      g.translate(M + iw, M);
+      g.scale(-1, 1);
+      g.drawImage(v, (v.videoWidth - sw) / 2, (v.videoHeight - sh) / 2, sw, sh, 0, 0, iw, ih);
+      g.restore();
+    } else {
+      const sky = g.createLinearGradient(0, M, 0, M + ih);
+      sky.addColorStop(0, "#120a2e");
+      sky.addColorStop(0.6, "#3a1a5e");
+      sky.addColorStop(1, "#7a2a6e");
+      g.fillStyle = sky;
+      g.fillRect(M, M, iw, ih);
+      g.fillStyle = "#fff6d8";
+      for (let i = 0; i < 70; i++) {
+        const x = M + ((i * 137) % iw);
+        const y = M + ((i * 89) % Math.floor(ih * 0.8));
+        g.fillRect(x, y, i % 5 ? 4 : 8, i % 5 ? 4 : 8);
+      }
+    }
     // stickers, crisp
     g.imageSmoothingEnabled = false;
     for (const st of stickers) {
@@ -137,14 +154,6 @@ export function PhotoBooth() {
     a.click();
   };
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center px-4 py-8 text-center">
-        <PixelSprite name="camera" scale={5} className="opacity-60" />
-        <p className="mt-4 text-lg">{estacionFotos.sinCamara}</p>
-      </div>
-    );
-  }
 
   if (shot) {
     return (
@@ -191,7 +200,13 @@ export function PhotoBooth() {
             if (e.target === e.currentTarget) setSelected(null);
           }}
         >
-          <video ref={video} playsInline muted className="absolute inset-0 h-full w-full -scale-x-100 object-cover" />
+          {error ? (
+            <div className="photo-fallback absolute inset-0 grid place-items-center px-6 text-center">
+              <p className="text-sm text-cream/80">{estacionFotos.sinCamara}</p>
+            </div>
+          ) : (
+            <video ref={video} playsInline muted className="absolute inset-0 h-full w-full -scale-x-100 object-cover" />
+          )}
           {stickers.map((st) => (
             <div
               key={st.id}

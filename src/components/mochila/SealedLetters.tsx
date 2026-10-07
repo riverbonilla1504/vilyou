@@ -6,7 +6,6 @@ import { cartasSelladas } from "@/content/cartasSelladas";
 import { localTime } from "@/content/config";
 import { splitDuration, useNow } from "@/lib/clock";
 import { cartasStore } from "@/lib/mochila";
-import { achieve } from "@/lib/songs";
 import { chime, pop, swoosh } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "../pixel/PixelSprite";
@@ -39,7 +38,6 @@ export function SealedLetters() {
               setOpen(i);
               if (!read) {
                 cartasStore.set((s) => ({ ...s, leidas: [...s.leidas, i] }));
-                achieve("carta-sellada");
               }
             }}
             className={cn("slot flex items-center gap-3 px-3 py-3 text-left", ready && "slot-found")}

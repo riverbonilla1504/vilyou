@@ -144,7 +144,7 @@ En el universo, arriba a la derecha, hay una **mochila** 🎒 (con un puntito ro
 | 🍾 Carta en la botella | Una botellita flota por el universo; al tocarla sale una carta | *DameLove* |
 | ✨ Su nombre en las estrellas | Tocar la luna del universo 7 veces: las estrellas forman VALERIA | *Perihelion* |
 
-**Canciones de premio:** además de la luna, la canción nuestra y las notitas, ahora hay canciones por: cada cupón leído (7), la constelación, el tulipán gigante, el mapa completo, la primera foto, el primer momento 7 y la primera carta sellada abierta (`premios` en `musica.ts`). Las demás siguen saliendo cada 2 cositas.
+**Canciones de premio:** además de la luna, la canción nuestra y las notitas, ahora hay canciones por: cada cupón leído (7), la constelación, el tulipán gigante, el mapa completo, la primera foto, el primer momento 7 y leer toda la carta (`premios` en `musica.ts`). Las demás siguen saliendo cada 2 cositas.
 
 ---
 

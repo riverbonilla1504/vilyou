@@ -1754,3 +1754,9 @@ a {
 .garden-cloud {
   filter: drop-shadow(0 2px 0 rgb(180 150 210 / 0.6));
 }
+.photo-fallback {
+  background:
+    radial-gradient(circle at 20% 20%, #fff6d8 0 1.5px, transparent 2px) 0 0 / 46px 46px,
+    radial-gradient(circle at 70% 60%, #fff6d8 0 1px, transparent 1.5px) 0 0 / 31px 31px,
+    linear-gradient(180deg, #120a2e 0%, #3a1a5e 60%, #7a2a6e 100%);
+}
