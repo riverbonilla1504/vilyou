@@ -4,6 +4,12 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { planetas } from "@/content/lugares";
+import {
+  CONSTELLATION,
+  constellationDoneStore,
+  constellationLines,
+  constellationSkyStore,
+} from "@/lib/constellation";
 import { fotosUniverso, frases } from "@/content/universo";
 import { pixelFontFamily, spriteCanvas } from "../pixel/canvas";
 import type { SpriteName } from "../pixel/sprites";
@@ -529,6 +535,57 @@ export function UniverseCanvas(props: Props) {
     addSecret("seven", 0.9, new THREE.Vector3(1.5, -8.5, 9), "siete");
     addSecret("moon", 3.2, new THREE.Vector3(-18, 16, -26), "luna-universo");
 
+    /* ---- the V ♥ R constellation, orbiting with the planets ---- */
+    const constellation = new THREE.Group();
+    const CW = 7.2;
+    const CH = 2.3;
+    const toWorld = ([x, y]: [number, number]) => new THREE.Vector3((x / 100 - 0.5) * CW, (0.5 - y / 100) * CH, 0);
+    const lilacTex = track(pixelTexture("sparkle", { Y: "#c9a6ff", W: "#f4ecff" }));
+    const goldTex = track(pixelTexture("sparkle", { Y: "#ffd86b", W: "#fffbe6" }));
+    const starMat = track(new THREE.SpriteMaterial({ map: lilacTex, transparent: true, depthWrite: false }));
+    const firstMat = track(new THREE.SpriteMaterial({ map: lilacTex, transparent: true, depthWrite: false }));
+    const starSprites: THREE.Sprite[] = [];
+    CONSTELLATION.flatMap((c) => c.points).forEach((pt, i) => {
+      const sp = new THREE.Sprite(i === 0 ? firstMat : starMat);
+      sp.position.copy(toWorld(pt));
+      sp.scale.setScalar(0.55);
+      constellation.add(sp);
+      starSprites.push(sp);
+    });
+    const linePoints = constellationLines().flatMap(([a, b]) => [toWorld(a), toWorld(b)]);
+    const lineMat = track(
+      new THREE.LineBasicMaterial({ color: "#ffd86b", transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending }),
+    );
+    const lines = new THREE.LineSegments(track(new THREE.BufferGeometry().setFromPoints(linePoints)), lineMat);
+    constellation.add(lines);
+    const constellationGlow = new THREE.Sprite(
+      track(new THREE.SpriteMaterial({ map: glow, color: "#b98cff", transparent: true, opacity: 0.25, depthWrite: false, blending: THREE.AdditiveBlending })),
+    );
+    constellationGlow.scale.set(CW * 1.5, CH * 2.6, 1);
+    constellation.add(constellationGlow);
+    // An invisible card behind the stars, so it's easy to tap.
+    const constellationHit = new THREE.Mesh(
+      track(new THREE.PlaneGeometry(CW + 1, CH + 1.2)),
+      track(new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })),
+    );
+    constellation.add(constellationHit);
+    constellation.userData = { angle: 2.55, orbit: 8.4, height: 10.2 };
+    scene.add(constellation);
+    const paintConstellation = () => {
+      const done = constellationDoneStore.get();
+      starMat.map = done ? goldTex : lilacTex;
+      firstMat.map = done ? goldTex : lilacTex;
+      starMat.needsUpdate = true;
+      firstMat.needsUpdate = true;
+      lines.visible = done;
+    };
+    paintConstellation();
+    const unsubscribeConstellation = constellationDoneStore.subscribe(paintConstellation);
+    addTarget(constellationHit, () => {
+      for (const sp of starSprites) popAt(sp);
+      constellationSkyStore.set(true);
+    });
+
     // Urano: a small blue planet with a ring, far away
     {
       const group = new THREE.Group();
@@ -828,6 +885,18 @@ export function UniverseCanvas(props: Props) {
         p.icon.position.y = p.def.radius + 1.05 + Math.sin(t * 2 + a) * 0.08;
       }
 
+      {
+        const c = constellation.userData;
+        c.angle += dt * 0.05;
+        constellation.position.set(Math.cos(c.angle) * c.orbit, c.height + Math.sin(t * 0.6) * 0.25, Math.sin(c.angle) * c.orbit);
+        constellation.quaternion.copy(camera.quaternion);
+        // Before it's drawn, the first star pulses so she knows where to start.
+        const pulse = constellationDoneStore.get() ? 0 : Math.max(0, Math.sin(t * 3.2));
+        starSprites[0].scale.setScalar(0.55 + pulse * 0.35);
+        firstMat.opacity = 0.75 + pulse * 0.25;
+        starMat.opacity = constellationDoneStore.get() ? 1 : 0.65 + Math.sin(t * 2.1) * 0.25;
+      }
+
       for (const s of secretSprites) {
         if (s.orbit) {
           const a = t * 0.35;
@@ -959,6 +1028,7 @@ export function UniverseCanvas(props: Props) {
 
     return () => {
       stop();
+      unsubscribeConstellation();
       window.clearTimeout(fontFallback);
       window.clearTimeout(resumeTimer);
       document.removeEventListener("visibilitychange", onVisibility);

@@ -6,27 +6,19 @@ import { constelacion } from "@/content/constelacion";
 import { X } from "lucide-react";
 import { chime, fanfare, pop } from "@/lib/sound";
 import { say } from "@/lib/speech";
-import { createPersistentStore, createStore } from "@/lib/store";
+import {
+  CONSTELLATION,
+  constellationDoneStore,
+  constellationSkyStore,
+  type StarPoint,
+} from "@/lib/constellation";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
 
-/** Once she draws it, the constellation stays lit forever. */
-const doneStore = createPersistentStore<boolean>("vilyou:constelacion", false);
-
-/** The big night sky with the constellation, opened from the countdown or the letter. */
-const skyOpenStore = createStore(false);
-
-type P = [number, number];
-
-/** The three shapes, star by star, in the order she has to tap them (x, y in % of the box). */
-const SHAPES: { points: P[]; closed?: boolean }[] = [
-  // V
-  { points: [[0, 0], [9, 100], [18, 0]] },
-  // ♥ (from the bottom tip, around, back to the tip)
-  { points: [[46, 100], [33, 42], [36, 6], [46, 24], [56, 6], [59, 42]], closed: true },
-  // R
-  { points: [[72, 100], [72, 0], [88, 8], [90, 38], [72, 50], [92, 100]] },
-];
+const doneStore = constellationDoneStore;
+const skyOpenStore = constellationSkyStore;
+const SHAPES = CONSTELLATION;
+type P = StarPoint;
 
 const STARS = SHAPES.flatMap((s, shape) => s.points.map((p, i) => ({ p, shape, i })));
 const TOTAL = STARS.length;

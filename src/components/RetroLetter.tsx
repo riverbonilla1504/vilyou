@@ -181,7 +181,7 @@ function LetterPaper({
         : null}
 
       <motion.article
-        className="frame-paper paper-texture relative z-10 w-full max-w-[680px] cursor-default px-5 pb-8 pt-7 text-ink sm:px-10 md:px-14 md:pb-12 md:pt-10"
+        className="frame-paper paper-texture relative z-10 w-full max-w-[680px] cursor-default px-5 pb-8 pt-7 text-ink [overflow-wrap:anywhere] sm:px-10 md:px-14 md:pb-12 md:pt-10"
         initial={instant ? false : { scaleX: 0.5, scaleY: 0.03, opacity: 0 }}
         animate={{ scaleX: [0.5, 1, 1], scaleY: [0.03, 0.03, 1], opacity: [0, 1, 1] }}
         transition={{ duration: 0.8, times: [0, 0.35, 1], ease: pixelSteps(10) }}

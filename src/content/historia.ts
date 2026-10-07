@@ -23,6 +23,14 @@ export type Capitulo = {
   subtitulo: string;
   parrafos: string[];
   foto?: string;
+  /** La foto es vertical (se muestra 3:4 en vez de 4:3). */
+  fotoVertical?: boolean;
+  /** Qué parte de la foto se ve si se recorta, por ejemplo "50% 0%" (arriba). */
+  fotoAjuste?: string;
+  /** Más fotos, en chiquito debajo de la principal. */
+  fotosExtra?: string[];
+  /** Un dibujo pixel en vez de foto. */
+  ilustracion?: "halloween";
   /** Secretos que aparecen en este capítulo. */
   secretos?: EggId[];
   /** La foto se puede arrastrar y esconde un secreto debajo. */
@@ -52,63 +60,66 @@ export const intro = {
 export const capitulos: Capitulo[] = [
   {
     id: "s1",
-    foto: "/fotos/historia-1.jpg",
+    ilustracion: "halloween",
     tema: "halloween",
     etiqueta: "El comienzo",
     titulo: "Cuando te conocí",
     subtitulo: "Halloween — empezó la magia",
     parrafos: [
-      "Placeholder de historia: aquí vas a escribir lo que pasó, lo que sentiste y lo que te hizo pensar “sí, es ella”.",
-      "Detalles románticos: lunita, atardecer, rayitos, y un “7” que nos sigue guiñando el ojo.",
+      "Aquí empezó todo sin darnos cuenta. Gracias a este día, en el que ni siquiera nos dirigimos miradas, pero sin saberlo, estábamos destinados a estar juntos 💜",
     ],
     secretos: [1],
   },
   {
     id: "s2",
-    foto: "/fotos/historia-2.jpg",
+    foto: "/fotos/carnavales.jpg",
+    fotoVertical: true,
+    fotoAjuste: "50% 60%",
     tema: "carnival",
     titulo: "Carnavales",
     subtitulo: "Risas, colores y tú",
     parrafos: [
-      "Placeholder de historia: aquí vas a escribir lo que pasó, lo que sentiste y lo que te hizo pensar “sí, es ella”.",
-      "Detalles románticos: lunita, atardecer, rayitos, y un “7” que nos sigue guiñando el ojo.",
+      "Conociéndonos un poco mejor, disfrutando de nuestros días juntos y emocionados por vernos otra vez después de un mes eterno sin estar uno junto al otro. Luego, todo fue felicidad por estar juntos.",
     ],
     fotoConSecreto: 3,
     secretos: [2, 6],
   },
   {
     id: "s3",
-    foto: "/fotos/historia-3.jpg",
+    foto: "/fotos/mirador-flores.jpg",
+    fotoVertical: true,
+    fotoAjuste: "50% 0%",
     tema: "park",
     titulo: "El mirador",
     subtitulo: "Un parque y montañas para soñarnos",
     parrafos: [
-      "Placeholder de historia: aquí vas a escribir lo que pasó, lo que sentiste y lo que te hizo pensar “sí, es ella”.",
-      "Detalles románticos: lunita, atardecer, rayitos, y un “7” que nos sigue guiñando el ojo.",
+      "Donde te prometí mi amor eterno y que fueras tú la mujer que me va a acompañar durante mi vida. Recuerdo que estaba muy nervioso porque todo saliera muy bien y de la mejor manera, porque desde el principio siempre quise lo mejor de lo mejor, para la mejor mujer del universoooooooo.",
     ],
     secretos: [4, 5],
   },
   {
     id: "s4",
     foto: "/fotos/historia-4.jpg",
+    fotosExtra: ["/fotos/historia-3.jpg", "/fotos/historia-1.jpg"],
     tema: "sunset",
     titulo: "Atardecer",
     subtitulo: "Cielo naranja y promesas suaves",
     parrafos: [
-      "Placeholder de historia: aquí vas a escribir lo que pasó, lo que sentiste y lo que te hizo pensar “sí, es ella”.",
-      "Detalles románticos: lunita, atardecer, rayitos, y un “7” que nos sigue guiñando el ojo.",
+      "Cada atardecer contigo se siente como ese sueño feliz muy largo del que no me quiero despertar. Me encanta ver cómo el cielo se pinta de naranja mientras estás a mi lado, porque ahí me doy cuenta de que lo más bonito del día siempre eres tú.",
+      "Tú eres la luz que ilumina mi camino, mi cielo, y con cada día que pasa este amor crece más y más. Quiero muchísimos atardeceres más contigo, de esos tranquilitos, bajito… y hacia adelante.",
     ],
     sieteEstrellas: true,
   },
   {
     id: "s5",
     foto: "/fotos/historia-5.jpg",
+    fotosExtra: ["/fotos/historia-2.jpg"],
     tema: "love",
     titulo: "Amor",
     subtitulo: "Mi todo, mi hogar",
     parrafos: [
-      "Placeholder de historia: aquí vas a escribir lo que pasó, lo que sentiste y lo que te hizo pensar “sí, es ella”.",
-      "Detalles románticos: lunita, atardecer, rayitos, y un “7” que nos sigue guiñando el ojo.",
+      "Contigo lo quiero todo, mi vida, desde la más mínima cosa hasta las cosas más grandes. Eres mi hogar, mi calma y mi felicidad, y yo sé que si estamos juntos nada nos queda grande.",
+      "Quiero que sigamos creciendo juntos, porque eres mi futuro entero. Te amo hoy, mañana y siempre, mi cielo 💜",
     ],
     secretos: [7],
   },
@@ -117,49 +128,49 @@ export const capitulos: Capitulo[] = [
 export const secretos: Record<EggId, Secreto> = {
   1: {
     titulo: "Urano orbitando",
-    texto: "Placeholder EE1: aquí va un texto lindo sobre nosotros y el universo.",
+    texto: "Nuestro planetita, girando solo para ti.",
     pista: "Algo gira allá arriba…",
     sprite: "uranus",
     animacion: "orbita",
   },
   2: {
     titulo: "Helado de Oreo",
-    texto: "Placeholder EE2: Helado de Oreo (aquí luego pones tu texto).",
+    texto: "Un heladito de Oreo, para compartir contigo.",
     pista: "Un antojito dulce",
     sprite: "iceCream",
     animacion: "baila",
   },
   3: {
     titulo: "Gatito escondido",
-    texto: "Placeholder EE3: encontraste al gatito (aquí luego pones tu texto).",
+    texto: "¡Lo encontraste! Estaba escondido detrás de la foto.",
     pista: "Algo se esconde detrás de la foto",
     sprite: "cat",
     animacion: "flota",
   },
   4: {
     titulo: "Atardecer y luna",
-    texto: "Placeholder EE4: aquí va tu texto sobre atardeceres y la luna.",
+    texto: "Los atardeceres son más bonitos contigo.",
     pista: "Donde el cielo se pinta",
     sprite: "sunsetMoon",
     animacion: "flota",
   },
   5: {
     titulo: "Rayitos de sol",
-    texto: "Placeholder EE5: aquí va tu texto sobre tus rayitos de sol.",
+    texto: "Tú me dices tu rayito de sol… y tú eres mis ricitos de oro.",
     pista: "Calientito y brillante",
     sprite: "sun",
     animacion: "brilla",
   },
   6: {
     titulo: "Pinky, nuestra hijita",
-    texto: "Placeholder EE6: aquí va tu texto sobre Pinky (pitahaya de peluche).",
+    texto: "Pinky, nuestra hijita gordita, te manda un abrazo.",
     pista: "Una pitahaya con magia",
     sprite: "pinky",
     animacion: "baila",
   },
   7: {
     titulo: "Tulipanes y lirios",
-    texto: "Placeholder EE7: aquí va tu texto sobre tulipanes, lirios y el número 7.",
+    texto: "Tulipanes, lirios y nuestro 7: todo lo bonito es tuyo.",
     pista: "El número 7 florece",
     sprite: "tulip",
     animacion: "late",
@@ -170,12 +181,12 @@ export const secretos: Record<EggId, Secreto> = {
 export const final = {
   titulo: "¡Los 7 secretos!",
   texto:
-    "Placeholder final: encontraste todos los secretos. Aquí va un mensajito especial para cuando lo complete todo.",
+    "Encontraste los 7 secretos. Eres la mejor buscadora del universo ♥",
 };
 
 /** El cierre de la página. */
 export const pie = {
   titulo: "Continuará…",
   texto: "Porque esto apenas empieza.",
-  firma: "Hecho con amor, solo para ti",
+  firma: "Hecho con amor, para la mujer más especial del universo",
 };

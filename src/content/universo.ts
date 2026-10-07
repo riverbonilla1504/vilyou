@@ -17,8 +17,8 @@ export const frases: string[] = [
   "Gracias por existir",
   "Eres mi calma",
   "Mi corazón es tuyo",
-  "Te quiero más que Mía a sus siestas",
-  "Mi rayito de sol",
+  "Te quiero muchisisisisimooo",
+  "Mis ricitos de oro",
   "Mi lunita",
   "Desde el 7 de noviembre",
   "Hasta Urano y más allá",
@@ -27,7 +27,7 @@ export const frases: string[] = [
   "Bajito… y hacia adelante",
   "Mi hogar eres tú",
   "Pinky te manda un abrazo",
-  "Te amo, Valeria",
+  "Te amo, mi cielo",
 ];
 
 /**

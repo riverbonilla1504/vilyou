@@ -59,10 +59,10 @@ const d = (
 
 export const descubrimientos: Descubrimiento[] = [
   // ── La carta ──
-  d("hola", "carta", "heart", "Llegaste", `Bienvenida a tu regalo, ${config.ella}. Todo esto lo hice pensando en ti.`, "Entra a la página."),
+  d("hola", "carta", "heart", "Llegaste", "Bienvenida a tu regalo, mi vida. Todo esto lo hice pensando en ti.", "Entra a la página."),
   d("candado", "carta", "shackle", "El candadito", "Sabías la clave. Obvio: nadie me conoce como tú.", "Abre el candado de la carta."),
   d("carta", "carta", "envelope", "La carta", "La leíste toda. Cada palabra es tuya.", "Lee la carta hasta el final."),
-  d("regalo", "carta", "heart", "Mi corazón", "Ya es tuyo, oficialmente. Cuídamelo bonito.", "Recibe el regalo de la carta."),
+  d("regalo", "carta", "heart", "Mi corazón", "Ya es tuyo. Cuídamelo bonito.", "Recibe el regalo de la carta."),
   d("sello", "carta", "heartSmall", "El sello", "Ese selito de cera lo puse con mucho amor (y mucha paciencia).", "Toca el sello de la carta."),
 
   // ── Lugares (los 7 planetas) ──
@@ -70,16 +70,16 @@ export const descubrimientos: Descubrimiento[] = [
   d("lugar-jardin", "lugares", "tulip", "El jardín", "Un árbol de tulipanes y lirios, como nosotros: creciendo.", "Visita el planeta del jardín."),
   d("lugar-historia", "lugares", "book", "Nuestra historia", "Todo lo que hemos vivido, capítulo por capítulo.", "Visita el planeta de la historia."),
   d("lugar-pastel", "lugares", "cake", "El pastel", `${config.meses} meses merecen pastel. Y velitas. Y tú.`, "Visita el planeta del pastel."),
-  d("lugar-juegos", "lugares", "gamepad", "La sala de juegos", "Porque hasta jugando me ganas.", "Visita el planeta de los juegos."),
+  d("lugar-juegos", "lugares", "gamepad", "La sala de juegos", "Obvio no podía faltar, mi vida.", "Visita el planeta de los juegos."),
   d("lugar-peluches", "lugares", "pinky", "El rincón de los peluches", "Pinky, Melody, Cody y Mía te estaban esperando.", "Visita el planeta de los peluches."),
-  d("lugar-cancion", "lugares", "note", "Nuestra canción", "Suena distinto desde que te conozco.", "Visita el planeta de la música."),
+  d("lugar-cancion", "lugares", "note", "Nuestra canción", "Siempre que la escucho pienso en ti.", "Visita el planeta de la música."),
 
   // ── Secretos del universo ──
   d("corazon-7", "universo", "heart", "Siete latidos", "Tocaste el corazón 7 veces. Así late el mío cuando te veo.", "Toca el corazón del universo varias veces…"),
   d("urano", "universo", "uranus", "Urano", "Nuestro planetita. Contigo hasta Urano y más allá.", "Busca un planeta azul con anillo."),
   d("luna-universo", "universo", "moon", "La luna", "Mi lunita. Hasta en el espacio te busco.", "En el universo también hay luna."),
-  d("mia-espacio", "universo", "cat", "Mía astronauta", "Mía se coló en el universo. Obvio, es la jefa.", "Alguien peludito anda flotando por ahí."),
-  d("pinky-espacio", "universo", "pinky", "Pinky en órbita", "Pinky gordito flotando entre estrellas. Nuestra hijita explora.", "Una pitahaya morada flota en el espacio."),
+  d("mia-espacio", "universo", "cat", "Mía astronauta", "Mía se subió al universo… menos mal no se cayó.", "Alguien peludito anda flotando por ahí."),
+  d("pinky-espacio", "universo", "pinky", "Pinky en órbita", "Pinky gordita flotando entre estrellas. Nuestra hijita explora.", "Una pitahaya morada flota en el espacio."),
   d("siete", "universo", "seven", "El 7", "Nuestro número, escondido entre las estrellas.", "Busca nuestro número en el cielo."),
   d("vuelta", "universo", "sparkle", "La vuelta al universo", "Le diste la vuelta completa. Te daría la vuelta al mundo también.", "Gira el universo completito."),
 
@@ -97,13 +97,13 @@ export const descubrimientos: Descubrimiento[] = [
   // ── El jardín ──
   d("arbol", "jardin", "tulip", "El árbol", "Lo viste florecer. Así creció lo nuestro: de una semillita.", "Mira crecer el árbol del jardín."),
   d("petalo", "jardin", "lily", "Un pétalo", "Atrapaste un pétalo al vuelo. Pide un deseo.", "Atrapa un pétalo que cae."),
-  d("lirio", "jardin", "lily", "Un lirio", "Los lirios son tuyos; los tulipanes también. Todo el jardín, en realidad.", "Toca una flor del árbol."),
+  d("lirio", "jardin", "lily", "Un lirio", "Los lirios son tuyos; los tulipanes también. Todo el jardín, la verdad: de aquí saco las flores, mi vida.", "Toca una flor del árbol."),
   d("contador", "jardin", "sparkle", "Nuestro tiempo", "Cada segundo desde el 7 de noviembre cuenta. Y los que faltan, más.", "Toca el contador del jardín."),
 
   // ── El pastel ──
   d("deseo", "pastel", "sparkle", "Un deseo", "No me lo digas… ojalá sea conmigo.", "Pide un deseo antes de soplar."),
   d("velas", "pastel", "cake", `Las ${config.meses} velitas`, `Las soplaste todas. Feliz ${config.meses} meses, mi amor.`, "Sopla las velas del pastel."),
-  d("mordisco", "pastel", "cake", "Un mordisquito", "¡Le diste un mordisco al pastel! Guárdame un pedacito.", "Después de las velas, prueba el pastel."),
+  d("mordisco", "pastel", "cake", "Un mordisquito", "Si te sobra me das, mi vida. Guárdame un pedacito.", "Después de las velas, prueba el pastel."),
 
   // ── Juegos ──
   d("wordle", "juegos", "gamepad", "Adivina mi corazón", config.wordle.ganaste, "Gana el juego de la palabra."),
@@ -111,7 +111,7 @@ export const descubrimientos: Descubrimiento[] = [
   d("memoria", "juegos", "heart", "Memoria de elefante", "Encontraste todas las parejas. Como nosotros.", "Completa el juego de memoria."),
 
   // ── Peluches ──
-  d("pinky", "peluches", "pinky", "Apapacho a Pinky", "Pinky es gordito, morado y cute. Como debe ser.", "Apapacha a Pinky."),
+  d("pinky", "peluches", "pinky", "Apapacho a Pinky", "Pinky es gordita y cute. Como debe ser.", "Apapacha a Pinky."),
   d("melody", "peluches", "melody", "Hola, Melody", "Melody te manda besitos.", "Saluda a Melody."),
   d("cody", "peluches", "cody", "¡Corre, Cody!", "Las cabritas corren cuando las asustas… pero Cody siempre vuelve.", "Asusta a Cody."),
   d("mia", "peluches", "cat", "Mimos a Mía", "Mía aceptó tus mimos. Es un honor.", "Consiente a Mía."),

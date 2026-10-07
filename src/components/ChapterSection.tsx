@@ -7,6 +7,7 @@ import { pop } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { DragRevealPhoto } from "./DragRevealPhoto";
 import { EggCard } from "./EggCard";
+import { HalloweenScene } from "./HalloweenScene";
 import { PhotoFrame } from "./PhotoFrame";
 import { PixelSprite } from "./pixel/PixelSprite";
 import { SevenStars } from "./SevenStars";
@@ -121,15 +122,27 @@ export function ChapterSection({
             </motion.div>
 
             <div className="space-y-4">
-              {c.fotoConSecreto ? (
+              {c.ilustracion === "halloween" ? (
+                <HalloweenScene />
+              ) : c.fotoConSecreto ? (
                 <DragRevealPhoto
                   src={c.foto}
                   alt={c.titulo}
+                  tall={c.fotoVertical}
+                  position={c.fotoAjuste}
                   onRevealEgg={() => onFind(c.fotoConSecreto as EggId)}
                 />
               ) : (
-                <PhotoFrame src={c.foto} alt={c.titulo} />
+                <PhotoFrame src={c.foto} alt={c.titulo} tall={c.fotoVertical} position={c.fotoAjuste} />
               )}
+
+              {c.fotosExtra?.length ? (
+                <div className="grid grid-cols-2 gap-3">
+                  {c.fotosExtra.map((src) => (
+                    <PhotoFrame key={src} src={src} alt={c.titulo} />
+                  ))}
+                </div>
+              ) : null}
 
               {c.secretos?.length ? (
                 <motion.div

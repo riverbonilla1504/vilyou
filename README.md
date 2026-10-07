@@ -36,10 +36,9 @@ Las ideas nuevas (lo de adentro y las sorpresas del inicio que se agregan de a u
 
 **Antes de medianoche (lo que ella va a leer):**
 
-- [ ] **La carta** (`src/content/carta.ts`): los 3 párrafos todavía son de ejemplo ("Este es el primer párrafo de la carta…").
-- [ ] **Los 5 capítulos de la historia** (`src/content/historia.ts`): todos dicen "Placeholder de historia…".
-- [ ] **Los 7 secretos** (`src/content/historia.ts`, en `secretos`): dicen "Placeholder EE1…", "Placeholder EE2…", etc.
-- [ ] **El mensaje final** (cuando encuentra los 7 secretos de la historia), también en `historia.ts`: "Placeholder final…".
+- [x] **La carta** (`src/content/carta.ts`): escrita por River.
+- [x] **Los 5 capítulos de la historia**: con sus textos y fotos. Halloween tiene un dibujo pixel (River de jeque y Valeria de Caperucita) en vez de foto; Atardecer y Amor tienen fotos extra en chiquito.
+- [x] **Los 7 secretos** y el mensaje final: tienen textos cortitos (puedes cambiarlos en `historia.ts`).
 - [ ] **Pista del candado** (`src/content/config.ts`): dice "una fecha que conoces muy bien (DD MM AA)". Cámbiala si 150704 significa otra cosa.
 - [ ] **Probar en tu iPhone** con `https://vilyou.vercel.app/?vista=river`, sobre todo:
   - tocar un planeta del universo (la cámara vuela hacia él y se abre el lugar);
@@ -219,8 +218,8 @@ La última ("¡Todo!") se desbloquea sola al encontrar las otras 76.
 | 27 | Gracias por existir | Toca las frases que flotan en el universo. |
 | 28 | Eres mi calma | Toca las frases que flotan en el universo. |
 | 29 | Mi corazón es tuyo | Toca las frases que flotan en el universo. |
-| 30 | Te quiero más que Mía a sus siestas | Toca las frases que flotan en el universo. |
-| 31 | Mi rayito de sol | Toca las frases que flotan en el universo. |
+| 30 | Te quiero muchisisisisimooo | Toca las frases que flotan en el universo. |
+| 31 | Mis ricitos de oro | Toca las frases que flotan en el universo. |
 | 32 | Mi lunita | Toca las frases que flotan en el universo. |
 | 33 | Desde el 7 de noviembre | Toca las frases que flotan en el universo. |
 | 34 | Hasta Urano y más allá | Toca las frases que flotan en el universo. |
@@ -229,7 +228,7 @@ La última ("¡Todo!") se desbloquea sola al encontrar las otras 76.
 | 37 | Bajito… y hacia adelante | Toca las frases que flotan en el universo. |
 | 38 | Mi hogar eres tú | Toca las frases que flotan en el universo. |
 | 39 | Pinky te manda un abrazo | Toca las frases que flotan en el universo. |
-| 40 | Te amo, Valeria | Toca las frases que flotan en el universo. |
+| 40 | Te amo, mi cielo | Toca las frases que flotan en el universo. |
 
 **Nuestra historia** (8)
 

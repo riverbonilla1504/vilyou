@@ -1600,3 +1600,22 @@ a {
     linear-gradient(180deg, #05041a 0%, #120a2e 60%, #1c0b2e 100%);
 }
  
+/* ---------- first Halloween (pixel art instead of a photo) ---------- */
+.halloween-party {
+  background: linear-gradient(180deg, #120724 0%, #2b0f45 55%, #4a1a55 100%);
+}
+.party-light {
+  border-radius: 1px;
+  box-shadow: 0 0 6px currentColor;
+  animation: party-light 1.6s ease-in-out infinite;
+}
+@keyframes party-light {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+ 

@@ -10,10 +10,14 @@ export function DragRevealPhoto({
   src,
   alt,
   onRevealEgg,
+  tall = false,
+  position,
 }: {
   src?: string;
   alt: string;
   onRevealEgg: () => void;
+  tall?: boolean;
+  position?: string;
 }) {
   const reduceMotion = useReducedMotion();
   const [revealed, setRevealed] = useState(false);
@@ -33,7 +37,7 @@ export function DragRevealPhoto({
 
   return (
     <div className="photo-frame frame-wood relative">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#2a1b12]">
+      <div className={`relative w-full overflow-hidden bg-[#2a1b12] ${tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}>
         <button
           type="button"
           onClick={reveal}
@@ -57,7 +61,7 @@ export function DragRevealPhoto({
           transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 26 }}
           className="absolute inset-0 cursor-grab touch-pan-y bg-[#1b1240] shadow-[6px_0_0_rgba(20,8,24,0.45)] active:cursor-grabbing"
         >
-          <PhotoFace src={src} alt={alt} />
+          <PhotoFace src={src} alt={alt} position={position} />
           {!revealed ? (
             <span className="drag-hint pointer-events-none absolute left-3 top-3 px-2 py-1 text-sm text-ink">
               Arrástrame ▸

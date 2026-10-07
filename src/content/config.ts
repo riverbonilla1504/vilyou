@@ -33,14 +33,15 @@ export const config = {
   /** El candadito de la carta. */
   candado: {
     codigo: "150704",
-    pista: "Pista: una fecha que conoces muy bien (DD MM AA)",
+    pista: "Pista: una fecha que conoces muy bien",
   },
 
   /** El juego de adivinar la palabra (5 letras, sin tildes). */
   wordle: {
     palabra: "TEAMO",
     pista: "Lo que te digo todos los días",
-    ganaste: "Lo adivinaste… y es verdad, con todo mi corazón.",
+    ganaste:
+      "Lo adivinaste… y es verdad, con todo mi corazón, y es lo que siempre, pero siempre, te repito porque nunca se me va a acabar.",
   },
 
   /** Nuestra canción (el archivo y el título están en musica.ts). */

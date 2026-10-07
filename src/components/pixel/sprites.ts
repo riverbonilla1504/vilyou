@@ -748,6 +748,96 @@ const catSit: Sprite = {
   palette: { K: "#2e1f17", O: "#b98450", S: "#5a3a22", W: "#fbf6ee", P: "#f2a0a8", E: "#b8cf5a" },
 };
 
+/** River dressed as an Arab sheikh (their first Halloween). */
+const sheikh: Sprite = {
+  grid: [
+    "......KKKKKKKK......",
+    ".....KWWWWWWWWK.....",
+    "....KAAAAAAAAAAK....",
+    "...KWAAAAAAAAAAWK...",
+    "..KWWWWWWWWWWWWWwK..",
+    "..KWWKKKKKKKKKKWwK..",
+    "..KWKSSSSSSSSSSKwK..",
+    "..KWKSSHSSSSHSSKwK..",
+    "..KWKSSESSSSESSKwK..",
+    "..KWKSBSSSSSSBSKwK..",
+    "..KWKSSHHHHHHSSKwK..",
+    "..KWKSSSHMMHSSSKwK..",
+    "..KWwKSSHHHHSSKwwK..",
+    "..KWwwKKSHHSKKwwWK..",
+    ".KWWWwwwKKKKwwwWWWK.",
+    ".KWWWWWwwwwwwWWWWWK.",
+    "KWWWWWWWWWWWWWWWWWWK",
+    "KWWKWWWWWWWWWWWWKWWK",
+    "KWWKWWWWWWWWWWWWKWWK",
+    "KSSKWWWWWWWWWWWWKSSK",
+    ".KK.KWWWWWWWWWWK.KK.",
+    "....KWWWWWWWWWWK....",
+    "....KWWWWWWWWWWK....",
+    "....KWWWWWwWWWWK....",
+    "....KWWWWWwWWWWK....",
+    "....KWWWWWwWWWWK....",
+    "....KWWWWWwWWWWK....",
+    "....KwWWWWwWWWwK....",
+    "....KKKKKKKKKKKK....",
+    ".....KFFK..KFFK.....",
+    ".....KKKK..KKKK.....",
+  ],
+  palette: { K: "#1e1220", A: "#1d1d27", W: "#f6f3ec", w: "#cfc6b6", S: "#cf9168", H: "#2b1d1b", E: "#241510", M: "#7a3a32", B: "#e58a78", F: "#7a4a2a" },
+};
+
+/** Valeria dressed as Little Red Riding Hood (their first Halloween). */
+const caperucita: Sprite = {
+  grid: [
+    "......KKKKKKKK......",
+    ".....KRRRRRRRRK.....",
+    "....KRRRRRRRRRRK....",
+    "...KRRRRRRRRRRRRK...",
+    "..KRRRrRRRRRRRRRRK..",
+    "..KRRrHHHHHHHHHRRK..",
+    "..KRrHHSSSSSSSHHRK..",
+    "..KRrHSSSSSSSSSHrK..",
+    "..KRrHSEESSSSEESrK..",
+    "..KRrHSEESSSSEESrK..",
+    "..KRrHSBSSSSSSBSrK..",
+    "..KRrHSSSSLLSSSSrK..",
+    "..KRrHHSSSSSSSSHrK..",
+    "..KRRrHHKSSSSKHHRK..",
+    ".KRRRrHHKKSSKKHHRRK.",
+    ".KRRRRrRKWWWWKRRRRK.",
+    "KRRRRRRKWWWWWWKRRRRK",
+    "KRRRRRKWWWWWWWWKRRRK",
+    "KRRRRRKWWWBBWWWKRRRK",
+    "KRRRRRKDDDDDDDDKRRRK",
+    "KRRRRKDDDDDDDDDDKRRK",
+    "KRRRKDDDDDDDDDDDDKRK",
+    ".KRRKDDDDDDDDDDDDKK.",
+    "..KKKDDDDDDDDDDDDK..",
+    "....KDDDDDDDDDDDDK..",
+    "...KDDDDDDDDDDDDDDK.",
+    "...KKKKKKKKKKKKKKKK.",
+    ".....KSSK...KSSK....",
+    ".....KSSK...KSSK....",
+    ".....KMMK...KMMK....",
+    ".....KKKK...KKKK....",
+  ],
+  palette: { K: "#2a1418", R: "#d8344a", r: "#a3223a", H: "#a8714a", S: "#f3c9a8", E: "#3a2016", B: "#f49b9b", L: "#d65a6c", W: "#fdf6ec", D: "#2b2550", M: "#5a2a1a" },
+};
+
+/** Caperucita's little basket. */
+const basket: Sprite = {
+  grid: [
+    "..KKKKKK..",
+    ".K......K.",
+    "KYYYYYYYYK",
+    "KYyYyYyYyK",
+    "KYYYYYYYYK",
+    ".KYyYyYyK.",
+    "..KKKKKK..",
+  ],
+  palette: { K: "#4a2a10", Y: "#d9a35a", y: "#a8742f" },
+};
+
 export const sprites = {
   heart,
   heartSmall,
@@ -786,6 +876,9 @@ export const sprites = {
   vinyl,
   tonearm,
   catSit,
+  sheikh,
+  caperucita,
+  basket,
 } satisfies Record<string, Sprite>;
 
 export type SpriteName = keyof typeof sprites;

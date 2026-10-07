@@ -2,9 +2,18 @@ import Image from "next/image";
 import { PixelSprite } from "./pixel/PixelSprite";
 
 /** The photo itself, or a little night-sky placeholder until there is one. */
-export function PhotoFace({ src, alt }: { src?: string; alt: string }) {
+export function PhotoFace({ src, alt, position }: { src?: string; alt: string; position?: string }) {
   if (src) {
-    return <Image src={src} alt={alt} fill sizes="(max-width: 768px) 90vw, 420px" className="object-cover" />;
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 90vw, 420px"
+        className="object-cover"
+        style={position ? { objectPosition: position } : undefined}
+      />
+    );
   }
 
   return (
@@ -20,11 +29,22 @@ export function PhotoFace({ src, alt }: { src?: string; alt: string }) {
 }
 
 /** A framed picture hanging on the wall. */
-export function PhotoFrame({ src, alt }: { src?: string; alt: string }) {
+export function PhotoFrame({
+  src,
+  alt,
+  tall = false,
+  position,
+}: {
+  src?: string;
+  alt: string;
+  /** 3:4 instead of 4:3, for photos taken vertically. */
+  tall?: boolean;
+  position?: string;
+}) {
   return (
     <div className="photo-frame frame-wood relative transition-transform duration-300 hover:-rotate-1 hover:scale-[1.01]">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1b1240]">
-        <PhotoFace src={src} alt={alt} />
+      <div className={`relative w-full overflow-hidden bg-[#1b1240] ${tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}>
+        <PhotoFace src={src} alt={alt} position={position} />
       </div>
     </div>
   );
