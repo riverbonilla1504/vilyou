@@ -31,6 +31,11 @@ export function SongPlace() {
     findSong(nuestra.id);
     if (ours) toggle();
     else playSong(nuestra);
+    // The dedication writes itself while our song plays (and counts as found).
+    if (!reading) {
+      setReading(true);
+      discover("cancion");
+    }
   };
 
   return (

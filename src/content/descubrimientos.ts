@@ -119,7 +119,7 @@ export const descubrimientos: Descubrimiento[] = [
   d("familia", "peluches", "heart", "La familia completa", "Saludaste a todos. Nuestra familia rara y bonita.", "Saluda a los cuatro."),
 
   // ── Canción ──
-  d("cancion", "lugares", "note", "Dedicatoria", config.cancion.dedicatoria, "Lee la dedicatoria de nuestra canción."),
+  d("cancion", "lugares", "note", "Dedicatoria", config.cancion.dedicatoria, "Pon nuestra canción en el disco (o lee su dedicatoria)."),
 
   // ── El cielo pixel (detrás de la carta y la historia) ──
   d("luna-pixel", "cielo", "moon", "Lunita", "Tocaste la luna. Ella también te mira bonito.", "Toca la luna del cielo pixelado."),
