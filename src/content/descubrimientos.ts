@@ -123,16 +123,16 @@ export const descubrimientos: Descubrimiento[] = [
 
   // ── El cielo pixel (detrás de la carta y la historia) ──
   d("luna-pixel", "cielo", "moon", "Lunita", "Tocaste la luna. Ella también te mira bonito.", "Toca la luna del cielo pixelado."),
-  d("estrella-fugaz", "cielo", "sparkle", "Estrella fugaz", "La atrapaste. Tu deseo ya está en camino.", "Atrapa una estrella fugaz."),
-  d("nube", "cielo", "cloud", "Nubecita", "De esa nube llovieron corazones. Pasa cuando estás cerca.", "Toca una nube."),
+  d("estrella-fugaz", "cielo", "sparkle", "Estrella fugaz", "La atrapaste. Tu deseo ya está en camino.", "Atrapa una estrella fugaz (también cruzan el universo)."),
+  d("nube", "cielo", "cloud", "Nubecita", "De esa nube llovieron corazones. Pasa cuando estás cerca.", "Toca una nube (también pasan por el jardín)."),
   d("calabaza", "cielo", "pumpkin", "Calabacita", "Halloween: donde empezó la magia.", "Toca una calabaza en la historia."),
   d("murcielago", "cielo", "bat", "Murciélago", "Lo asustaste. Tranquila, es inofensivo… como yo.", "Toca un murciélago en la historia."),
   d("tulipan-pixel", "cielo", "tulip", "Tulipanes", "Los tulipanes del suelo se pusieron felices al verte.", "Toca los tulipanes del suelo."),
 
   // ── Especiales ──
-  d("hora-707", "especiales", "seven", "7:07", "Entraste a las 7:07. Nuestro número te encontró.", "Entra a una hora muy nuestra…"),
-  d("madrugada", "especiales", "moon", "Trasnochadora", "Entraste de madrugada. ¿No podías esperar? Yo tampoco.", "Entra de madrugada."),
-  d("dia-7", "especiales", "seven", "Un día 7", "Entraste un día 7. Todos los 7 son nuestros.", "Entra un día 7."),
+  d("hora-707", "especiales", "seven", "7:07", "Entraste a las 7:07. Nuestro número te encontró.", "Ven a las 7:07, de la mañana o de la noche."),
+  d("madrugada", "especiales", "moon", "Trasnochadora", "Entraste de madrugada. ¿No podías esperar? Yo tampoco.", "Ven de madrugada (después de las 12)."),
+  d("dia-7", "especiales", "seven", "Un día 7", "Entraste un día 7. Todos los 7 son nuestros.", "Ven un día 7."),
   d("volviste", "especiales", "heartSmall", "Volviste", "Regresaste otro día. Aquí todo te espera siempre.", "Vuelve otro día."),
   d("album", "especiales", "book", "El álbum", "Aquí se guarda todo lo que vas descubriendo.", "Abre el álbum."),
   d("todo", "especiales", "heart", "¡Todo!", "Encontraste todas las cositas. Eres increíble. Te amo.", "Descúbrelo todo."),

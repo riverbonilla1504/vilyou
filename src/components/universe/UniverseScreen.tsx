@@ -145,6 +145,17 @@ export function UniverseScreen() {
         }}
       />
 
+      {/* now and then a shooting star crosses the universe: catch it */}
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Estrella fugaz"
+        className="universe-star"
+        onClick={() => {
+          pop();
+          discover("estrella-fugaz");
+        }}
+      />
       <NightMode enabled={!welcome} />
       <HiddenPinky spot="universo" className="bottom-[150px] left-[5%]" />
       <HugOverlay progress={hug} done={hugDone} />

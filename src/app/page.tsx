@@ -116,13 +116,20 @@ function Experience() {
 
   useEffect(() => {
     discover("hola");
-    const d = new Date();
-    if (d.getMinutes() === 7 && (d.getHours() === 7 || d.getHours() === 19)) discover("hora-707");
-    if (d.getHours() < 5) discover("madrugada");
-    if (d.getDate() === 7) discover("dia-7");
-    const today = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    visitsStore.set((v) => (v.includes(today) ? v : [...v, today]));
-    if (visitsStore.get().length >= 2) discover("volviste");
+    // Checked every minute while the page is open, not only when she arrives,
+    // so being here at 7:07 (or past midnight, or on a 7th) counts too.
+    const check = () => {
+      const d = new Date();
+      if (d.getMinutes() === 7 && (d.getHours() === 7 || d.getHours() === 19)) discover("hora-707");
+      if (d.getHours() < 5) discover("madrugada");
+      if (d.getDate() === 7) discover("dia-7");
+      const today = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+      visitsStore.set((v) => (v.includes(today) ? v : [...v, today]));
+      if (visitsStore.get().length >= 2) discover("volviste");
+    };
+    check();
+    const id = window.setInterval(check, 20_000);
+    return () => window.clearInterval(id);
   }, []);
 
   // Load the sound setting early so the first tap already knows it.
