@@ -330,10 +330,10 @@ La última ("¡Todo!") se desbloquea sola al encontrar las otras 76.
 
 | # | Cosita | Cómo se encuentra |
 |---|---|---|
-| 72 | 7:07 | Entra a una hora muy nuestra… |
+| 72 | Un momento 7 | Ven cuando la hora o el minuto tengan un 7. |
 | 73 | Trasnochadora | Entra de madrugada. |
 | 74 | Un día 7 | Entra un día 7. |
-| 75 | Volviste | Vuelve otro día. |
+| 75 | Un abrazo | Mantén el dedo sobre el corazón del universo 7 segundos. |
 | 76 | El álbum | Abre el álbum. |
 | 77 | ¡Todo! | Descúbrelo todo. |
 

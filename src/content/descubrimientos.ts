@@ -130,10 +130,10 @@ export const descubrimientos: Descubrimiento[] = [
   d("tulipan-pixel", "cielo", "tulip", "Tulipanes", "Los tulipanes del suelo se pusieron felices al verte.", "Toca los tulipanes del suelo."),
 
   // ── Especiales ──
-  d("hora-707", "especiales", "seven", "7:07", "Entraste a las 7:07. Nuestro número te encontró.", "Ven a las 7:07, de la mañana o de la noche."),
+  d("hora-707", "especiales", "seven", "Un momento 7", "Viniste en un momento 7. Nuestro número te encontró.", "Ven cuando la hora o el minuto tengan un 7."),
   d("madrugada", "especiales", "moon", "Trasnochadora", "Entraste de madrugada. ¿No podías esperar? Yo tampoco.", "Ven de madrugada (después de las 12)."),
   d("dia-7", "especiales", "seven", "Un día 7", "Entraste un día 7. Todos los 7 son nuestros.", "Ven un día 7."),
-  d("volviste", "especiales", "heartSmall", "Volviste", "Regresaste otro día. Aquí todo te espera siempre.", "Vuelve otro día."),
+  d("abrazo", "especiales", "heartSmall", "Un abrazo", "Abrazaste el corazón del universo. Ese abrazo me llegó hasta acá.", "Mantén el dedo sobre el corazón del universo 7 segundos."),
   d("album", "especiales", "book", "El álbum", "Aquí se guarda todo lo que vas descubriendo.", "Abre el álbum."),
   d("todo", "especiales", "heart", "¡Todo!", "Encontraste todas las cositas. Eres increíble. Te amo.", "Descúbrelo todo."),
 ];

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { abrazo, botella, modoNoche, nombreEstrellas, pinkyEscondida } from "@/content/sorpresas";
+import { discover } from "@/lib/discoveries";
 import { achieve } from "@/lib/songs";
 import { chime, fanfare, pop, swoosh } from "@/lib/sound";
 import { say } from "@/lib/speech";
@@ -188,6 +189,7 @@ export function HugOverlay({ progress, done }: { progress: number; done: boolean
 export function onHugDone() {
   fanfare();
   achieve("abrazo");
+  discover("abrazo");
   window.setTimeout(() => say(abrazo.dice, { corazones: true }), 1900);
 }
 

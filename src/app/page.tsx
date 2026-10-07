@@ -120,12 +120,13 @@ function Experience() {
     // so being here at 7:07 (or past midnight, or on a 7th) counts too.
     const check = () => {
       const d = new Date();
-      if (d.getMinutes() === 7 && (d.getHours() === 7 || d.getHours() === 19)) discover("hora-707");
+      // A "momento 7": the hour (7, 17, 19) or the minute has a 7, like the golden sevens.
+      const h = d.getHours();
+      if (h === 7 || h === 17 || h === 19 || String(d.getMinutes()).padStart(2, "0").includes("7")) discover("hora-707");
       if (d.getHours() < 5) discover("madrugada");
       if (d.getDate() === 7) discover("dia-7");
       const today = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
       visitsStore.set((v) => (v.includes(today) ? v : [...v, today]));
-      if (visitsStore.get().length >= 2) discover("volviste");
     };
     check();
     const id = window.setInterval(check, 20_000);
