@@ -1708,4 +1708,12 @@ a {
 .name-star {
   filter: drop-shadow(0 0 5px rgb(255 216 107 / 0.95));
 }
- 
+ .golden-voucher {
+  background:
+    radial-gradient(circle at 0 50%, transparent 12px, #fff3c4 13px) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 12px, #fff3c4 13px) right / 51% 100% no-repeat;
+  outline: 2px dashed rgb(224 169 42 / 0.8);
+  outline-offset: -9px;
+  filter: drop-shadow(0 0 14px rgb(255 213 79 / 0.7));
+  color: var(--ink);
+}

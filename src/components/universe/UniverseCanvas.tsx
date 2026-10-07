@@ -459,7 +459,13 @@ export function UniverseCanvas(props: Props) {
 
     /* ---- pop effect when something is tapped ---- */
     const pops: { sprite: THREE.Sprite; t: number; base: number }[] = [];
-    const popAt = (sprite: THREE.Sprite) => pops.push({ sprite, t: 0, base: sprite.scale.y });
+    const popAt = (sprite: THREE.Sprite) => {
+      // Always bounce from its real size: fast taps used to compound and make it grow and grow.
+      sprite.userData.restY ??= sprite.scale.y;
+      const running = pops.find((p) => p.sprite === sprite);
+      if (running) running.t = 0;
+      else pops.push({ sprite, t: 0, base: sprite.userData.restY });
+    };
 
     /* ---- planets ---- */
     const planetGroups: { def: PlanetDef; group: THREE.Group; mesh: THREE.Mesh; mat: THREE.ShaderMaterial; icon: THREE.Sprite }[] =

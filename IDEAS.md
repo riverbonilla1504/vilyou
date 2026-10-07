@@ -11,7 +11,7 @@ Marca `[x]` cuando una esté hecha y publicada.
 
 ## Lista A: adentro (se hacen juntas)
 
-> ✅ Hechas. Todo vive en la **mochila** del universo (arriba a la derecha). Para el logro final solo falta tu nota de voz en `public/audio/mi-voz.m4a`.
+> ✅ Hechas. Todo vive en la **mochila** del universo (arriba a la derecha). El logro final da un vale dorado por un regalo especial cuando se vean.
 
 - [x] **Cartas selladas para el futuro**
   - Sobres con candado de fecha. El primero se abre el **7 de noviembre** (1 año de conocerse) y después hay uno **el 7 de cada mes**.

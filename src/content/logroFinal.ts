@@ -1,14 +1,13 @@
 /**
  * 🏆  EL LOGRO FINAL
  * ─────────────────────────────────────────────────────────────
- * Sale cuando ella encuentra las 77 cositas y consigue las 39 canciones.
- * Graba una nota de voz y guárdala como  public/audio/mi-voz.m4a
- * (o .mp3, y cambia el nombre aquí). Si no hay archivo, sale sin audio.
+ * Sale cuando ella encuentra las 77 cositas y consigue las 39 canciones:
+ * un trofeo, confeti y un vale dorado por un regalo especial.
  */
 export const logroFinal = {
   titulo: "¡Felicidades, mi amor!",
   subtitulo: "Lo encontraste todo",
-  texto: "Encontraste absolutamente todo lo que escondí para ti. Te tengo un mensajito con mi voz…",
-  audio: "/audio/mi-voz.m4a",
-  boton: "Escuchar mi mensaje ▶",
+  texto: "Encontraste absolutamente todo lo que escondí para ti. Y como premio…",
+  vale: "Vale por un regalo especial cuando nos veamos 🎁",
+  pie: "Muéstrame este vale cuando nos veamos 💜",
 };

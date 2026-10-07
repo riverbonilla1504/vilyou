@@ -1,14 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useMemo } from "react";
 import { TOTAL } from "@/content/descubrimientos";
 import { logroFinal } from "@/content/logroFinal";
 import { discoveredStore } from "@/lib/discoveries";
 import { logroVistoStore, mochilaStore } from "@/lib/mochila";
-import { hold } from "@/lib/music";
 import { TOTAL_CANCIONES, useSongs } from "@/lib/songs";
-import { fanfare, pop } from "@/lib/sound";
+import { fanfare } from "@/lib/sound";
 import { PixelSprite } from "../pixel/PixelSprite";
 
 /** Every cosita and every song. */
@@ -24,33 +23,22 @@ export function FinalAchievementWatcher() {
   const seen = logroVistoStore.useValue();
   useEffect(() => {
     if (!done || seen) return;
-    logroVistoStore.set(true);
-    const t = window.setTimeout(() => mochilaStore.set("logro"), 1500);
+    // Mark it as seen only when it actually opens (marking it first cancelled the timer).
+    const t = window.setTimeout(() => {
+      logroVistoStore.set(true);
+      mochilaStore.set("logro");
+    }, 1500);
     return () => window.clearTimeout(t);
   }, [done, seen]);
   return null;
 }
 
-/** "¡Felicidades!" with confetti and River's voice note. */
+/** "¡Felicidades!" with confetti and a golden voucher for a special gift. */
 export function FinalAchievement({ inline = false }: { inline?: boolean }) {
   const { done, cositas, canciones } = useEverythingFound();
-  const [hasAudio, setHasAudio] = useState<boolean | null>(null);
-  const [playing, setPlaying] = useState(false);
-  const audio = useRef<HTMLAudioElement | null>(null);
-  const release = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    if (!done) return;
-    fanfare();
-    let alive = true;
-    fetch(logroFinal.audio, { method: "HEAD" })
-      .then((r) => alive && setHasAudio(r.ok))
-      .catch(() => alive && setHasAudio(false));
-    return () => {
-      alive = false;
-      audio.current?.pause();
-      release.current?.();
-    };
+    if (done) fanfare();
   }, [done]);
 
   if (!done) {
@@ -67,29 +55,6 @@ export function FinalAchievement({ inline = false }: { inline?: boolean }) {
     );
   }
 
-  const play = () => {
-    if (!audio.current) {
-      audio.current = new Audio(logroFinal.audio);
-      audio.current.addEventListener("ended", () => {
-        setPlaying(false);
-        release.current?.();
-        release.current = null;
-      });
-    }
-    if (playing) {
-      audio.current.pause();
-      setPlaying(false);
-      release.current?.();
-      release.current = null;
-      return;
-    }
-    release.current = hold();
-    void audio.current.play().then(
-      () => setPlaying(true),
-      () => setHasAudio(false),
-    );
-  };
-
   return (
     <div className={`relative flex flex-col items-center overflow-hidden px-4 pb-6 text-center ${inline ? "pt-2" : "pt-6"}`}>
       <Confetti />
@@ -103,33 +68,16 @@ export function FinalAchievement({ inline = false }: { inline?: boolean }) {
       <p className="mt-3 font-press text-[10px] text-rose-dark">{logroFinal.subtitulo.toUpperCase()}</p>
       <h3 className="mt-1 text-3xl leading-tight">{logroFinal.titulo}</h3>
       <p className="mt-3 text-lg leading-snug">{logroFinal.texto}</p>
-      <motion.button
-        type="button"
-        disabled={hasAudio === false}
-        onClick={() => {
-          pop();
-          play();
-        }}
-        className="btn-pixel btn-rose mt-5 px-5 py-2 text-lg"
-        whileTap={{ scale: 0.96 }}
+      <motion.div
+        className="golden-voucher relative mt-5 w-full max-w-[320px] px-5 py-4"
+        initial={{ rotateX: 90, opacity: 0 }}
+        animate={{ rotateX: 0, opacity: 1 }}
+        transition={{ delay: 0.9, duration: 0.6, ease: "easeOut" }}
       >
-        {hasAudio === false ? "Tu mensajito viene en camino ♥" : playing ? "❚❚ Pausar" : logroFinal.boton}
-      </motion.button>
-      <AnimatePresence>
-        {playing ? (
-          <motion.div className="mt-4 flex gap-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {[0, 1, 2, 3, 4].map((i) => (
-              <motion.span
-                key={i}
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.12 }}
-              >
-                <PixelSprite name="heartSmall" scale={3} palette={{ R: "#c38bff", W: "#f0e2ff" }} />
-              </motion.span>
-            ))}
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+        <PixelSprite name="ticket" scale={3} palette={{ K: "#6b3a07", P: "#fff1b8", R: "#e0a92a", H: "#ff8fc0" }} />
+        <p className="mt-2 text-xl leading-snug">{logroFinal.vale}</p>
+        <p className="mt-2 text-sm text-ink-soft">{logroFinal.pie}</p>
+      </motion.div>
     </div>
   );
 }
