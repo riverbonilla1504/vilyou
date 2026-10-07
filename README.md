@@ -150,13 +150,15 @@ Las canciones se coleccionan como las cositas (todo se cambia en `src/content/mu
 | Inicio, jardín, pastel, peluches, juegos, historia y álbum | **Notitas musicales escondidas** (7) | Cada una desbloquea una canción |
 | Cuenta regresiva y carta | Las nubes | Llueven corazones |
 | Cuenta regresiva y carta | La estrella fugaz (pasa cada ~10 s) | Llueven corazones |
-| Cuenta regresiva y carta | **Las 7 flores del suelo** | Cada una salta, gira y suelta corazones. Los **tulipanes** abren a River diciendo lo de los tulipanes; los **lirios**, "Lirios para mi delirio" |
+| Cuenta regresiva, carta y jardín | **Las 7 flores del suelo** | Cada una salta y queda con una chispita. El primer **tulipán** y el primer **lirio** de cada visita abren a River (lo de los tulipanes / "Lirios para mi delirio"). Cuando brillan las 7: **lluvia de tulipanes y un tulipán gigante** |
+| Donde suene música | **Frases que salen del disco** | En el segundo que pongas en `letras.ts`, sale una frase flotando del disco |
 | Cuenta regresiva y carta | Cualquier parte | Salen corazoncitos y chispitas |
 | Carta | Sobre / candado / sello / regalo | Ver [la carta](#2-la-carta) |
 | Universo | Planetas | Abren su lugar |
 | Universo | Frases flotantes (21) | Se vuelven doradas y cuentan como descubrimiento |
 | Universo | Corazón del centro | Late más fuerte; a los 7 toques, secreto |
 | Universo | Urano, la luna, Mía astronauta, Pinky en órbita, el 7 dorado | Secretos |
+| Cuenta regresiva y carta | **Una estrella lila que late** (arriba a la izquierda) | Abre un cielo grande con la **constelación V ♥ R** para unir |
 | Universo | **Estrellitas lilas** debajo del título (15) | Tocándolas en orden (la siguiente late con un anillo) forman la **constelación V ♥ R**; queda dorada para siempre y sales tú con una frase |
 | Historia | Murciélago y calabaza (capítulo de Halloween) | Secretos |
 | Historia | Foto de Carnavales | Se arrastra y aparece el gatito |
@@ -314,6 +316,8 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 
 | Archivo | Qué cambia |
 |---|---|
+| `tulipan.ts` | El texto del tulipán gigante |
+| `letras.ts` | Las frases que salen del disco en cada canción y en qué segundo |
 | `constelacion.ts` | Lo que dices cuando ella completa la constelación V ♥ R |
 | `cuentaRegresiva.ts` | Las frases de Mía en cada etapa, cuándo cambia de etapa, el texto de los últimos 10 segundos y qué pedacito de *Chachacha* suena |
 | `config.ts` | Nombres, iniciales, **dedicatoria del inicio**, fecha de desbloqueo, fecha en que se conocieron, **código y pista del candado**, palabra del Wordle, la **dedicatoria de nuestra canción** |

@@ -9,6 +9,7 @@ import { discover } from "@/lib/discoveries";
 import { pop } from "@/lib/sound";
 import { useTypewriter } from "@/lib/useTypewriter";
 import { spriteCanvas } from "../pixel/canvas";
+import { FlowerRow } from "@/components/GiantTulip";
 import { HiddenNote } from "@/components/HiddenNote";
 
 function rng(seed: number) {
@@ -315,6 +316,7 @@ export function GardenPlace() {
 
       <div className="relative min-h-0 flex-1">
         <GardenCanvas onBloomed={() => discover("arbol")} />
+        <FlowerRow className="absolute inset-x-0 bottom-1 z-10 px-4" />
       </div>
 
       <SinceCounter />

@@ -4,6 +4,9 @@ import { MotionConfig, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BloomTransition } from "@/components/BloomTransition";
 import { CharacterDialogue } from "@/components/CharacterDialogue";
+import { ConstellationSky } from "@/components/Constellation";
+import { FloatingLyrics } from "@/components/FloatingLyrics";
+import { GiantTulip } from "@/components/GiantTulip";
 import { TurntableFab, TurntablePanel } from "@/components/Turntable";
 import { DiscoveryToast } from "@/components/DiscoveryToast";
 import { LockScreen } from "@/components/LockScreen";
@@ -68,6 +71,9 @@ function Music() {
 
   return (
     <>
+      <GiantTulip />
+      <ConstellationSky />
+      <FloatingLyrics />
       <CharacterDialogue />
       <TurntablePanel />
     </>

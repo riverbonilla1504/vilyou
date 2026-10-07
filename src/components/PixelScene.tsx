@@ -2,14 +2,15 @@
 
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
-import { dialogos } from "@/content/dialogos";
 import { discover } from "@/lib/discoveries";
 import { discoStore } from "@/lib/music";
 import { pop } from "@/lib/sound";
-import { dedicateSong, say } from "@/lib/speech";
+import { dedicateSong } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
+import { FlowerRow } from "./GiantTulip";
 import { RecordDisc } from "./RecordDisc";
+import { ConstellationStar } from "./Constellation";
 import { HiddenNote } from "./HiddenNote";
 
 export type ThemeId = "carta" | "halloween" | "carnival" | "park" | "sunset" | "love";
@@ -266,15 +267,6 @@ const confetti = (() => {
   }));
 })();
 
-const gardenFlowers: { sprite: "tulip" | "lily"; palette?: Record<string, string>; lift: number }[] = [
-  { sprite: "tulip", lift: 0 },
-  { sprite: "lily", lift: 10 },
-  { sprite: "tulip", palette: { R: "#ffd54f", L: "#fff1a8", D: "#e0a92a" }, lift: 4 },
-  { sprite: "tulip", palette: { R: "#c58cff", L: "#ead4ff", D: "#9a5ee0" }, lift: 14 },
-  { sprite: "lily", palette: { W: "#ffe3ef", L: "#ff9ec7", P: "#ff5d8f" }, lift: 4 },
-  { sprite: "tulip", palette: { R: "#ffd54f", L: "#fff1a8", D: "#e0a92a" }, lift: 10 },
-  { sprite: "tulip", lift: 0 },
-];
 
 const flagColors = ["#ff6b9d", "#ffd54f", "#7fd6ff", "#ce93d8", "#6fe3a4"];
 
@@ -295,7 +287,6 @@ export function PixelScene({
   const { scrollYProgress } = useScroll(scrollContainer ? { container: scrollContainer } : undefined);
   const [rain, setRain] = useState<{ x: number; y: number; key: number }[]>([]);
   const [moonKick, setMoonKick] = useState(0);
-  const [hop, setHop] = useState<{ i: number; key: number } | null>(null);
   const disco = discoStore.useValue();
   const showDisc = disco && theme.celestial === "moon";
 
@@ -376,7 +367,12 @@ export function PixelScene({
         )}
       </motion.div>
 
-      {interactive && themeId === "carta" ? <HiddenNote spot="cielo" className="left-[40%] top-[9%]" /> : null}
+      {interactive && themeId === "carta" ? (
+        <>
+          <ConstellationStar className="left-[1%] top-[9%]" />
+          <HiddenNote spot="cielo" className="left-[86%] top-[40%]" />
+        </>
+      ) : null}
 
       {/* moon / sun / heart */}
       <div
@@ -604,45 +600,10 @@ export function PixelScene({
 
       {/* A row of 7 flowers along the ground: always on screen, each one tappable. */}
       <motion.div
-        className="absolute inset-x-0 bottom-[11%] flex items-end justify-around px-3 transition-opacity duration-1000 sm:px-[12%]"
+        className="absolute inset-x-0 bottom-[11%] px-3 transition-opacity duration-1000 sm:px-[12%]"
         style={{ ...show("love", "carta"), y: groundOffset }}
       >
-        {gardenFlowers.map((f, i) => {
-          const visible = themeId === "love" || themeId === "carta";
-          const art = (
-            <motion.span
-              key={hop?.i === i ? hop.key : "still"}
-              className="block"
-              animate={hop?.i === i ? { y: [0, -18, 0], rotate: [0, -10, 8, 0], scale: [1, 1.2, 1] } : undefined}
-              transition={{ duration: 0.55 }}
-            >
-              <PixelSprite name={f.sprite} scale={3} palette={f.palette} />
-            </motion.span>
-          );
-          return interactive && visible ? (
-            <button
-              key={i}
-              type="button"
-              tabIndex={-1}
-              aria-label="Flor"
-              className="garden-flower block p-1"
-              style={{ marginBottom: f.lift }}
-              onClick={(e) => {
-                pop();
-                setHop((h) => ({ i, key: (h?.key ?? 0) + 1 }));
-                heartRain(e);
-                discover("tulipan-pixel");
-                say(f.sprite === "lily" ? dialogos.lirio : dialogos.tulipan);
-              }}
-            >
-              {art}
-            </button>
-          ) : (
-            <span key={i} className="block p-1" style={{ marginBottom: f.lift }}>
-              {art}
-            </span>
-          );
-        })}
+        <FlowerRow interactive={interactive && (themeId === "love" || themeId === "carta")} onTap={heartRain} />
       </motion.div>
 
       {/* fireflies */}

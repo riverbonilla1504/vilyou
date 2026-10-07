@@ -3,14 +3,18 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { constelacion } from "@/content/constelacion";
-import { chime, fanfare } from "@/lib/sound";
+import { X } from "lucide-react";
+import { chime, fanfare, pop } from "@/lib/sound";
 import { say } from "@/lib/speech";
-import { createPersistentStore } from "@/lib/store";
+import { createPersistentStore, createStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
 
 /** Once she draws it, the constellation stays lit forever. */
 const doneStore = createPersistentStore<boolean>("vilyou:constelacion", false);
+
+/** The big night sky with the constellation, opened from the countdown or the letter. */
+const skyOpenStore = createStore(false);
 
 type P = [number, number];
 
@@ -152,3 +156,77 @@ export function Constellation({ className }: { className?: string }) {
     </div>
   );
 }
+
+/**
+ * A special star in the sky of the countdown and the letter. It pulses until
+ * the constellation is drawn; tapping it opens the big night sky.
+ */
+export function ConstellationStar({ className }: { className?: string }) {
+  const done = doneStore.useValue();
+  return (
+    <button
+      type="button"
+      tabIndex={-1}
+      aria-label="Una estrella distinta"
+      className={cn("absolute z-20 grid h-12 w-12 place-items-center", className)}
+      onClick={() => {
+        pop();
+        skyOpenStore.set(true);
+      }}
+    >
+      {!done ? <span className="constellation-next absolute inset-2 rounded-full" /> : null}
+      <PixelSprite
+        name="sparkle"
+        scale={3}
+        palette={done ? gold : lilac}
+        className={done ? "constellation-star-on relative" : "relative"}
+      />
+    </button>
+  );
+}
+
+/** The night sky where she joins the stars (lives at the root, like the dialogues). */
+export function ConstellationSky() {
+  const open = skyOpenStore.useValue();
+  const done = doneStore.useValue();
+  const close = () => {
+    pop();
+    skyOpenStore.set(false);
+  };
+  return (
+    <AnimatePresence>
+      {open ? (
+        <motion.div
+          key="sky"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Une las estrellas"
+          className="constellation-sky-bg fixed inset-0 z-[57] flex flex-col items-center justify-center px-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.4 } }}
+        >
+          <button
+            type="button"
+            onClick={close}
+            className="slot absolute right-3 top-[max(12px,env(safe-area-inset-top))] grid h-11 w-11 place-items-center text-ink"
+            aria-label="Cerrar"
+          >
+            <X className="h-6 w-6" strokeWidth={3} />
+          </button>
+
+          <motion.p
+            className="on-scene mb-10 text-center text-xl text-cream/85"
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            {done ? "V ♥ R, escrito en el cielo" : "Une las estrellas, empezando por la que late ✦"}
+          </motion.p>
+          <Constellation className="constellation-big" />
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+}
+

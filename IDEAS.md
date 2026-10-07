@@ -50,9 +50,9 @@ Marca `[x]` cuando una esté hecha y publicada.
 
 Orden sugerido. Al publicar una, espera a que ella la descubra antes de pedir la siguiente.
 
-1. [x] **Constelación V ♥ R:** 15 estrellitas lilas en el cielo del **universo** (debajo del título). La siguiente que hay que tocar late con un anillo; al tocarlas en orden se unen con líneas y forman V ♥ R. Al terminar quedan doradas para siempre y sales tú diciendo la frase de `src/content/constelacion.ts`. Está en el universo porque ahí es donde ella entra cada vez.
-2. [ ] **El tulipán gigante:** si toca las 7 flores del suelo seguidas, llueven tulipanes y crece un tulipán gigante en el centro.
-3. [ ] **Letras que salen del disco:** frases de *Chachacha* y *Reina Pepiada* aparecen flotando en el momento exacto de la canción.
+1. [x] **Constelación V ♥ R:** en el cielo del **inicio** (cuenta regresiva y carta) hay una estrella lila que late, debajo del botón del tocadiscos. Al tocarla se abre un cielo grande donde se unen 15 estrellas en orden y forman V ♥ R. También está pequeña en el cielo del **universo**. Al terminarla queda dorada en los dos lados y sales tú con la frase de `src/content/constelacion.ts`.
+2. [x] **El tulipán gigante:** cada flor del suelo que toca queda con una chispita; cuando las 7 brillan, llueven tulipanes y crece uno gigante en el centro (texto en `src/content/tulipan.ts`). Está en el inicio y también en el **jardín** del universo (le agregué las 7 flores al pasto). Tu diálogo del tulipán/lirio ahora sale una vez por visita, para que pueda seguir tocando.
+3. [x] **Letras que salen del disco:** en el segundo exacto de la canción sale una frase flotando desde el disco (o desde el botón del tocadiscos). Las frases y los segundos están en `src/content/letras.ts` (por ahora son frases tuyas de ejemplo).
 4. [x] **Mía reacciona al tiempo:** se despierta, se estira y al final se sienta mirando el sobre a medida que se acerca la hora.
 5. [x] **El sobre respira:** cuanto más cerca está la hora, más late el candado.
 6. [x] **Los últimos 10 segundos:** la pantalla se oscurece, el contador se pone grande y al llegar a 0 explotan tulipanes y corazones morados, y suena un pedacito de *Chachacha*.
