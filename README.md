@@ -128,7 +128,7 @@ En el universo, arriba a la derecha, hay una **mochila** 🎒 (con un puntito ro
 | 💌 Cartas selladas | Sobres con candado y cuenta regresiva que se abren solos el 7 de cada mes (nov, dic, ene y el año en feb). Cuando se abre una, River le avisa al entrar | `cartasSelladas.ts` (**escríbelas antes de su fecha**) |
 | 🎟 Cupones | 7 cupones: los voltea para leerlos (cada uno le da una canción) y los marca como canjeados cuando te los muestra | `cupones.ts` |
 | 📷 Estación de fotos | Selfie con la cámara de adelante, stickers pixel que se arrastran y agrandan, y la guarda como polaroid V ♥ R | `mochila.ts` |
-| 🗺 Nuestros lugares | Mapa pixel (montañas, volcán, río, laguna, pueblito) con un corazón por cada lugar donde se tomaron fotos; al tocarlo salen las fotos. Visitarlos todos da una canción | `mapa.ts` (**ponle nombre y frase de verdad a cada lugar**) |
+| 🗺 Nuestros lugares | Mapa pixel (montañas, volcán, río, laguna, pueblito) con un corazón por cada lugar donde se tomaron fotos; al tocarlo salen las fotos. Abrir cualquier lugar da una canción | `mapa.ts` |
 | 🏆 Logro final | Cuando tiene las 77 cositas y las 39 canciones: "¡Felicidades, mi amor!" con confeti y un **vale dorado por un regalo especial cuando se vean** | `logroFinal.ts` |
 
 **El cielo según la hora:** el cielo del inicio cambia con la hora de su celular (mañana, tarde, atardecer, noche) y el universo se tiñe igual.

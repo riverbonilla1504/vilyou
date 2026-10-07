@@ -122,7 +122,7 @@ export const pistasPremios: Record<Premio, string> = {
   "cupon-7": "Lee el cupón 7 del cofre",
   constelacion: "Une las estrellas de V ♥ R",
   tulipan: "Haz crecer el tulipán gigante",
-  mapa: "Visita todos los lugares del mapa",
+  mapa: "Abre un lugar del mapa (en la mochila)",
   fotos: "Tómate una foto en la estación de fotos",
   momento7: "Entra en un momento 7",
   carta: "Lee toda la carta",

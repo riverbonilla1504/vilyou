@@ -98,9 +98,9 @@ export function PixelMap() {
     if (canvas.current) paintMap(canvas.current);
   }, []);
 
-  // Checked from what's saved, so it can't be missed (and older visits count too).
+  // Any place she has opened gives the song (older visits count too).
   useEffect(() => {
-    if (new Set(visited).size >= lugares.length) achieve("mapa");
+    if (visited.length > 0) achieve("mapa");
   }, [visited]);
 
   // A dotted path joining the places in the order we lived them.
@@ -128,6 +128,7 @@ export function PixelMap() {
                     mapaStore.set((v) => (v.includes(i) ? v : [...v, i]));
                     if (new Set(mapaStore.get()).size >= lugares.length) chime();
                   }
+                  achieve("mapa");
                 }}
                 className="absolute grid h-10 w-10 -translate-x-1/2 -translate-y-full place-items-center"
                 style={{ left: `${l.x}%`, top: `${l.y}%` }}

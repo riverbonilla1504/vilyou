@@ -113,7 +113,10 @@ export function UniverseScreen() {
   }, [welcome]);
 
   return (
-    <div className={`screen universe universe-${momento} relative overflow-hidden`}>
+    <div
+      className={`screen universe universe-${momento} relative overflow-hidden`}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <UniverseCanvas
         paused={open !== null}
         discovered={discovered}

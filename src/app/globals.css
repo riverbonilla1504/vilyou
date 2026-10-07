@@ -1760,3 +1760,14 @@ a {
     radial-gradient(circle at 70% 60%, #fff6d8 0 1px, transparent 1.5px) 0 0 / 31px 31px,
     linear-gradient(180deg, #120a2e 0%, #3a1a5e 60%, #7a2a6e 100%);
 }
+
+/* Long-pressing the heart (the hug) must not select text or open the iOS callout. */
+.universe,
+.universe * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.universe canvas {
+  touch-action: none;
+}

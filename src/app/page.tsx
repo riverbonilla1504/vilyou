@@ -11,7 +11,6 @@ import { Mochila } from "@/components/mochila/Mochila";
 import { FinalAchievementWatcher } from "@/components/mochila/FinalAchievement";
 import { SevenMoment } from "@/components/SevenMoment";
 import { constellationDoneStore } from "@/lib/constellation";
-import { lugares } from "@/content/mapa";
 import type { Premio } from "@/content/musica";
 import { cuponesStore, mapaStore } from "@/lib/mochila";
 import { TurntableFab, TurntablePanel } from "@/components/Turntable";
@@ -83,7 +82,7 @@ function Music() {
     if (constellationDoneStore.get()) achieve("constelacion");
     if (progressStore.get().cartaLeida) achieve("carta");
     // Prizes earned before they were saved as achievements, from what each place remembers.
-    if (new Set(mapaStore.get()).size >= lugares.length) achieve("mapa");
+    if (mapaStore.get().length > 0) achieve("mapa");
     for (const i of cuponesStore.get().leidos) achieve(`cupon-${i + 1}` as Premio);
   }, []);
 
