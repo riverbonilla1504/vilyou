@@ -1619,3 +1619,82 @@ a {
   }
 }
  
+/* ---------- backpack, coupons, map, photo booth ---------- */
+.mochila-new {
+  background: #ff5d8f;
+  box-shadow: 0 0 0 2px #fff3f7;
+  animation: heartbeat 1.4s ease-in-out infinite;
+}
+.coupon {
+  --n: 4px;
+  background:
+    radial-gradient(circle at 0 50%, transparent 10px, #ffe3ef 11px) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 10px, #ffe3ef 11px) right / 51% 100% no-repeat;
+  box-shadow: 0 4px 0 rgb(90 22 48 / 0.25);
+  color: var(--ink);
+}
+.coupon-back {
+  background:
+    radial-gradient(circle at 0 50%, transparent 10px, #fff6e6 11px) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 10px, #fff6e6 11px) right / 51% 100% no-repeat;
+  outline: 2px dashed rgb(216 64 111 / 0.45);
+  outline-offset: -8px;
+}
+.coupon-used {
+  filter: saturate(0.6);
+}
+.coupon-flip {
+  perspective: 900px;
+}
+.pixel-map {
+  image-rendering: pixelated;
+}
+.map-path {
+  fill: none;
+  stroke: #ff5d8f;
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  opacity: 0.8;
+}
+.map-pin {
+  filter: drop-shadow(0 2px 0 rgb(14 6 24 / 0.5));
+}
+.sticker-selected {
+  outline: 2px dashed #ff8fc0;
+  outline-offset: 2px;
+}
+.trophy-glow {
+  filter: drop-shadow(0 0 14px rgb(255 213 79 / 0.85));
+}
+
+/* ---------- the 7 moment ---------- */
+.seven-chip {
+  --n: 3px;
+  top: calc(max(12px, env(safe-area-inset-top)) + 64px);
+  background: rgb(42 15 74 / 0.85);
+  box-shadow: inset 0 0 0 2px #ffd54f;
+}
+.seven-glow {
+  filter: drop-shadow(0 0 6px rgb(255 213 79 / 0.8));
+}
+
+/* ---------- the universe follows the time of day ---------- */
+.universe.universe-manana {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 48%, rgb(255 140 190 / 0.25), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 80% 10%, rgb(255 220 150 / 0.3), transparent 70%),
+    linear-gradient(180deg, #1d2a6e 0%, #3a3a8e 45%, #6a4a9e 100%);
+}
+.universe.universe-tarde {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 48%, rgb(255 120 180 / 0.25), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 85% 15%, rgb(255 200 130 / 0.28), transparent 70%),
+    linear-gradient(180deg, #16205a 0%, #2e2a78 45%, #5a2f7a 100%);
+}
+.universe.universe-atardecer {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 48%, rgb(255 100 150 / 0.28), transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgb(255 140 80 / 0.35), transparent 70%),
+    linear-gradient(180deg, #120a2e 0%, #3a1250 50%, #7a2a58 100%);
+}
+ 

@@ -4,10 +4,13 @@ import {
   escondidas,
   nuestra,
   pistasEscondites,
+  pistasPremios,
   playlist,
+  premios,
   textosMusica,
   type Cancion,
   type Escondite,
+  type Premio,
 } from "@/content/musica";
 import { useIsPast } from "./clock";
 import { discoveredStore, pushToast } from "./discoveries";
@@ -26,6 +29,16 @@ import { createPersistentStore } from "./store";
 /** Songs found by hand (our song and the hidden notes). */
 export const songsFoundStore = createPersistentStore<string[]>("vilyou:canciones", []);
 
+/** Things she has achieved that give a song as a prize (cupones, constelación…). */
+export const logrosStore = createPersistentStore<string[]>("vilyou:logros", []);
+
+/** Marks an achievement. Returns true the first time. */
+export function achieve(key: Premio) {
+  if (logrosStore.get().includes(key)) return false;
+  logrosStore.set((l) => [...l, key]);
+  return true;
+}
+
 /** Songs she has already been told about (for the "¡Canción nueva!" notice). */
 const songsSeenStore = createPersistentStore<string[]>("vilyou:canciones-vistas", []);
 
@@ -33,7 +46,11 @@ export const todas: Cancion[] = [dedicada, nuestra, ...playlist];
 export const TOTAL_CANCIONES = todas.length;
 
 const hiddenIds = new Set<string>(Object.values(escondidas));
-const porCositas = playlist.filter((c) => !hiddenIds.has(c.id));
+const prizeOf = Object.fromEntries((Object.entries(premios) as [Premio, string][]).map(([k, id]) => [id, k])) as Record<
+  string,
+  Premio
+>;
+const porCositas = playlist.filter((c) => !hiddenIds.has(c.id) && !prizeOf[c.id]);
 const escondite = Object.fromEntries(
   (Object.entries(escondidas) as [Escondite, string][]).map(([spot, id]) => [id, spot]),
 ) as Record<string, Escondite>;
@@ -44,11 +61,12 @@ export function isHiddenSong(id: string) {
   return hiddenIds.has(id);
 }
 
-function computeUnlocked(open: boolean, disco: boolean, found: string[], cositas: number) {
+function computeUnlocked(open: boolean, disco: boolean, found: string[], cositas: number, logros: string[]) {
   const ids = new Set<string>();
   if (disco) ids.add(dedicada.id);
   if (open) {
     for (const id of found) if (cancionPorId[id]) ids.add(id);
+    for (const k of logros) if (k in premios) ids.add(premios[k as Premio]);
     porCositas.slice(0, Math.floor(cositas / cositasPorCancion)).forEach((c) => ids.add(c.id));
   }
   return ids;
@@ -56,7 +74,13 @@ function computeUnlocked(open: boolean, disco: boolean, found: string[], cositas
 
 /** The songs she has right now (outside React). */
 export function unlockedSongs(): Cancion[] {
-  const ids = computeUnlocked(isOpenNow(), discoStore.get(), songsFoundStore.get(), discoveredStore.get().length);
+  const ids = computeUnlocked(
+    isOpenNow(),
+    discoStore.get(),
+    songsFoundStore.get(),
+    discoveredStore.get().length,
+    logrosStore.get(),
+  );
   return todas.filter((c) => ids.has(c.id));
 }
 
@@ -64,6 +88,7 @@ function hintFor(c: Cancion) {
   if (c.id === dedicada.id) return textosMusica.pistaLuna;
   if (c.id === nuestra.id) return textosMusica.pistaNuestra;
   if (escondite[c.id]) return pistasEscondites[escondite[c.id]];
+  if (prizeOf[c.id]) return pistasPremios[prizeOf[c.id]];
   return textosMusica.pistaCositas((porCositas.indexOf(c) + 1) * cositasPorCancion);
 }
 
@@ -83,7 +108,8 @@ export function useSongs() {
   const disco = discoStore.useValue();
   const found = songsFoundStore.useValue();
   const cositas = discoveredStore.useValue().length;
-  const ids = computeUnlocked(open, disco, found, cositas);
+  const logros = logrosStore.useValue();
+  const ids = computeUnlocked(open, disco, found, cositas, logros);
   const list: SongStatus[] = todas.map((song) => ({ song, unlocked: ids.has(song.id), hint: hintFor(song) }));
   return { list, open, count: ids.size, ids };
 }

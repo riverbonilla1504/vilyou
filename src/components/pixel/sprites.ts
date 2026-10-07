@@ -838,6 +838,112 @@ const basket: Sprite = {
   palette: { K: "#4a2a10", Y: "#d9a35a", y: "#a8742f" },
 };
 
+/* Icons for the backpack (mochila) and what's inside. */
+const backpack: Sprite = {
+  grid: [
+    "....KKKKKK....",
+    "...K......K...",
+    "..KKKKKKKKKK..",
+    ".KBBBBBBBBBBK.",
+    "KBBbBBBBBBbBBK",
+    "KBBbKKKKKKbBBK",
+    "KBBbKYYYYKbBBK",
+    "KBBbKYyyYKbBBK",
+    "KBBbKKKKKKbBBK",
+    "KBBbBBBBBBbBBK",
+    "KBBbBBBBBBbBBK",
+    "KDBBBBBBBBBBDK",
+    ".KDDDDDDDDDDK.",
+    "..KKKKKKKKKK..",
+  ],
+  palette: { K: "#3a1a10", B: "#c0703a", b: "#9a5228", D: "#8a4519", Y: "#ffd54f", y: "#e0a92a" },
+};
+
+const chest: Sprite = {
+  grid: [
+    "..KKKKKKKKKK..",
+    ".KRRRRRRRRRRK.",
+    "KRRYRRRRRRYRRK",
+    "KRRYRRRRRRYRRK",
+    "KKKKKKKKKKKKKK",
+    "KBBYBBKKBBYBBK",
+    "KBBYBKYYKBYBBK",
+    "KBBYBKYYKBYBBK",
+    "KBBYBBKKBBYBBK",
+    "KBBYBBBBBBYBBK",
+    "KDDYDDDDDDYDDK",
+    "KKKKKKKKKKKKKK",
+  ],
+  palette: { K: "#3a1a10", R: "#d8406f", B: "#b0602e", D: "#8a4519", Y: "#ffd54f" },
+};
+
+const camera: Sprite = {
+  grid: [
+    "....KKKK......",
+    "...KGGGGK.....",
+    "KKKKKKKKKKKKKK",
+    "KPPPPPPPPPPWWK",
+    "KPPPPKKKKPPWWK",
+    "KPPPKLLLLKPPPK",
+    "KPPPKLWLLKPPPK",
+    "KPPPKLLLLKPPPK",
+    "KPPPPKKKKPPPPK",
+    "KPPPPPPPPPPPPK",
+    "KKKKKKKKKKKKKK",
+  ],
+  palette: { K: "#2a1440", G: "#8f7bd8", P: "#ff8fc0", W: "#fff3f7", L: "#7fd6ff" },
+};
+
+const mapIcon: Sprite = {
+  grid: [
+    "KKKKKKKKKKKKKK",
+    "KPPPPGGGGGPPPK",
+    "KPGGGGGGBBGPPK",
+    "KPGGRGGBBGGGPK",
+    "KPGGGGBBGGGGPK",
+    "KPGGGBBGGGRGPK",
+    "KPGGBBGGGRRRPK",
+    "KPGBBGGGGGRGPK",
+    "KPBBGGRGGGGGPK",
+    "KPPPPPPPPPPPPK",
+    "KKKKKKKKKKKKKK",
+  ],
+  palette: { K: "#4a2410", P: "#f2d49a", G: "#7cc46a", B: "#5aa9e6", R: "#ff5d8f" },
+};
+
+const trophy: Sprite = {
+  grid: [
+    "..KKKKKKKKKK..",
+    "KKKYYYYYYYYKKK",
+    "KYKYWYYYYYYKYK",
+    "KYKYWYYYYYYKYK",
+    ".KKYYYYYYYYKK.",
+    "...KYYYYYYK...",
+    "....KYYYYK....",
+    ".....KYYK.....",
+    ".....KYYK.....",
+    "....KKYYKK....",
+    "...KBBBBBBK...",
+    "...KKKKKKKK...",
+  ],
+  palette: { K: "#6b3a07", Y: "#ffd54f", W: "#fff6cf", B: "#c0703a" },
+};
+
+const ticket: Sprite = {
+  grid: [
+    "KKKKKKKKKKKKKKKK",
+    "KPPPPPPKPPPPPPPK",
+    "KPRRPPPPPPPPPPPK",
+    ".KPRRRPKPPHHPPK.",
+    "..KPRPPPPHHHHPK.",
+    ".KPPPPPKPPHHPPK.",
+    "KPPPPPPPPPPPPPPK",
+    "KPPPPPPKPPPPPPPK",
+    "KKKKKKKKKKKKKKKK",
+  ],
+  palette: { K: "#5a1630", P: "#ffe3ef", R: "#ff5d8f", H: "#d8406f" },
+};
+
 export const sprites = {
   heart,
   heartSmall,
@@ -879,6 +985,12 @@ export const sprites = {
   sheikh,
   caperucita,
   basket,
+  backpack,
+  chest,
+  camera,
+  mapIcon,
+  trophy,
+  ticket,
 } satisfies Record<string, Sprite>;
 
 export type SpriteName = keyof typeof sprites;

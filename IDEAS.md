@@ -11,23 +11,25 @@ Marca `[x]` cuando una esté hecha y publicada.
 
 ## Lista A: adentro (se hacen juntas)
 
-- [ ] **Cartas selladas para el futuro**
+> ✅ Hechas. Todo vive en la **mochila** del universo (arriba a la derecha). Para el logro final solo falta tu nota de voz en `public/audio/mi-voz.m4a`.
+
+- [x] **Cartas selladas para el futuro**
   - Sobres con candado de fecha. El primero se abre el **7 de noviembre** (1 año de conocerse) y después hay uno **el 7 de cada mes**.
   - Antes de su fecha se ven cerrados con una cuenta regresiva pequeña.
   - Los textos los escribes tú en `src/content/`.
-- [ ] **Cupones de amor (7)**
+- [x] **Cupones de amor (7)**
   - Un cofre estilo Stardew con 7 cupones que ella canjea, por ejemplo: un abrazo de 7 minutos, una cita sorpresa, un helado de Oreo, tú eliges la peli…
   - Al canjear uno queda marcado como usado, con fecha.
-- [ ] **Logro final con tu voz**
+- [x] **Logro final con tu voz**
   - Cuando complete **todo** (las 77 cositas y las 39 canciones), sale una pantalla de logro: "¡Felicidades!", con fanfarria, confeti de tulipanes y corazones morados.
   - Ahí suena **tu nota de voz**. Solo hay que poner el archivo en `public/audio/` y queda listo.
-- [ ] **El cielo según la hora real**
+- [x] **El cielo según la hora real**
   - Mañana con sol pixel, tarde azul, atardecer naranja y noche con la luna o el disco.
   - **Temática del 7:** cuando la hora, el minuto o el día tengan un 7 (7:07, 19:17, día 7…), el cielo se pone morado con estrellitas en forma de 7 y un aviso cute.
-- [ ] **Estación de fotos**
+- [x] **Estación de fotos**
   - Ella se toma una selfie con la cámara del celular y le sale en una polaroid pixel con stickers (Pinky, Mía, tulipanes, el 7, corazones) que puede mover.
   - La foto se descarga a su celular.
-- [ ] **Mapa pixel de nuestros lugares**
+- [x] **Mapa pixel de nuestros lugares**
   - Un mapita estilo Stardew con pines.
   - **24 de las 26 fotos tienen ubicación**, y salen unos **9 lugares distintos**.
   - Al tocar un pin salen las fotos de ese lugar y una frase. El nombre y la frase de cada lugar los pones tú.

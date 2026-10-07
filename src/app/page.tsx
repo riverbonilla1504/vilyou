@@ -7,6 +7,10 @@ import { CharacterDialogue } from "@/components/CharacterDialogue";
 import { ConstellationSky } from "@/components/Constellation";
 import { FloatingLyrics } from "@/components/FloatingLyrics";
 import { GiantTulip } from "@/components/GiantTulip";
+import { Mochila } from "@/components/mochila/Mochila";
+import { FinalAchievementWatcher } from "@/components/mochila/FinalAchievement";
+import { SevenMoment } from "@/components/SevenMoment";
+import { constellationDoneStore } from "@/lib/constellation";
 import { TurntableFab, TurntablePanel } from "@/components/Turntable";
 import { DiscoveryToast } from "@/components/DiscoveryToast";
 import { LockScreen } from "@/components/LockScreen";
@@ -20,7 +24,7 @@ import { useIsPast } from "@/lib/clock";
 import { discover } from "@/lib/discoveries";
 import { progressStore, useFlags, visitsStore } from "@/lib/flags";
 import { discoStore, queueNext, startPlaylist } from "@/lib/music";
-import { announceNewSongs, useSongs } from "@/lib/songs";
+import { achieve, announceNewSongs, useSongs } from "@/lib/songs";
 import { soundStore } from "@/lib/sound";
 
 export default function Home() {
@@ -43,7 +47,15 @@ export default function Home() {
   if (locked || (sawLock && !entered)) {
     return (
       <MotionConfig reducedMotion="user">
-        <LockScreen unlockAt={unlockAt} ready={past} onEnter={() => setEntered(true)} />
+        <LockScreen
+          unlockAt={unlockAt}
+          ready={past}
+          onEnter={() => {
+            // Coming from the countdown she always goes through the padlock and the letter.
+            progressStore.set((p) => ({ ...p, candado: false, cartaLeida: false }));
+            setEntered(true);
+          }}
+        />
         <TurntableFab />
         <Music />
       </MotionConfig>
@@ -63,6 +75,11 @@ function Music() {
   const { ids } = useSongs();
   const key = [...ids].join(",");
 
+  // She drew the constellation before it gave a song: give it now.
+  useEffect(() => {
+    if (constellationDoneStore.get()) achieve("constelacion");
+  }, []);
+
   useEffect(() => {
     for (const song of announceNewSongs(ids)) queueNext(song);
     // `key` stands for `ids`, which is a fresh Set on every render.
@@ -72,6 +89,9 @@ function Music() {
   return (
     <>
       <GiantTulip />
+      <SevenMoment />
+      <Mochila />
+      <FinalAchievementWatcher />
       <ConstellationSky />
       <FloatingLyrics />
       <CharacterDialogue />

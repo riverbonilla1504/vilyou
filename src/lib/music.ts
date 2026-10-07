@@ -350,6 +350,15 @@ export function seek(fraction: number) {
   el.currentTime = Math.max(0, Math.min(0.999, fraction)) * el.duration;
 }
 
+/** Fades the music out while something else plays (her voice note); returns the undo. */
+export function hold() {
+  const wasPlaying = musicStore.get().playing && !!el && !el.paused;
+  if (wasPlaying) fadeOutAndStop();
+  return () => {
+    if (wasPlaying && musicStore.get().playing) start();
+  };
+}
+
 // The speaker button in the HUD mutes the music too.
 if (typeof window !== "undefined") {
   soundStore.subscribe(() => {

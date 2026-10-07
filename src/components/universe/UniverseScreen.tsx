@@ -14,6 +14,13 @@ import { PixelScene } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
 import { RetroLetter } from "../RetroLetter";
 import { TurntableButton } from "../Turntable";
+import { MochilaButton } from "../mochila/Mochila";
+import { avisoCartaNueva, cartasSelladas } from "@/content/cartasSelladas";
+import { localTime } from "@/content/config";
+import { mochila } from "@/content/mochila";
+import { cartasStore, mochilaSeenStore } from "@/lib/mochila";
+import { say } from "@/lib/speech";
+import { momentoDelDia, useMinute } from "@/lib/timeOfDay";
 import { AlbumPlace } from "../places/AlbumPlace";
 import { CakePlace } from "../places/CakePlace";
 import { GamesPlace } from "../places/GamesPlace";
@@ -72,9 +79,32 @@ export function UniverseScreen() {
   }, [openPlace]);
 
   const found = discovered.length;
+  const minute = useMinute();
+  const momento = minute ? momentoDelDia(minute) : "noche";
+
+  // News from River: the backpack (first time) and sealed letters that just opened.
+  useEffect(() => {
+    if (welcome) return;
+    const t = window.setTimeout(() => {
+      if (!mochilaSeenStore.get()) {
+        say(mochila.aviso);
+        return;
+      }
+      const now = Date.now();
+      const { avisadas, leidas } = cartasStore.get();
+      const nueva = cartasSelladas.findIndex(
+        (c, i) => localTime(c.abre) <= now && !avisadas.includes(i) && !leidas.includes(i),
+      );
+      if (nueva >= 0) {
+        cartasStore.set((s) => ({ ...s, avisadas: [...s.avisadas, nueva] }));
+        say(avisoCartaNueva);
+      }
+    }, 2500);
+    return () => window.clearTimeout(t);
+  }, [welcome]);
 
   return (
-    <div className="screen universe relative overflow-hidden">
+    <div className={`screen universe universe-${momento} relative overflow-hidden`}>
       <UniverseCanvas
         paused={open !== null}
         discovered={discovered}
@@ -109,18 +139,21 @@ export function UniverseScreen() {
           <h1 className="universe-title text-2xl leading-none text-cream sm:text-3xl">{universoTextos.titulo}</h1>
           <p className="mt-1 font-press text-[10px] text-rose-light">{universoTextos.subtitulo}</p>
         </motion.div>
-        <button
-          type="button"
-          onClick={() => {
-            soundStore.set((v) => !v);
-            pop();
-          }}
-          className="slot pointer-events-auto grid h-11 w-11 place-items-center text-ink"
-          aria-pressed={soundOn}
-          aria-label={soundOn ? "Silenciar sonidos" : "Activar sonidos"}
-        >
-          {soundOn ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5 opacity-60" />}
-        </button>
+        <div className="flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              soundStore.set((v) => !v);
+              pop();
+            }}
+            className="slot pointer-events-auto grid h-11 w-11 place-items-center text-ink"
+            aria-pressed={soundOn}
+            aria-label={soundOn ? "Silenciar sonidos" : "Activar sonidos"}
+          >
+            {soundOn ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5 opacity-60" />}
+          </button>
+          <MochilaButton className="pointer-events-auto" />
+        </div>
       </div>
 
       <AnimatePresence>

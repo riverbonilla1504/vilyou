@@ -80,10 +80,48 @@ export const escondidas = {
   peluches: "cuco-23",
   juegos: "cuco-25",
   historia: "cuco-19",
-  album: "cuco-20",
+  album: "cuco-36",
 } as const;
 
 export type Escondite = keyof typeof escondidas;
+
+/**
+ * Canciones que son el premio de algo que ella hace. Cambia la canción
+ * (por su `id`) o la pista que se ve en el tocadiscos.
+ */
+export const premios = {
+  "cupon-1": "cuco-10",
+  "cupon-2": "cuco-18",
+  "cupon-3": "cuco-24",
+  "cupon-4": "cuco-26",
+  "cupon-5": "cuco-32",
+  "cupon-6": "cuco-11",
+  "cupon-7": "cuco-14",
+  constelacion: "cuco-35",
+  tulipan: "cuco-06",
+  mapa: "cuco-28",
+  fotos: "cuco-29",
+  momento7: "cuco-20",
+  "carta-sellada": "cuco-34",
+} as const;
+
+export type Premio = keyof typeof premios;
+
+export const pistasPremios: Record<Premio, string> = {
+  "cupon-1": "Lee el cupón 1 del cofre",
+  "cupon-2": "Lee el cupón 2 del cofre",
+  "cupon-3": "Lee el cupón 3 del cofre",
+  "cupon-4": "Lee el cupón 4 del cofre",
+  "cupon-5": "Lee el cupón 5 del cofre",
+  "cupon-6": "Lee el cupón 6 del cofre",
+  "cupon-7": "Lee el cupón 7 del cofre",
+  constelacion: "Une las estrellas de V ♥ R",
+  tulipan: "Haz crecer el tulipán gigante",
+  mapa: "Visita todos los lugares del mapa",
+  fotos: "Tómate una foto en la estación de fotos",
+  momento7: "Entra en un momento 7",
+  "carta-sellada": "Abre una carta sellada",
+};
 
 /** Pista que se ve en el tocadiscos para cada escondite. */
 export const pistasEscondites: Record<Escondite, string> = {

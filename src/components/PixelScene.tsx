@@ -6,6 +6,7 @@ import { discover } from "@/lib/discoveries";
 import { discoStore } from "@/lib/music";
 import { pop } from "@/lib/sound";
 import { dedicateSong } from "@/lib/speech";
+import { momentoDelDia, useMinute } from "@/lib/timeOfDay";
 import { cn } from "@/lib/utils";
 import { PixelSprite } from "./pixel/PixelSprite";
 import { FlowerRow } from "./GiantTulip";
@@ -14,6 +15,9 @@ import { ConstellationStar } from "./Constellation";
 import { HiddenNote } from "./HiddenNote";
 
 export type ThemeId = "carta" | "halloween" | "carnival" | "park" | "sunset" | "love";
+
+/** The skies the "carta" theme switches between with the real time of day. */
+type SkyId = ThemeId | "manana" | "tarde" | "atardecer";
 
 type Theme = {
   /** Sky key colors, top to bottom. */
@@ -32,7 +36,49 @@ type Theme = {
   glow: string;
 };
 
-const themes: Record<ThemeId, Theme> = {
+const themes: Record<SkyId, Theme> = {
+  manana: {
+    sky: ["#4aa3f0", "#62b2f5", "#7dc2f8", "#9bd1fa", "#bfe2fb", "#e4f3fd"],
+    far: "#7fb8a8",
+    mid: "#5d9e74",
+    ground: "#3f7d4f",
+    stars: 0,
+    fireflies: 0,
+    firefly: "#fff7c2",
+    hearts: 0.45,
+    celestial: "sun",
+    cx: 80,
+    cy: 15,
+    glow: "rgba(255, 245, 190, 0.55)",
+  },
+  tarde: {
+    sky: ["#3f86d6", "#5b9ae0", "#7eb0e6", "#a7c6e8", "#d8d6d8", "#ffd8b0"],
+    far: "#8a9fb8",
+    mid: "#5f8a6a",
+    ground: "#3f6e4a",
+    stars: 0,
+    fireflies: 0,
+    firefly: "#fff7c2",
+    hearts: 0.45,
+    celestial: "sun",
+    cx: 80,
+    cy: 18,
+    glow: "rgba(255, 220, 150, 0.55)",
+  },
+  atardecer: {
+    sky: ["#2a1446", "#56205e", "#8f2f62", "#cf4a5c", "#f3784e", "#ffb75a"],
+    far: "#6b2a56",
+    mid: "#3f1a41",
+    ground: "#25102b",
+    stars: 0.15,
+    fireflies: 0.3,
+    firefly: "#ffd27a",
+    hearts: 0.5,
+    celestial: "sun",
+    cx: 80,
+    cy: 22,
+    glow: "rgba(255, 200, 100, 0.55)",
+  },
   carta: {
     sky: ["#0a0a28", "#13143d", "#1d1a52", "#2b2066", "#432877", "#6b3b88"],
     far: "#2a2160",
@@ -119,7 +165,7 @@ const themes: Record<ThemeId, Theme> = {
   },
 };
 
-const themeIds = Object.keys(themes) as ThemeId[];
+const themeIds = Object.keys(themes) as SkyId[];
 
 /* ---------- deterministic helpers (identical on server and client) ---------- */
 
@@ -156,7 +202,7 @@ function bandedSky(keys: string[], bands = 18) {
 }
 
 const skies = Object.fromEntries(themeIds.map((id) => [id, bandedSky(themes[id].sky)])) as Record<
-  ThemeId,
+  SkyId,
   string
 >;
 
@@ -283,12 +329,16 @@ export function PixelScene({
   /** The moon, clouds, shooting star and tulips react to taps. */
   interactive?: boolean;
 }) {
-  const theme = themes[themeId];
+  // The first screen's sky follows her clock: morning, afternoon, sunset or night.
+  const now = useMinute();
+  const momento = now ? momentoDelDia(now) : "noche";
+  const skyId: SkyId = themeId === "carta" && momento !== "noche" ? momento : themeId;
+  const theme = themes[skyId];
   const { scrollYProgress } = useScroll(scrollContainer ? { container: scrollContainer } : undefined);
   const [rain, setRain] = useState<{ x: number; y: number; key: number }[]>([]);
   const [moonKick, setMoonKick] = useState(0);
   const disco = discoStore.useValue();
-  const showDisc = disco && theme.celestial === "moon";
+  const showDisc = disco && themeId === "carta";
 
   const heartRain = (e: { clientX: number; clientY: number; timeStamp: number }) => {
     const drop = { x: e.clientX, y: e.clientY, key: e.timeStamp };
@@ -319,7 +369,7 @@ export function PixelScene({
         <div
           key={id}
           className="absolute inset-0 transition-opacity duration-[1400ms] ease-out"
-          style={{ background: skies[id], opacity: id === themeId ? 1 : 0 }}
+          style={{ background: skies[id], opacity: id === skyId ? 1 : 0 }}
         />
       ))}
 
@@ -389,7 +439,7 @@ export function PixelScene({
             onClick={(e) => {
               heartRain(e);
               discover("luna-pixel");
-              if (theme.celestial === "moon" && !disco) {
+              if (themeId === "carta" && !disco) {
                 // The very first tap: the moon becomes a record and the song starts.
                 dedicateSong();
               } else {

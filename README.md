@@ -16,15 +16,16 @@ un universo 3D lleno de secretos y **77 cositas** por descubrir.
 
 1. [Qué falta por hacer](#qué-falta-por-hacer)
 2. [Cómo es la experiencia, paso a paso](#cómo-es-la-experiencia-paso-a-paso)
-3. [La música](#la-música)
-4. [Todo lo que se puede tocar](#todo-lo-que-se-puede-tocar)
-5. [Las 77 cositas](#las-77-cositas)
-6. [Cómo editar los textos y las fotos](#cómo-editar-los-textos-y-las-fotos)
-7. [Trucos para probar](#trucos-para-probar)
-8. [Cómo publicar cambios](#cómo-publicar-cambios)
-9. [El QR](#el-qr)
-10. [Cómo funciona por dentro](#cómo-funciona-por-dentro)
-11. [Qué se probó y qué no](#qué-se-probó-y-qué-no)
+3. [La mochila (lo nuevo)](#la-mochila-lo-nuevo)
+4. [La música](#la-música)
+5. [Todo lo que se puede tocar](#todo-lo-que-se-puede-tocar)
+6. [Las 77 cositas](#las-77-cositas)
+7. [Cómo editar los textos y las fotos](#cómo-editar-los-textos-y-las-fotos)
+8. [Trucos para probar](#trucos-para-probar)
+9. [Cómo publicar cambios](#cómo-publicar-cambios)
+10. [El QR](#el-qr)
+11. [Cómo funciona por dentro](#cómo-funciona-por-dentro)
+12. [Qué se probó y qué no](#qué-se-probó-y-qué-no)
 
 ---
 
@@ -115,6 +116,25 @@ La segunda vez que entra ya no ve la carta primero: va directo al universo (la c
 Como las colecciones de Stardew: 77 espacios por categoría. Lo encontrado aparece a color; lo que falta, como silueta.
 Al tocar algo encontrado se lee su texto; al tocar algo que falta se ve una **pista**.
 Cada vez que descubre algo aparece arriba un aviso **"¡Nuevo descubrimiento! · 13/77"** con sonidito.
+
+---
+
+## La mochila (lo nuevo)
+
+En el universo, arriba a la derecha, hay una **mochila** 🎒 (con un puntito rosado hasta que ella la abre; la primera vez River le avisa):
+
+| Dentro | Qué hace | Se cambia en |
+|---|---|---|
+| 💌 Cartas selladas | Sobres con candado y cuenta regresiva que se abren solos el 7 de cada mes (nov, dic, ene y el año en feb). Cuando se abre una, River le avisa al entrar | `cartasSelladas.ts` (**escríbelas antes de su fecha**) |
+| 🎟 Cupones | 7 cupones: los voltea para leerlos (cada uno le da una canción) y los marca como canjeados cuando te los muestra | `cupones.ts` |
+| 📷 Estación de fotos | Selfie con la cámara de adelante, stickers pixel que se arrastran y agrandan, y la guarda como polaroid V ♥ R | `mochila.ts` |
+| 🗺 Nuestros lugares | Mapa pixel (montañas, volcán, río, laguna, pueblito) con un corazón por cada lugar donde se tomaron fotos; al tocarlo salen las fotos. Visitarlos todos da una canción | `mapa.ts` (**ponle nombre y frase de verdad a cada lugar**) |
+| 🏆 Logro final | Cuando tiene las 77 cositas y las 39 canciones: "¡Felicidades, mi amor!" con confeti y **tu nota de voz** | `logroFinal.ts` + el audio en `public/audio/mi-voz.m4a` |
+
+**El cielo según la hora:** el cielo del inicio cambia con la hora de su celular (mañana, tarde, atardecer, noche) y el universo se tiñe igual.
+**Momento 7:** cuando el día, la hora (7, 17 o 19) o el minuto tienen un 7, flotan sietes dorados y sale "Son las 7 ✦" / "Hoy es un día 7 💜". El primero le da una canción.
+
+**Canciones de premio:** además de la luna, la canción nuestra y las notitas, ahora hay canciones por: cada cupón leído (7), la constelación, el tulipán gigante, el mapa completo, la primera foto, el primer momento 7 y la primera carta sellada abierta (`premios` en `musica.ts`). Las demás siguen saliendo cada 2 cositas.
 
 ---
 

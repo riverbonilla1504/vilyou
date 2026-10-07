@@ -66,6 +66,13 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
   const left = now ? unlockAt - now : Infinity;
   const phase = miaPhase(left, ready);
   const near = ready ? 0 : closeness(left);
+  // At midnight the timer padlock opens and falls off; then the envelope takes her to the letter.
+  const [lockGone, setLockGone] = useState(false);
+  useEffect(() => {
+    if (!ready) return;
+    const t = window.setTimeout(() => setLockGone(true), 1600);
+    return () => window.clearTimeout(t);
+  }, [ready]);
 
   // Any tap while she waits lets the song play by itself at midnight.
   useEffect(() => {
@@ -204,11 +211,15 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
           animate={envelope}
           onClick={() => {
             pop();
+            if (ready) {
+              onEnter();
+              return;
+            }
             say("sobre", envelopeLines);
             void envelope.start({ rotate: [0, -10, 10, -6, 6, 0], transition: { duration: 0.5 } });
           }}
           className="relative flex flex-col items-center"
-          aria-label="El sobre con candado"
+          aria-label={ready ? "Abrir el sobre" : "El sobre con candado"}
         >
           <PixelSprite name="envelope" scale={6} />
           {/* the padlock beats faster and glows more as midnight gets closer */}
@@ -222,7 +233,7 @@ export function LockScreen({ unlockAt, ready, onEnter }: { unlockAt: number; rea
               } as React.CSSProperties
             }
           >
-            <HeartPadlock state={ready ? "opening" : "locked"} className="scale-75" />
+            <HeartPadlock state={!ready ? "locked" : lockGone ? "gone" : "opening"} className="scale-75" />
           </span>
         </motion.button>
       </div>

@@ -73,20 +73,22 @@ export function TurntableButton({ className }: { className?: string }) {
         pop();
         turntableStore.set(true);
       }}
-      className={cn("slot relative grid h-12 w-12 place-items-center", className)}
+      className={cn("relative grid h-12 w-12 place-items-center", className)}
       aria-label={`${textosMusica.tocadiscos}: ${count} de ${TOTAL_CANCIONES} canciones`}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 16 }}
     >
+      {/* the slot is clipped for its pixel corners, so the badge sits outside it */}
+      <span className="slot absolute inset-0" aria-hidden="true" />
       <PixelSprite
         name="vinyl"
         scale={1.4}
-        className={music.playing && music.audible ? "anim-spin" : undefined}
+        className={cn("relative", music.playing && music.audible && "anim-spin")}
       />
       <motion.span
         key={count}
-        className="count-badge absolute -bottom-1.5 -right-1.5 min-w-[22px] px-1 text-center font-press text-[9px] leading-[18px]"
+        className="count-badge absolute -bottom-2 -right-2 z-10 min-w-[22px] px-1 text-center font-press text-[9px] leading-[18px]"
         initial={{ scale: 1.8 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 12 }}

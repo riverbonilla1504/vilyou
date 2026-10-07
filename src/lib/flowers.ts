@@ -1,4 +1,5 @@
 import { dialogos } from "@/content/dialogos";
+import { achieve } from "./songs";
 import { say } from "./speech";
 import { createStore } from "./store";
 
@@ -29,6 +30,7 @@ export function tapFlower(i: number) {
   if (next.length === FLOWERS.length) {
     litFlowersStore.set([]);
     giantTulipStore.set(true);
+    achieve("tulipan");
     return;
   }
   litFlowersStore.set(next);

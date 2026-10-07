@@ -5,6 +5,7 @@ import { useState } from "react";
 import { constelacion } from "@/content/constelacion";
 import { X } from "lucide-react";
 import { chime, fanfare, pop } from "@/lib/sound";
+import { achieve } from "@/lib/songs";
 import { say } from "@/lib/speech";
 import {
   CONSTELLATION,
@@ -53,6 +54,7 @@ export function Constellation({ className }: { className?: string }) {
     fanfare();
     setJustDone(true);
     doneStore.set(true);
+    achieve("constelacion");
     window.setTimeout(() => say(constelacion.completada, { corazones: true }), 1400);
   };
 
