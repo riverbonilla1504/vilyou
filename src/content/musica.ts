@@ -103,6 +103,11 @@ export const premios = {
   fotos: "cuco-29",
   momento7: "cuco-20",
   "carta-sellada": "cuco-34",
+  noche: "cuco-31",
+  pinky: "cuco-04",
+  abrazo: "cuco-08",
+  botella: "cuco-16",
+  nombre: "cuco-33",
 } as const;
 
 export type Premio = keyof typeof premios;
@@ -121,6 +126,11 @@ export const pistasPremios: Record<Premio, string> = {
   fotos: "Tómate una foto en la estación de fotos",
   momento7: "Entra en un momento 7",
   "carta-sellada": "Abre una carta sellada",
+  noche: "Entra entre las 11 p. m. y las 2 a. m.",
+  pinky: "Encuentra a Pinky escondida",
+  abrazo: "Abraza el corazón del universo 7 segundos",
+  botella: "Encuentra la botella que flota en el universo",
+  nombre: "Toca la luna del universo 7 veces",
 };
 
 /** Pista que se ve en el tocadiscos para cada escondite. */

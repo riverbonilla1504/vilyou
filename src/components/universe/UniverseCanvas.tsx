@@ -23,6 +23,10 @@ type Props = {
   onDiscover: (id: string) => void;
   onPhoto: (index: number) => void;
   onHeart: (taps: number) => void;
+  /** Long-press on the heart: progress 0..1 while holding, -1 when she lets go. */
+  onHug: (progress: number) => void;
+  onHugDone: () => void;
+  onBottle: () => void;
 };
 
 type PlanetDef = {
@@ -444,6 +448,15 @@ export function UniverseCanvas(props: Props) {
       if (heartTaps === 7) propsRef.current.onDiscover("corazon-7");
     });
 
+    /* ---- the hug: hold the heart for 7 seconds ---- */
+    const HUG_MS = 7000;
+    let hug: { start: number; x: number; y: number; done: boolean } | null = null;
+    const stopHug = () => {
+      if (!hug) return;
+      if (!hug.done) propsRef.current.onHug(-1);
+      hug = null;
+    };
+
     /* ---- pop effect when something is tapped ---- */
     const pops: { sprite: THREE.Sprite; t: number; base: number }[] = [];
     const popAt = (sprite: THREE.Sprite) => pops.push({ sprite, t: 0, base: sprite.scale.y });
@@ -534,6 +547,16 @@ export function UniverseCanvas(props: Props) {
     addSecret("pinky", 1.1, new THREE.Vector3(4.2, 1.2, 0), "pinky-espacio", { orbit: 4.4 });
     addSecret("seven", 0.9, new THREE.Vector3(1.5, -8.5, 9), "siete");
     addSecret("moon", 3.2, new THREE.Vector3(-18, 16, -26), "luna-universo");
+
+    /* ---- a message in a bottle, drifting around the galaxy ---- */
+    const bottleTex = track(pixelTexture("bottle"));
+    const bottleSprite = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: bottleTex, transparent: true, depthWrite: false })));
+    bottleSprite.scale.set(0.9 * (bottleTex.image.width / bottleTex.image.height), 0.9, 1);
+    scene.add(bottleSprite);
+    addTarget(bottleSprite, () => {
+      popAt(bottleSprite);
+      propsRef.current.onBottle();
+    });
 
     /* ---- the V ♥ R constellation, orbiting with the planets ---- */
     const constellation = new THREE.Group();
@@ -805,8 +828,23 @@ export function UniverseCanvas(props: Props) {
     let down: { x: number; y: number; t: number } | null = null;
     const onDown = (e: PointerEvent) => {
       down = { x: e.clientX, y: e.clientY, t: performance.now() };
+      // Is she pressing the heart? Then start the hug.
+      const rect = renderer.domElement.getBoundingClientRect();
+      ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+      raycaster.setFromCamera(ndc, camera);
+      // The photos orbit in front of the heart: a long press counts even through them.
+      const onHeart = raycaster.intersectObject(heartHit, false).length > 0;
+      if (onHeart) {
+        hug = { start: performance.now(), x: e.clientX, y: e.clientY, done: false };
+        propsRef.current.onHug(0);
+      }
     };
+    const onMove = (e: PointerEvent) => {
+      if (hug && Math.hypot(e.clientX - hug.x, e.clientY - hug.y) > 14) stopHug();
+    };
+    const onCancel = () => stopHug();
     const onUp = (e: PointerEvent) => {
+      stopHug();
       if (!down || flight) return;
       const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
       const quick = performance.now() - down.t < 450;
@@ -825,6 +863,8 @@ export function UniverseCanvas(props: Props) {
     };
     renderer.domElement.addEventListener("pointerdown", onDown);
     renderer.domElement.addEventListener("pointerup", onUp);
+    renderer.domElement.addEventListener("pointermove", onMove);
+    renderer.domElement.addEventListener("pointercancel", onCancel);
 
     /* ---- full turn detection (only while she drags) ---- */
     let dragging = false;
@@ -895,6 +935,24 @@ export function UniverseCanvas(props: Props) {
         starSprites[0].scale.setScalar(0.55 + pulse * 0.35);
         firstMat.opacity = 0.75 + pulse * 0.25;
         starMat.opacity = constellationDoneStore.get() ? 1 : 0.65 + Math.sin(t * 2.1) * 0.25;
+      }
+
+      // the bottle bobs along a wide, tilted orbit
+      {
+        const a = t * 0.07 + 1.4;
+        bottleSprite.position.set(Math.cos(a) * 11, -2.5 + Math.sin(a * 2) * 1.6 + Math.sin(t * 1.5) * 0.25, Math.sin(a) * 11);
+        bottleSprite.material.rotation = Math.sin(t * 1.2) * 0.35;
+      }
+
+      if (hug && !hug.done) {
+        const p = Math.min(1, (performance.now() - hug.start) / HUG_MS);
+        propsRef.current.onHug(p);
+        heartKick = Math.max(heartKick, p * 0.8);
+        if (p >= 1) {
+          hug.done = true;
+          heartKick = 1.6;
+          propsRef.current.onHugDone();
+        }
       }
 
       for (const s of secretSprites) {
@@ -1034,6 +1092,8 @@ export function UniverseCanvas(props: Props) {
       document.removeEventListener("visibilitychange", onVisibility);
       renderer.domElement.removeEventListener("pointerdown", onDown);
       renderer.domElement.removeEventListener("pointerup", onUp);
+      renderer.domElement.removeEventListener("pointermove", onMove);
+      renderer.domElement.removeEventListener("pointercancel", onCancel);
       controls.removeEventListener("start", onStart);
       controls.removeEventListener("end", onEnd);
       ro.disconnect();

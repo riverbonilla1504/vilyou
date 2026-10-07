@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { HelpCircle, Volume2, VolumeX, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TOTAL } from "@/content/descubrimientos";
 import { planetas, universoTextos } from "@/content/lugares";
 import { fotosUniverso } from "@/content/universo";
@@ -14,6 +14,7 @@ import { PixelScene } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
 import { RetroLetter } from "../RetroLetter";
 import { TurntableButton } from "../Turntable";
+import { BottleLetter, HiddenPinky, HugOverlay, NameInStars, NightMode, onHugDone } from "../Sorpresas";
 import { MochilaButton } from "../mochila/Mochila";
 import { avisoCartaNueva, cartasSelladas } from "@/content/cartasSelladas";
 import { localTime } from "@/content/config";
@@ -79,6 +80,12 @@ export function UniverseScreen() {
   }, [openPlace]);
 
   const found = discovered.length;
+  const [hug, setHug] = useState(-1);
+  const [hugDone, setHugDone] = useState(false);
+  const [bottle, setBottle] = useState(false);
+  const [nameStars, setNameStars] = useState(false);
+  const moonTaps = useRef(0);
+  const closeNameStars = useCallback(() => setNameStars(false), []);
   const minute = useMinute();
   const momento = minute ? momentoDelDia(minute) : "noche";
 
@@ -109,13 +116,40 @@ export function UniverseScreen() {
         paused={open !== null}
         discovered={discovered}
         onPlace={openPlace}
-        onDiscover={discover}
+        onDiscover={(id) => {
+          // Seven taps on the moon spell her name in the stars.
+          if (id === "luna-universo") {
+            moonTaps.current += 1;
+            if (moonTaps.current % 7 === 0) setNameStars(true);
+          }
+          discover(id);
+        }}
         onPhoto={setPhoto}
         onHeart={(n) => {
           pop();
           setBeat(n);
         }}
+        onHug={(p) => {
+          setHugDone(false);
+          setHug(p);
+        }}
+        onHugDone={() => {
+          setHug(-1);
+          setHugDone(true);
+          onHugDone();
+          window.setTimeout(() => setHugDone(false), 2600);
+        }}
+        onBottle={() => {
+          pop();
+          setBottle(true);
+        }}
       />
+
+      <NightMode enabled={!welcome} />
+      <HiddenPinky spot="universo" className="bottom-[150px] left-[5%]" />
+      <HugOverlay progress={hug} done={hugDone} />
+      <BottleLetter open={bottle} onClose={() => setBottle(false)} />
+      <NameInStars show={nameStars} onDone={closeNameStars} />
 
       {/* HUD */}
       <div className="universe-top pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-3">
@@ -242,6 +276,7 @@ export function UniverseScreen() {
             <div className="place-scroll place-pad absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-16">
               <RetroLetter reread />
             </div>
+            <HiddenPinky spot="carta" className="bottom-[5%] right-[3%]" />
           </PlaceSheet>
         ) : open === "jardin" ? (
           <PlaceSheet key="jardin" title={titles.jardin} onClose={close} bare className="garden-sheet">

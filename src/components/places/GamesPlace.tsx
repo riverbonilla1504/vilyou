@@ -11,12 +11,14 @@ import { HeartConfetti } from "../HeartConfetti";
 import { PixelSprite } from "../pixel/PixelSprite";
 import type { SpriteName } from "../pixel/sprites";
 import { HiddenNote } from "@/components/HiddenNote";
+import { HiddenPinky } from "@/components/Sorpresas";
 
 export function GamesPlace() {
   const [tab, setTab] = useState<"wordle" | "memoria">("wordle");
   return (
     <div className="relative mx-auto max-w-[520px] pt-3">
       <HiddenNote spot="juegos" className="-left-2 -top-1" />
+      <HiddenPinky spot="juegos" className="-right-1 top-[46%]" />
       <div className="flex justify-center gap-2">
         {(
           [

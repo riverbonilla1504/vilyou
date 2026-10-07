@@ -944,6 +944,27 @@ const ticket: Sprite = {
   palette: { K: "#5a1630", P: "#ffe3ef", R: "#ff5d8f", H: "#d8406f" },
 };
 
+/** A message in a bottle. */
+const bottle: Sprite = {
+  grid: [
+    "...KKKK...",
+    "...KCCK...",
+    "...KCCK...",
+    "...KGGK...",
+    "..KGGGGK..",
+    ".KGGGGGGK.",
+    "KGGWPPPGGK",
+    "KGWGPPPGGK",
+    "KGWGPRPGGK",
+    "KGWGPPPGGK",
+    "KGGGPPPGGK",
+    "KGGGPPPGGK",
+    "KGGGGGGGGK",
+    ".KKKKKKKK.",
+  ],
+  palette: { K: "#1d3a4a", C: "#b98450", G: "#8fd8e8", W: "#e9fbff", P: "#fff1d0", R: "#d8406f" },
+};
+
 export const sprites = {
   heart,
   heartSmall,
@@ -985,6 +1006,7 @@ export const sprites = {
   sheikh,
   caperucita,
   basket,
+  bottle,
   backpack,
   chest,
   camera,

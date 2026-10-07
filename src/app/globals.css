@@ -1698,3 +1698,14 @@ a {
     linear-gradient(180deg, #120a2e 0%, #3a1250 50%, #7a2a58 100%);
 }
  
+/* ---------- surprises: night mode, Pinky, name in the stars ---------- */
+.night-mode {
+  background: radial-gradient(ellipse at 50% 40%, transparent 30%, rgb(4 2 14 / 0.55) 100%);
+}
+.pinky-peek {
+  filter: drop-shadow(0 0 6px rgb(195 139 255 / 0.85));
+}
+.name-star {
+  filter: drop-shadow(0 0 5px rgb(255 216 107 / 0.95));
+}
+ 

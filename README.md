@@ -134,6 +134,16 @@ En el universo, arriba a la derecha, hay una **mochila** 🎒 (con un puntito ro
 **El cielo según la hora:** el cielo del inicio cambia con la hora de su celular (mañana, tarde, atardecer, noche) y el universo se tiñe igual.
 **Momento 7:** cuando el día, la hora (7, 17 o 19) o el minuto tienen un 7, flotan sietes dorados y sale "Son las 7 ✦" / "Hoy es un día 7 💜". El primero le da una canción.
 
+**Sorpresas del universo** (textos en `sorpresas.ts`), cada una con su canción:
+
+| Sorpresa | Cómo | Canción |
+|---|---|---|
+| 🌙 Modo noche | Entre las 11 p. m. y las 2 a. m. el universo se oscurece, salen luciérnagas y River dice "¿Tampoco puedes dormir?…" (una vez por noche) | *1Night* |
+| 🐷 Pinky escondida | Cada día en un lugar distinto (universo, jardín, pastel, juegos, historia, álbum, carta). El 7 de octubre está en el universo | *Summertime Hightime* |
+| 🤗 Abrazo de 7 segundos | Mantener el dedo sobre el corazón del universo 7 segundos | *DROWN* |
+| 🍾 Carta en la botella | Una botellita flota por el universo; al tocarla sale una carta | *DameLove* |
+| ✨ Su nombre en las estrellas | Tocar la luna del universo 7 veces: las estrellas forman VALERIA | *Perihelion* |
+
 **Canciones de premio:** además de la luna, la canción nuestra y las notitas, ahora hay canciones por: cada cupón leído (7), la constelación, el tulipán gigante, el mapa completo, la primera foto, el primer momento 7 y la primera carta sellada abierta (`premios` en `musica.ts`). Las demás siguen saliendo cada 2 cositas.
 
 ---

@@ -11,6 +11,7 @@ import { Hotbar } from "../Hotbar";
 import { PixelScene, type ThemeId } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
 import { HiddenNote } from "@/components/HiddenNote";
+import { HiddenPinky } from "@/components/Sorpresas";
 
 const ALL: EggId[] = [1, 2, 3, 4, 5, 6, 7];
 
@@ -105,6 +106,7 @@ export function HistoriaPlace() {
             <p className="mt-3 text-xl text-cream/80">{pie.texto}</p>
             <p className="mt-10 text-sm text-cream/50">{pie.firma}</p>
             <HiddenNote spot="historia" className="relative mt-6" />
+            <HiddenPinky spot="historia" className="relative mt-4" />
           </footer>
         </div>
       </div>

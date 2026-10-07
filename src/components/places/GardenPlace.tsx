@@ -11,6 +11,7 @@ import { useTypewriter } from "@/lib/useTypewriter";
 import { spriteCanvas } from "../pixel/canvas";
 import { FlowerRow } from "@/components/GiantTulip";
 import { HiddenNote } from "@/components/HiddenNote";
+import { HiddenPinky } from "@/components/Sorpresas";
 
 function rng(seed: number) {
   return () => {
@@ -306,6 +307,7 @@ export function GardenPlace() {
   return (
     <div className="garden absolute inset-0 flex flex-col">
       <HiddenNote spot="jardin" className="right-[5%] top-[44%]" />
+      <HiddenPinky spot="jardin" className="left-[6%] top-[52%]" />
       <div className="garden-text relative z-10 px-5 text-ink">
         <p className="sr-only">{text}</p>
         <div aria-hidden="true" className="min-h-[7.5em] whitespace-pre-line text-[17px] leading-snug sm:text-lg">

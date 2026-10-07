@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { DialogueBox, type DialogueContent } from "../DialogueBox";
 import { PixelSprite } from "../pixel/PixelSprite";
 import { HiddenNote } from "@/components/HiddenNote";
+import { HiddenPinky } from "@/components/Sorpresas";
 
 const order = Object.keys(categorias) as Categoria[];
 
@@ -32,6 +33,7 @@ export function AlbumPlace() {
   return (
     <div className="relative mx-auto max-w-[720px] pt-4">
       <HiddenNote spot="album" className="-left-1 bottom-2" />
+      <HiddenPinky spot="album" className="-right-1 top-1" />
       <div className="frame-wood paper-texture px-4 py-4 text-ink">
         <div className="flex items-end justify-between gap-3">
           <div>
