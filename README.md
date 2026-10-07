@@ -157,6 +157,7 @@ Las canciones se coleccionan como las cositas (todo se cambia en `src/content/mu
 | Universo | Frases flotantes (21) | Se vuelven doradas y cuentan como descubrimiento |
 | Universo | Corazón del centro | Late más fuerte; a los 7 toques, secreto |
 | Universo | Urano, la luna, Mía astronauta, Pinky en órbita, el 7 dorado | Secretos |
+| Universo | **Estrellitas lilas** debajo del título (15) | Tocándolas en orden (la siguiente late con un anillo) forman la **constelación V ♥ R**; queda dorada para siempre y sales tú con una frase |
 | Historia | Murciélago y calabaza (capítulo de Halloween) | Secretos |
 | Historia | Foto de Carnavales | Se arrastra y aparece el gatito |
 | Jardín | Pétalos que caen / flores del árbol / contador | Secretos; el contador cambia a días, horas, minutos y segundos totales |
@@ -313,6 +314,7 @@ Todo lo que ella lee está en `src/content/`. Cambia **solo lo que está entre c
 
 | Archivo | Qué cambia |
 |---|---|
+| `constelacion.ts` | Lo que dices cuando ella completa la constelación V ♥ R |
 | `cuentaRegresiva.ts` | Las frases de Mía en cada etapa, cuándo cambia de etapa, el texto de los últimos 10 segundos y qué pedacito de *Chachacha* suena |
 | `config.ts` | Nombres, iniciales, **dedicatoria del inicio**, fecha de desbloqueo, fecha en que se conocieron, **código y pista del candado**, palabra del Wordle, la **dedicatoria de nuestra canción** |
 | `carta.ts` | **La carta**: para, fecha, saludo, párrafos (agrega los que quieras), despedida, firma, posdata y el regalo adjunto |

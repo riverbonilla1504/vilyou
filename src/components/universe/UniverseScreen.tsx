@@ -9,6 +9,7 @@ import { fotosUniverso } from "@/content/universo";
 import { discover, discoveredStore } from "@/lib/discoveries";
 import { progressStore } from "@/lib/flags";
 import { pop, soundStore } from "@/lib/sound";
+import { Constellation } from "../Constellation";
 import { DialogueBox, type DialogueContent } from "../DialogueBox";
 import { PixelScene } from "../PixelScene";
 import { PixelSprite } from "../pixel/PixelSprite";
@@ -86,6 +87,8 @@ export function UniverseScreen() {
           setBeat(n);
         }}
       />
+
+      <Constellation />
 
       {/* HUD */}
       <div className="universe-top pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-3">

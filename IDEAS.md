@@ -50,14 +50,14 @@ Marca `[x]` cuando una esté hecha y publicada.
 
 Orden sugerido. Al publicar una, espera a que ella la descubra antes de pedir la siguiente.
 
-1. [ ] **Constelación V ♥ R:** algunas estrellas del cielo brillan distinto; tocándolas en orden se unen con líneas y forman sus iniciales.
+1. [x] **Constelación V ♥ R:** 15 estrellitas lilas en el cielo del **universo** (debajo del título). La siguiente que hay que tocar late con un anillo; al tocarlas en orden se unen con líneas y forman V ♥ R. Al terminar quedan doradas para siempre y sales tú diciendo la frase de `src/content/constelacion.ts`. Está en el universo porque ahí es donde ella entra cada vez.
 2. [ ] **El tulipán gigante:** si toca las 7 flores del suelo seguidas, llueven tulipanes y crece un tulipán gigante en el centro.
 3. [ ] **Letras que salen del disco:** frases de *Chachacha* y *Reina Pepiada* aparecen flotando en el momento exacto de la canción.
 4. [x] **Mía reacciona al tiempo:** se despierta, se estira y al final se sienta mirando el sobre a medida que se acerca la hora.
 5. [x] **El sobre respira:** cuanto más cerca está la hora, más late el candado.
 6. [x] **Los últimos 10 segundos:** la pantalla se oscurece, el contador se pone grande y al llegar a 0 explotan tulipanes y corazones morados, y suena un pedacito de *Chachacha*.
 
-> ✅ **La 4, la 5 y la 6 ya están hechas** (sin publicar todavía). Se suben juntas cuando River diga.
+> ✅ **La 4, la 5 y la 6 ya están publicadas.** La 1 también.
 >
 > ⚠️ **Las 4, 5 y 6 dependen de una cuenta regresiva.** La de la página termina hoy a medianoche. Hay dos caminos:
 > - Hacerlas **antes de las 12 de esta noche**.
