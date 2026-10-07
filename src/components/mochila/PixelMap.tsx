@@ -92,11 +92,16 @@ export function PixelMap() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const visited = mapaStore.useValue();
   const [open, setOpen] = useState<number | null>(null);
-  const all = visited.length >= lugares.length;
+  const all = new Set(visited).size >= lugares.length;
 
   useEffect(() => {
     if (canvas.current) paintMap(canvas.current);
   }, []);
+
+  // Checked from what's saved, so it can't be missed (and older visits count too).
+  useEffect(() => {
+    if (new Set(visited).size >= lugares.length) achieve("mapa");
+  }, [visited]);
 
   // A dotted path joining the places in the order we lived them.
   const path = lugares.map((l) => `${l.x},${l.y}`).join(" ");
@@ -120,12 +125,8 @@ export function PixelMap() {
                   pop();
                   setOpen(i);
                   if (!seen) {
-                    const next = [...visited, i];
-                    mapaStore.set(next);
-                    if (next.length >= lugares.length) {
-                      chime();
-                      achieve("mapa");
-                    }
+                    mapaStore.set((v) => (v.includes(i) ? v : [...v, i]));
+                    if (new Set(mapaStore.get()).size >= lugares.length) chime();
                   }
                 }}
                 className="absolute grid h-10 w-10 -translate-x-1/2 -translate-y-full place-items-center"
@@ -146,7 +147,7 @@ export function PixelMap() {
         </div>
       </div>
       <p className="mt-2 text-center font-press text-[9px] text-ink-soft">
-        {visited.length}/{lugares.length} lugares
+        {new Set(visited).size}/{lugares.length} lugares
       </p>
 
       <AnimatePresence>
