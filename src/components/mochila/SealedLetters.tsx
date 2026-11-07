@@ -88,7 +88,7 @@ function Letter({ index, onBack }: { index: number; onBack: () => void }) {
         {c.parrafos.map((p, i) => (
           <motion.p
             key={i}
-            className="mt-3 text-lg leading-[1.6]"
+            className="mt-6 text-[19.5px] leading-[1.7]"
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 + i * 0.4 }}
